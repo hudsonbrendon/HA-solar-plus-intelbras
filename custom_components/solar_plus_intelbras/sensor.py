@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 ENTITY_DESCRIPTIONS = (
     SensorEntityDescription(
         key="solar_plus_intelbras_daily_generation",
-        name="Generation",  # TODO: Add translation
+        name="Generation",
         icon="mdi:solar-panel",
     ),
 )
