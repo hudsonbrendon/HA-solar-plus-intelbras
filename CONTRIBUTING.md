@@ -48,7 +48,7 @@ Use [black](https://github.com/ambv/black) to make sure the code follows the sty
 
 ## Test your code modification
 
-This custom component is based on [solar_plus_intelbras template](https://github.com/ludeeus/solar_plus_intelbras).
+This custom component is based on [solar_plus_intelbras template](https://github.com/hudsonbrendon/solar_plus_intelbras).
 
 It comes with development environment in a container, easy to launch
 if you use Visual Studio Code. With this container you will have a stand alone

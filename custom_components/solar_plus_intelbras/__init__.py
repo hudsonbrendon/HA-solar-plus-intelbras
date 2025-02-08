@@ -2,7 +2,7 @@
 Custom integration to integrate solar_plus_intelbras with Home Assistant.
 
 For more details about this integration, please refer to
-https://github.com/ludeeus/solar_plus_intelbras
+https://github.com/hudsonbrendon/solar_plus_intelbras
 """
 
 from __future__ import annotations

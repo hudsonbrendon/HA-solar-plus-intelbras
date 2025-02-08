@@ -21,8 +21,8 @@ if TYPE_CHECKING:
 
 ENTITY_DESCRIPTIONS = (
     BinarySensorEntityDescription(
-        key="solar_plus_intelbras",
-        name="Solar Plus Intelbras Binary Sensor",
+        key="solar_plus_intelbras_online_inverter",
+        name="Inverter",  # TODO: Add translation
         device_class=BinarySensorDeviceClass.CONNECTIVITY,
     ),
 )
@@ -58,4 +58,4 @@ class SolarPlusIntelbrasBinarySensor(SolarPlusIntelbrasEntity, BinarySensorEntit
     @property
     def is_on(self) -> bool:
         """Return true if the binary_sensor is on."""
-        return self.coordinator.data.get("title", "") == "foo"
+        return self.coordinator.data["rows"][0]["online"] is True

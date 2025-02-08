@@ -5,4 +5,5 @@ from logging import Logger, getLogger
 LOGGER: Logger = getLogger(__package__)
 
 DOMAIN = "solar_plus_intelbras"
-ATTRIBUTION = "Data provided by http://jsonplaceholder.typicode.com/"
+ATTRIBUTION = "Data provided by https://ens-server.intelbras.com.br/api/"
+SOLAR_PLUS_INTELBRAS_API_URL = "https://ens-server.intelbras.com.br/api"

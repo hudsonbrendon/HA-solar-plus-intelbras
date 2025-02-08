@@ -17,9 +17,9 @@ if TYPE_CHECKING:
 
 ENTITY_DESCRIPTIONS = (
     SensorEntityDescription(
-        key="solar_plus_intelbras",
-        name="Sensor Solar Plus Intelbras",
-        icon="mdi:format-quote-close",
+        key="solar_plus_intelbras_daily_generation",
+        name="Generation",  # TODO: Add translation
+        icon="mdi:solar-panel",
     ),
 )
 
@@ -54,4 +54,4 @@ class SolarPlusIntelbrasSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data.get("body")
+        return self.coordinator.data["rows"][0]["metrics"]["energyToday"]
