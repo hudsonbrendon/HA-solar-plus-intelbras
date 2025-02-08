@@ -18,12 +18,12 @@ if TYPE_CHECKING:
 ENTITY_DESCRIPTIONS = (
     SensorEntityDescription(
         key="solar_plus_intelbras_energy_today",
-        name="Generation",  # TODO: Add translation # noqa
+        name="Generation",
         icon="mdi:solar-panel",
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_today_economy",
-        name="Economy",  # TODO: Add translation # noqa
+        name="Economy",
         icon="mdi:currency-usd",
     ),
 )
