@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 ENTITY_DESCRIPTIONS = (
     BinarySensorEntityDescription(
         key="solar_plus_intelbras_online_inverter",
-        name="Inverter",  # TODO: Add translation
+        name="Inverter",
         device_class=BinarySensorDeviceClass.CONNECTIVITY,
     ),
 )
