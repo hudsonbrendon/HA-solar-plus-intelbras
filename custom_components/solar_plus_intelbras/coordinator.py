@@ -35,7 +35,7 @@ class SolarPlusIntelbrasDataUpdateCoordinator(DataUpdateCoordinator):
             hass=hass,
             logger=LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(hours=1),
+            update_interval=timedelta(minutes=5),
         )
 
     async def _async_update_data(self) -> Any:
