@@ -58,4 +58,4 @@ class SolarPlusIntelbrasBinarySensor(SolarPlusIntelbrasEntity, BinarySensorEntit
     @property
     def is_on(self) -> bool:
         """Return true if the binary_sensor is on."""
-        return self.coordinator.data["rows"][0]["online"] is True
+        return self.coordinator.data["rows"][0]["online"]

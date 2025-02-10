@@ -2,73 +2,73 @@
     "config": {
         "step": {
             "user": {
-                "description": "If you need help with the configuration have a look here: https://github.com/hudsonbrendon/solar_plus_intelbras",
+                "description": "Se você precisar de ajuda com a configuração, consulte: https://github.com/hudsonbrendon/solar_plus_intelbras",
                 "data": {
-                    "username": "Username",
-                    "password": "Password"
+                    "username": "Nome de usuário",
+                    "password": "Senha"
                 }
             }
         },
         "error": {
-            "auth": "Username/Password is wrong.",
-            "connection": "Unable to connect to the server.",
-            "unknown": "Unknown error occurred."
+            "auth": "Nome de usuário/Senha está incorreto.",
+            "connection": "Não foi possível conectar ao servidor.",
+            "unknown": "Ocorreu um erro desconhecido."
         }
     },
     "sensor": {
         "solar_plus_intelbras_energy_today": {
-            "name": "Today Generation"
+            "name": "Geração de Hoje"
         },
         "solar_plus_intelbras_today_economy": {
-            "name": "Today Economy"
+            "name": "Economia de Hoje"
         },
         "solar_plus_intelbras_energy_total": {
             "name": "Total"
         },
         "solar_plus_intelbras_total_economy": {
-            "name": "Total Economy"
+            "name": "Economia Total"
         },
         "solar_plus_intelbras_current_power": {
-            "name": "Current Power"
+            "name": "Potência Atual"
         },
         "solar_plus_intelbras_economy_of_last_30": {
-            "name": "Economy of Last 30 Days"
+            "name": "Economia dos Últimos 30 Dias"
         },
         "solar_plus_intelbras_year_economy": {
-            "name": "Year Economy"
+            "name": "Economia do Ano"
         },
         "solar_plus_intelbras_energy_of_last_30": {
-            "name": "Energy of Last 30 Days"
+            "name": "Energia dos Últimos 30 Dias"
         },
         "solar_plus_intelbras_saved_co2": {
-            "name": "Saved Co2"
+            "name": "CO2 Economizado"
         },
         "solar_plus_intelbras_saved_trees": {
-            "name": "Saved Trees"
+            "name": "Árvores Salvas"
         },
         "solar_plus_intelbras_saved_coal": {
-            "name": "Saved Coal"
+            "name": "Carvão Economizado"
         },
         "solar_plus_intelbras_inverters": {
-            "name": "Inverters"
+            "name": "Inversores"
         },
         "solar_plus_intelbras_dataloggers": {
             "name": "Dataloggers"
         },
         "solar_plus_intelbras_alerts": {
-            "name": "Alerts"
+            "name": "Alertas"
         },
         "solar_plus_intelbras_today_alerts": {
-            "name": "Today Alerts"
+            "name": "Alertas de Hoje"
         },
         "solar_plus_intelbras_price": {
-            "name": "Price"
+            "name": "Preço"
         },
         "solar_plus_intelbras_capacity_installed": {
-            "name": "Capacity Installed"
+            "name": "Capacidade Instalada"
         },
         "solar_plus_intelbras_modules_amount": {
-            "name": "Modules Amount"
+            "name": "Quantidade de Módulos"
         },
         "solar_plus_intelbras_status": {
             "name": "Status"
@@ -77,7 +77,7 @@
             "name": "Offgrid"
         },
         "solar_plus_intelbras_last_record": {
-            "name": "Last Record"
+            "name": "Último Registro"
         }
     }
 }

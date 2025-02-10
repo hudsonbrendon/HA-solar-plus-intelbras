@@ -7,6 +7,7 @@ from typing import Any
 
 import aiohttp
 import async_timeout
+
 from .const import SOLAR_PLUS_INTELBRAS_API_URL
 
 
@@ -73,15 +74,6 @@ class SolarPlusIntelbrasApiClient:
                 "Authorization": f"Bearer {await self.async_get_token()}",
                 "plus": self._password,
             },
-        )
-
-    async def async_set_title(self, value: str) -> Any:
-        """Get data from the API."""
-        return await self._api_wrapper(
-            method="patch",
-            url="https://jsonplaceholder.typicode.com/posts/1",
-            data={"title": value},
-            headers={"Content-type": "application/json; charset=UTF-8"},
         )
 
     async def _api_wrapper(
