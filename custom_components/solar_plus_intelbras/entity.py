@@ -27,6 +27,3 @@ class SolarPlusIntelbrasEntity(
             model="Solar Plus",
             sw_version="1.0.0",
         )
-
-
-    
