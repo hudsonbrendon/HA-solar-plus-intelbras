@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant import config_entries, data_entry_flow
-from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
+from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
@@ -14,7 +15,14 @@ from .api import (
     SolarPlusIntelbrasApiClientCommunicationError,
     SolarPlusIntelbrasApiClientError,
 )
-from .const import DOMAIN, LOGGER
+from .const import CONF_EMAIL, CONF_PLUS, DOMAIN, LOGGER
+
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
+    {
+        vol.Required(CONF_EMAIL): cv.string,
+        vol.Required(CONF_PLUS): cv.string,
+    }
+)
 
 
 class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
@@ -31,8 +39,8 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             try:
                 await self._test_credentials(
-                    username=user_input[CONF_USERNAME],
-                    password=user_input[CONF_PASSWORD],
+                    email=user_input[CONF_EMAIL],
+                    plus=user_input[CONF_PLUS],
                 )
             except SolarPlusIntelbrasApiClientAuthenticationError as exception:
                 LOGGER.warning(exception)
@@ -45,7 +53,7 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 _errors["base"] = "unknown"
             else:
                 return self.async_create_entry(
-                    title=user_input[CONF_USERNAME],
+                    title=user_input[CONF_EMAIL],
                     data=user_input,
                 )
 
@@ -54,14 +62,14 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             data_schema=vol.Schema(
                 {
                     vol.Required(
-                        CONF_USERNAME,
-                        default=(user_input or {}).get(CONF_USERNAME, vol.UNDEFINED),
+                        CONF_EMAIL,
+                        default=(user_input or {}).get(CONF_EMAIL, vol.UNDEFINED),
                     ): selector.TextSelector(
                         selector.TextSelectorConfig(
                             type=selector.TextSelectorType.TEXT,
                         ),
                     ),
-                    vol.Required(CONF_PASSWORD): selector.TextSelector(
+                    vol.Required(CONF_PLUS): selector.TextSelector(
                         selector.TextSelectorConfig(
                             type=selector.TextSelectorType.PASSWORD,
                         ),
@@ -71,11 +79,11 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             errors=_errors,
         )
 
-    async def _test_credentials(self, username: str, password: str) -> None:
+    async def _test_credentials(self, email: str, plus: str) -> None:
         """Validate credentials."""
         client = SolarPlusIntelbrasApiClient(
-            username=username,
-            password=password,
+            email=email,
+            plus=plus,
             session=async_create_clientsession(self.hass),
         )
         await client.async_get_data()

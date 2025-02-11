@@ -42,13 +42,13 @@ class SolarPlusIntelbrasApiClient:
 
     def __init__(
         self,
-        username: str,
-        password: str,
+        email: str,
+        plus: str,
         session: aiohttp.ClientSession,
     ) -> None:
         """Sample API Client."""
-        self._username = username
-        self._password = password
+        self._email = email
+        self._plus = plus
         self._session = session
 
     async def async_login(self) -> Any:
@@ -56,8 +56,8 @@ class SolarPlusIntelbrasApiClient:
         return await self._api_wrapper(
             method="post",
             url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/login",
-            data={"email": self._username},
-            headers={"plus": self._password},
+            data={"email": self._email},
+            headers={"plus": self._plus},
         )
 
     async def async_get_token(self) -> str:
@@ -72,7 +72,7 @@ class SolarPlusIntelbrasApiClient:
             url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants",
             headers={
                 "Authorization": f"Bearer {await self.async_get_token()}",
-                "plus": self._password,
+                "plus": self._plus,
             },
         )
 

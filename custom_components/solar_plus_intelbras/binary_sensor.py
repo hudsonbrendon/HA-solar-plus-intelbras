@@ -54,6 +54,10 @@ class SolarPlusIntelbrasBinarySensor(SolarPlusIntelbrasEntity, BinarySensorEntit
         """Initialize the binary_sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"binary_sensor.{entity_description.key}"
 
     @property
     def is_on(self) -> bool:

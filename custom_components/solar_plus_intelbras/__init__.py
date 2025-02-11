@@ -2,18 +2,19 @@
 Custom integration to integrate solar_plus_intelbras with Home Assistant.
 
 For more details about this integration, please refer to
-https://github.com/hudsonbrendon/solar_plus_intelbras
+https://github.com/hudsonbrendon/HA-solar-plus-intelbras
 """
 
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, Platform
+from homeassistant.const import Platform
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
 from .api import SolarPlusIntelbrasApiClient
+from .const import CONF_EMAIL, CONF_PLUS
 from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
 from .data import SolarPlusIntelbrasData
 
@@ -39,8 +40,8 @@ async def async_setup_entry(
     )
     entry.runtime_data = SolarPlusIntelbrasData(
         client=SolarPlusIntelbrasApiClient(
-            username=entry.data[CONF_USERNAME],
-            password=entry.data[CONF_PASSWORD],
+            email=entry.data[CONF_EMAIL],
+            plus=entry.data[CONF_PLUS],
             session=async_get_clientsession(hass),
         ),
         integration=async_get_loaded_integration(hass, entry.domain),

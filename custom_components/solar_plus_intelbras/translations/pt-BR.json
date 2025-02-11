@@ -2,10 +2,10 @@
     "config": {
         "step": {
             "user": {
-                "description": "Se precisar de ajuda com a configuração, consulte aqui: https://github.com/hudsonbrendon/solar_plus_intelbras",
+                "description": "Se precisar de ajuda com a configuração, consulte aqui: https://github.com/hudsonbrendon/HA-solar-plus-intelbras",
                 "data": {
-                    "username": "Usuário",
-                    "password": "Senha"
+                    "email": "Email",
+                    "plus": "Plus"
                 }
             }
         },

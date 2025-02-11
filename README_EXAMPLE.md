@@ -40,11 +40,11 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 
 ***
 
-[solar_plus_intelbras]: https://github.com/hudsonbrendon/solar_plus_intelbras
+[solar_plus_intelbras]: https://github.com/hudsonbrendon/HA-solar-plus-intelbras
 [buymecoffee]: https://www.buymeacoffee.com/hudsonbrendon
 [buymecoffeebadge]: https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg?style=for-the-badge
 [commits-shield]: https://img.shields.io/github/commit-activity/y/hudsonbrendon/solar_plus_intelbras.svg?style=for-the-badge
-[commits]: https://github.com/hudsonbrendon/solar_plus_intelbras/commits/main
+[commits]: https://github.com/hudsonbrendon/HA-solar-plus-intelbras/commits/main
 [discord]: https://discord.gg/Qa5fW2R
 [discord-shield]: https://img.shields.io/discord/330944238910963714.svg?style=for-the-badge
 [exampleimg]: example.png
@@ -53,4 +53,4 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [license-shield]: https://img.shields.io/github/license/hudsonbrendon/solar_plus_intelbras.svg?style=for-the-badge
 [maintenance-shield]: https://img.shields.io/badge/maintainer-Joakim%20Sørensen%20%40hudsonbrendon-blue.svg?style=for-the-badge
 [releases-shield]: https://img.shields.io/github/release/hudsonbrendon/solar_plus_intelbras.svg?style=for-the-badge
-[releases]: https://github.com/hudsonbrendon/solar_plus_intelbras/releases
+[releases]: https://github.com/hudsonbrendon/HA-solar-plus-intelbras/releases
