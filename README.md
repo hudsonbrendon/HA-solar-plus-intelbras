@@ -1,26 +1,55 @@
+![hacs_badge](https://img.shields.io/badge/hacs-custom-orange.svg)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
 [![Lint](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/lint.yml/badge.svg)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/lint.yml)
 [![Validate](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/validate.yml/badge.svg)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/validate.yml)
 
 
-# HomeAssistant Solar plus Intelbras
+# Home Assistant Solar plus Intelbras
 
 ![logo](logo.png)
 
-## Installation
+# Install
 
-Copy contents of custom_components/solar_plus_intelbras/ to custom_components/solar_plus_intelbras/ in your Home Assistant config folder.
+### Installation via HACS
 
-## Installation using HACS
+Have HACS installed, this will allow you to update easily.
 
-HACS is a community store for Home Assistant. You can install [HACS](https://github.com/custom-components/hacs) and then install Solar Plus Intelbras from the HACS store.
+Adding Solar Plus Intelbras to HACS can be using this button:
 
-## Requirements
+[![image](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=hudsonbrendon&repository=HA-solar-plus-intelbras&category=integration)
 
-### Authentication
+If the button above doesn't work, add `https://github.com/hudsonbrendon/HA-solar-plus-intelbras` as a custom repository of type Integration in HACS.
+
+- Click Install on the `Solar Plus Intelbras` integration.
+- Restart the Home Assistant.
+
+### Manual installation
+
+- Copy `solar_plus_intelbras`  folder from [latest release](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/releases/latest) to your `<config dir>/custom_components/` directory.
+- Restart the Home Assistant.
+
+## Configuration
+
+Adding Drivvo to your Home Assistant instance can be done via the UI using this button:
+
+[![image](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start?domain=solar_plus_intelbras)
+
+### Manual Configuration
+
+If the button above doesn't work, you can also perform the following steps manually:
+
+* Navigate to your Home Assistant instance.
+* In the sidebar, click Settings.
+* From the Setup menu, select: Devices & Services.
+* In the lower right corner, click the Add integration button.
+* In the list, search and select `Solar Plus Intelbras`.
+* Follow the on-screen instructions to complete the setup.
+
+## Authentication
 
 To authenticate, use the same email used at [https://solarplus.intelbras.com.br/](https://solarplus.intelbras.com.br/) and the token named "plus," which can be captured in any request in your browser’s network tab, for example:
 
-![example](plus.png)
+![plus](plus.png)
 
 ## Usage
 
@@ -28,32 +57,23 @@ Add inversors via Integrations (search for `Solar Plus Intelbras`) in Home Assis
 
 [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=solar_plus_intelbras)
 
-## Quick Start
+## Sensors
 
 This custom component creates the following sensors:
 
-- Energy Today
-- Today Economy
-- Energy Total
-- Total Economy
-- Current Power
-- Economy of Last 30 Days
-- Year Economy
-- Energy of Last 30 Days
-- Saved Co2
-- Saved Trees
-- Saved Coal
-- Inverters
-- Dataloggers
-- Alerts
-- Today Alerts
-- Price
-- Capacity Installed
-- Modules Amount
-- Status
-- Offgrid
-- Last Record
+![example](example.png)
+
+# Debugging
+
+To enable debug for Drivvo integration, add following to your configuration.yaml:
+
+```yml
+logger:
+  default: info
+  logs:
+    custom_components.solar_plus_intelbras: debug
+```
 
 # Disclaimer
 
-a intelbras não disponibiliza API oficial, as informações são oriundas da api utilizada no sistema oficial utilizado pela plataforma web e mobile, a integração é baseada na biblioteca [https://github.com/hudsonbrendon/python-solar-plus-intelbras](https://github.com/hudsonbrendon/python-solar-plus-intelbras) podendo haver indisponibilidade e bloqueio da API
+Intelbras does not provide an official API, the information comes from the API used in the official system used by the web and mobile platform, the integration is based on the library [https://github.com/hudsonbrendon/python-solar-plus-intelbras](https://github.com/hudsonbrendon/python-solar-plus-intelbras) and there may be unavailability and blocking of the API.
