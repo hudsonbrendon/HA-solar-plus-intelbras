@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 ENTITY_DESCRIPTIONS = (
     SensorEntityDescription(
         key="solar_plus_intelbras_energy_today",
-        name="Today Generation",
+        name="Energy Today",
         icon="mdi:solar-panel",
     ),
     SensorEntityDescription(
@@ -124,7 +124,7 @@ ENTITY_DESCRIPTIONS = (
 )
 
 
-async def async_setup_entry(  # noqa: PLR0912
+async def async_setup_entry(  # noqa:  PLR0912
     hass: HomeAssistant,  # noqa: ARG001 Unused function argument: `hass`
     entry: SolarPlusIntelbrasConfigEntry,
     async_add_entities: AddEntitiesCallback,
@@ -296,6 +296,9 @@ class SolarPlusIntelbrasEnergyTodaySensor(SolarPlusIntelbrasEntity, SensorEntity
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -321,16 +324,6 @@ class SolarPlusIntelbrasEnergyTodaySensor(SolarPlusIntelbrasEntity, SensorEntity
     def unit_of_measurement(self) -> str:
         """Return the unit of measurement of the sensor."""
         return "kWh"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_energy_today"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Energy Today"
 
     @property
     def state(self) -> str:
@@ -349,6 +342,9 @@ class SolarPlusIntelbrasTodayEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -374,16 +370,6 @@ class SolarPlusIntelbrasTodayEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
     def unit_of_measurement(self) -> str:
         """Return the unit of measurement of the sensor."""
         return "$"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_today_economy"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Today Economy"
 
     @property
     def state(self) -> str:
@@ -402,6 +388,9 @@ class SolarPlusIntelbrasEnergyTotalSensor(SolarPlusIntelbrasEntity, SensorEntity
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -429,16 +418,6 @@ class SolarPlusIntelbrasEnergyTotalSensor(SolarPlusIntelbrasEntity, SensorEntity
         return "kWh"
 
     @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_energy_total"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Energy Total"
-
-    @property
     def state(self) -> str:
         """Return the state of the sensor."""
         return self.coordinator.data["rows"][0]["metrics"]["energyTotal"]
@@ -455,6 +434,9 @@ class SolarPlusIntelbrasTotalEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -482,16 +464,6 @@ class SolarPlusIntelbrasTotalEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
         return "$"
 
     @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_total_economy"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Total Economy"
-
-    @property
     def state(self) -> str:
         """Return the state of the sensor."""
         return round(self.coordinator.data["rows"][0]["metrics"]["totalEconomy"], 2)
@@ -508,6 +480,9 @@ class SolarPlusIntelbrasCurrentPowerSensor(SolarPlusIntelbrasEntity, SensorEntit
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -535,16 +510,6 @@ class SolarPlusIntelbrasCurrentPowerSensor(SolarPlusIntelbrasEntity, SensorEntit
         return "kWh"
 
     @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_current_power"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Current Power"
-
-    @property
     def state(self) -> str:
         """Return the state of the sensor."""
         return self.coordinator.data["rows"][0]["metrics"]["currentPower"]
@@ -561,6 +526,9 @@ class SolarPlusIntelbrasEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEn
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -588,16 +556,6 @@ class SolarPlusIntelbrasEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEn
         return "$"
 
     @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_economy_of_last_30"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Economy Of Last 30 Days"
-
-    @property
     def state(self) -> str:
         """Return the state of the sensor."""
         return round(self.coordinator.data["rows"][0]["metrics"]["economyOfLast30"], 2)
@@ -614,6 +572,9 @@ class SolarPlusIntelbrasYearEconomySensor(SolarPlusIntelbrasEntity, SensorEntity
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -641,16 +602,6 @@ class SolarPlusIntelbrasYearEconomySensor(SolarPlusIntelbrasEntity, SensorEntity
         return "$"
 
     @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_year_economy"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Year Economy"
-
-    @property
     def state(self) -> str:
         """Return the state of the sensor."""
         return round(self.coordinator.data["rows"][0]["metrics"]["yearEconomy"], 2)
@@ -667,6 +618,9 @@ class SolarPlusIntelbrasEnergyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEnt
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -694,16 +648,6 @@ class SolarPlusIntelbrasEnergyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEnt
         return "kWh"
 
     @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_energy_of_last_30"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Energy Of Last 30 Days"
-
-    @property
     def state(self) -> str:
         """Return the state of the sensor."""
         return self.coordinator.data["rows"][0]["metrics"]["energyOfLast30"]
@@ -720,6 +664,9 @@ class SolarPlusIntelbrasSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorEntity):
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -747,16 +694,6 @@ class SolarPlusIntelbrasSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorEntity):
         return "Co2"
 
     @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_saved_co2"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Saved Co2"
-
-    @property
     def state(self) -> str:
         """Return the state of the sensor."""
         return round(self.coordinator.data["rows"][0]["metrics"]["savedCo2"], 2)
@@ -773,6 +710,9 @@ class SolarPlusIntelbrasSavedTreesSensor(SolarPlusIntelbrasEntity, SensorEntity)
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -783,16 +723,6 @@ class SolarPlusIntelbrasSavedTreesSensor(SolarPlusIntelbrasEntity, SensorEntity)
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total_increasing"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_saved_trees"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Saved Trees"
 
     @property
     def state(self) -> str:
@@ -811,6 +741,9 @@ class SolarPlusIntelbrasSavedCoalSensor(SolarPlusIntelbrasEntity, SensorEntity):
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -821,16 +754,6 @@ class SolarPlusIntelbrasSavedCoalSensor(SolarPlusIntelbrasEntity, SensorEntity):
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total_increasing"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_saved_coal"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Saved Coal"
 
     @property
     def state(self) -> str:
@@ -849,6 +772,9 @@ class SolarPlusIntelbrasInvertersSensor(SolarPlusIntelbrasEntity, SensorEntity):
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -859,16 +785,6 @@ class SolarPlusIntelbrasInvertersSensor(SolarPlusIntelbrasEntity, SensorEntity):
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_inverters"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Inverters"
 
     @property
     def state(self) -> str:
@@ -887,6 +803,9 @@ class SolarPlusIntelbrasDataloggersSensor(SolarPlusIntelbrasEntity, SensorEntity
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -897,16 +816,6 @@ class SolarPlusIntelbrasDataloggersSensor(SolarPlusIntelbrasEntity, SensorEntity
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_dataloggers"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Dataloggers"
 
     @property
     def state(self) -> str:
@@ -925,6 +834,9 @@ class SolarPlusIntelbrasAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity):
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -935,16 +847,6 @@ class SolarPlusIntelbrasAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity):
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total_increasing"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_alerts"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Alerts"
 
     @property
     def state(self) -> str:
@@ -963,6 +865,9 @@ class SolarPlusIntelbrasTodayAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -973,16 +878,6 @@ class SolarPlusIntelbrasTodayAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total_increasing"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_today_alerts"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Today Alerts"
 
     @property
     def state(self) -> str:
@@ -1001,6 +896,9 @@ class SolarPlusIntelbrasPriceSensor(SolarPlusIntelbrasEntity, SensorEntity):
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -1028,16 +926,6 @@ class SolarPlusIntelbrasPriceSensor(SolarPlusIntelbrasEntity, SensorEntity):
         return "$"
 
     @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_price"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Price"
-
-    @property
     def state(self) -> str:
         """Return the state of the sensor."""
         return round(self.coordinator.data["rows"][0]["price"], 2)
@@ -1054,6 +942,9 @@ class SolarPlusIntelbrasCapacityInstalledSensor(SolarPlusIntelbrasEntity, Sensor
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -1064,16 +955,6 @@ class SolarPlusIntelbrasCapacityInstalledSensor(SolarPlusIntelbrasEntity, Sensor
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_capacity_installed"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Capacity Installed"
 
     @property
     def state(self) -> str:
@@ -1092,6 +973,9 @@ class SolarPlusIntelbrasModulesAmountSensor(SolarPlusIntelbrasEntity, SensorEnti
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -1102,16 +986,6 @@ class SolarPlusIntelbrasModulesAmountSensor(SolarPlusIntelbrasEntity, SensorEnti
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_modules_amount"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Modules Amount"
 
     @property
     def state(self) -> str:
@@ -1130,6 +1004,9 @@ class SolarPlusIntelbrasStatusSensor(SolarPlusIntelbrasEntity, SensorEntity):
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -1140,16 +1017,6 @@ class SolarPlusIntelbrasStatusSensor(SolarPlusIntelbrasEntity, SensorEntity):
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_status"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Status"
 
     @property
     def state(self) -> str:
@@ -1168,6 +1035,9 @@ class SolarPlusIntelbrasOffgridSensor(SolarPlusIntelbrasEntity, SensorEntity):
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -1178,16 +1048,6 @@ class SolarPlusIntelbrasOffgridSensor(SolarPlusIntelbrasEntity, SensorEntity):
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_offgrid"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Offgrid"
 
     @property
     def state(self) -> str:
@@ -1206,6 +1066,9 @@ class SolarPlusIntelbrasLastRecordSensor(SolarPlusIntelbrasEntity, SensorEntity)
         """Initialize the sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
 
     @property
     def native_value(self) -> str | None:
@@ -1216,16 +1079,6 @@ class SolarPlusIntelbrasLastRecordSensor(SolarPlusIntelbrasEntity, SensorEntity)
     def state_class(self) -> str:
         """Return the state class of the sensor."""
         return "total_increasing"
-
-    @property
-    def unique_id(self) -> str:
-        """Return the unique ID of the sensor."""
-        return "solar_plus_intelbras_last_record"
-
-    @property
-    def name(self) -> str:
-        """Return the name of the sensor."""
-        return "Last Record"
 
     @property
     def state(self) -> str:

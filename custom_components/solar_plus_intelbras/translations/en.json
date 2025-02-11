@@ -16,68 +16,26 @@
         }
     },
     "sensor": {
-        "solar_plus_intelbras_energy_today": {
-            "name": "Today Generation"
-        },
-        "solar_plus_intelbras_today_economy": {
-            "name": "Today Economy"
-        },
-        "solar_plus_intelbras_energy_total": {
-            "name": "Total"
-        },
-        "solar_plus_intelbras_total_economy": {
-            "name": "Total Economy"
-        },
-        "solar_plus_intelbras_current_power": {
-            "name": "Current Power"
-        },
-        "solar_plus_intelbras_economy_of_last_30": {
-            "name": "Economy of Last 30 Days"
-        },
-        "solar_plus_intelbras_year_economy": {
-            "name": "Year Economy"
-        },
-        "solar_plus_intelbras_energy_of_last_30": {
-            "name": "Energy of Last 30 Days"
-        },
-        "solar_plus_intelbras_saved_co2": {
-            "name": "Saved Co2"
-        },
-        "solar_plus_intelbras_saved_trees": {
-            "name": "Saved Trees"
-        },
-        "solar_plus_intelbras_saved_coal": {
-            "name": "Saved Coal"
-        },
-        "solar_plus_intelbras_inverters": {
-            "name": "Inverters"
-        },
-        "solar_plus_intelbras_dataloggers": {
-            "name": "Dataloggers"
-        },
-        "solar_plus_intelbras_alerts": {
-            "name": "Alerts"
-        },
-        "solar_plus_intelbras_today_alerts": {
-            "name": "Today Alerts"
-        },
-        "solar_plus_intelbras_price": {
-            "name": "Price"
-        },
-        "solar_plus_intelbras_capacity_installed": {
-            "name": "Capacity Installed"
-        },
-        "solar_plus_intelbras_modules_amount": {
-            "name": "Modules Amount"
-        },
-        "solar_plus_intelbras_status": {
-            "name": "Status"
-        },
-        "solar_plus_intelbras_offgrid": {
-            "name": "Offgrid"
-        },
-        "solar_plus_intelbras_last_record": {
-            "name": "Last Record"
-        }
+        "solar_plus_intelbras_energy_today": "Energy Today",
+        "solar_plus_intelbras_today_economy": "Today Economy",
+        "solar_plus_intelbras_energy_total": "Total Energy",
+        "solar_plus_intelbras_total_economy": "Total Economy",
+        "solar_plus_intelbras_current_power": "Current Power",
+        "solar_plus_intelbras_economy_of_last_30": "Economy of Last 30 Days",
+        "solar_plus_intelbras_year_economy": "Year Economy",
+        "solar_plus_intelbras_energy_of_last_30": "Energy of Last 30 Days",
+        "solar_plus_intelbras_saved_co2": "Saved CO2",
+        "solar_plus_intelbras_saved_trees": "Saved Trees",
+        "solar_plus_intelbras_saved_coal": "Saved Coal",
+        "solar_plus_intelbras_inverters": "Inverters",
+        "solar_plus_intelbras_dataloggers": "Dataloggers",
+        "solar_plus_intelbras_alerts": "Alerts",
+        "solar_plus_intelbras_today_alerts": "Today Alerts",
+        "solar_plus_intelbras_price": "Price",
+        "solar_plus_intelbras_capacity_installed": "Capacity Installed",
+        "solar_plus_intelbras_modules_amount": "Modules Amount",
+        "solar_plus_intelbras_status": "Status",
+        "solar_plus_intelbras_offgrid": "Offgrid",
+        "solar_plus_intelbras_last_record": "Last Record"
     }
 }

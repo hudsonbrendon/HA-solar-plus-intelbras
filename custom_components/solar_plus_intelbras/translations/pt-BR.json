@@ -2,82 +2,40 @@
     "config": {
         "step": {
             "user": {
-                "description": "Se você precisar de ajuda com a configuração, consulte: https://github.com/hudsonbrendon/solar_plus_intelbras",
+                "description": "Se precisar de ajuda com a configuração, consulte aqui: https://github.com/hudsonbrendon/solar_plus_intelbras",
                 "data": {
-                    "username": "Nome de usuário",
+                    "username": "Usuário",
                     "password": "Senha"
                 }
             }
         },
         "error": {
-            "auth": "Nome de usuário/Senha está incorreto.",
+            "auth": "Usuário/Senha incorretos.",
             "connection": "Não foi possível conectar ao servidor.",
             "unknown": "Ocorreu um erro desconhecido."
         }
     },
     "sensor": {
-        "solar_plus_intelbras_energy_today": {
-            "name": "Geração de Hoje"
-        },
-        "solar_plus_intelbras_today_economy": {
-            "name": "Economia de Hoje"
-        },
-        "solar_plus_intelbras_energy_total": {
-            "name": "Total"
-        },
-        "solar_plus_intelbras_total_economy": {
-            "name": "Economia Total"
-        },
-        "solar_plus_intelbras_current_power": {
-            "name": "Potência Atual"
-        },
-        "solar_plus_intelbras_economy_of_last_30": {
-            "name": "Economia dos Últimos 30 Dias"
-        },
-        "solar_plus_intelbras_year_economy": {
-            "name": "Economia do Ano"
-        },
-        "solar_plus_intelbras_energy_of_last_30": {
-            "name": "Energia dos Últimos 30 Dias"
-        },
-        "solar_plus_intelbras_saved_co2": {
-            "name": "CO2 Economizado"
-        },
-        "solar_plus_intelbras_saved_trees": {
-            "name": "Árvores Salvas"
-        },
-        "solar_plus_intelbras_saved_coal": {
-            "name": "Carvão Economizado"
-        },
-        "solar_plus_intelbras_inverters": {
-            "name": "Inversores"
-        },
-        "solar_plus_intelbras_dataloggers": {
-            "name": "Dataloggers"
-        },
-        "solar_plus_intelbras_alerts": {
-            "name": "Alertas"
-        },
-        "solar_plus_intelbras_today_alerts": {
-            "name": "Alertas de Hoje"
-        },
-        "solar_plus_intelbras_price": {
-            "name": "Preço"
-        },
-        "solar_plus_intelbras_capacity_installed": {
-            "name": "Capacidade Instalada"
-        },
-        "solar_plus_intelbras_modules_amount": {
-            "name": "Quantidade de Módulos"
-        },
-        "solar_plus_intelbras_status": {
-            "name": "Status"
-        },
-        "solar_plus_intelbras_offgrid": {
-            "name": "Offgrid"
-        },
-        "solar_plus_intelbras_last_record": {
-            "name": "Último Registro"
-        }
+        "solar_plus_intelbras_energy_today": "Energia Hoje",
+        "solar_plus_intelbras_today_economy": "Economia Hoje",
+        "solar_plus_intelbras_energy_total": "Energia Total",
+        "solar_plus_intelbras_total_economy": "Economia Total",
+        "solar_plus_intelbras_current_power": "Potência Atual",
+        "solar_plus_intelbras_economy_of_last_30": "Economia dos Últimos 30 Dias",
+        "solar_plus_intelbras_year_economy": "Economia do Ano",
+        "solar_plus_intelbras_energy_of_last_30": "Energia dos Últimos 30 Dias",
+        "solar_plus_intelbras_saved_co2": "CO2 Economizado",
+        "solar_plus_intelbras_saved_trees": "Árvores Preservadas",
+        "solar_plus_intelbras_saved_coal": "Carvão Economizado",
+        "solar_plus_intelbras_inverters": "Inversores",
+        "solar_plus_intelbras_dataloggers": "Dataloggers",
+        "solar_plus_intelbras_alerts": "Alertas",
+        "solar_plus_intelbras_today_alerts": "Alertas de Hoje",
+        "solar_plus_intelbras_price": "Preço",
+        "solar_plus_intelbras_capacity_installed": "Capacidade Instalada",
+        "solar_plus_intelbras_modules_amount": "Quantidade de Módulos",
+        "solar_plus_intelbras_status": "Status",
+        "solar_plus_intelbras_offgrid": "Offgrid",
+        "solar_plus_intelbras_last_record": "Último Registro"
     }
 }
