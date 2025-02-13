@@ -60,9 +60,9 @@ class SolarPlusIntelbrasBinarySensor(SolarPlusIntelbrasEntity, BinarySensorEntit
         self.entity_id = f"binary_sensor.{entity_description.key}"
         self._attr_device_info = DeviceInfo(
             identifiers={(coordinator.config_entry.entry_id,)},
-            name="Inverter",
+            name="Inverter",  # TODO: Replace with actual name
             manufacturer="Intelbras",
-            model="Inverter",
+            model="Inverter",  # TODO: Replace with actual model
         )
 
     @property

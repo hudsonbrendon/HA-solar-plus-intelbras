@@ -5,7 +5,8 @@
                 "description": "Se precisar de ajuda com a configuração, consulte aqui: https://github.com/hudsonbrendon/HA-solar-plus-intelbras",
                 "data": {
                     "email": "Email",
-                    "plus": "Plus"
+                    "plus": "Plus",
+                    "plant_id": "ID da planta"
                 }
             }
         },

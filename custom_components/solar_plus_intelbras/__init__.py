@@ -14,7 +14,7 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
 from .api import SolarPlusIntelbrasApiClient
-from .const import CONF_EMAIL, CONF_PLUS
+from .const import CONF_EMAIL, CONF_PLANT_ID, CONF_PLUS
 from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
 from .data import SolarPlusIntelbrasData
 
@@ -42,6 +42,7 @@ async def async_setup_entry(
         client=SolarPlusIntelbrasApiClient(
             email=entry.data[CONF_EMAIL],
             plus=entry.data[CONF_PLUS],
+            plant_id=entry.data[CONF_PLANT_ID],
             session=async_get_clientsession(hass),
         ),
         integration=async_get_loaded_integration(hass, entry.domain),

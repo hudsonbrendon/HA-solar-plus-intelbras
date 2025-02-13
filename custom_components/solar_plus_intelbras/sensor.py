@@ -310,7 +310,7 @@ class SolarPlusIntelbrasEnergyTodaySensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["metrics"]["energyToday"]
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["energyToday"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -335,7 +335,7 @@ class SolarPlusIntelbrasEnergyTodaySensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["metrics"]["energyToday"]
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["energyToday"]
 
 
 class SolarPlusIntelbrasTodayEconomySensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -362,7 +362,9 @@ class SolarPlusIntelbrasTodayEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["todayEconomy"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2
+        )
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -387,7 +389,9 @@ class SolarPlusIntelbrasTodayEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["todayEconomy"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2
+        )
 
 
 class SolarPlusIntelbrasEnergyTotalSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -414,7 +418,7 @@ class SolarPlusIntelbrasEnergyTotalSensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["metrics"]["energyTotal"]
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["energyTotal"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -439,7 +443,7 @@ class SolarPlusIntelbrasEnergyTotalSensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["metrics"]["energyTotal"]
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["energyTotal"]
 
 
 class SolarPlusIntelbrasTotalEconomySensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -466,7 +470,9 @@ class SolarPlusIntelbrasTotalEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["totalEconomy"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"], 2
+        )
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -491,7 +497,9 @@ class SolarPlusIntelbrasTotalEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["totalEconomy"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"], 2
+        )
 
 
 class SolarPlusIntelbrasCurrentPowerSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -518,7 +526,7 @@ class SolarPlusIntelbrasCurrentPowerSensor(SolarPlusIntelbrasEntity, SensorEntit
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["metrics"]["currentPower"]
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["currentPower"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -543,7 +551,7 @@ class SolarPlusIntelbrasCurrentPowerSensor(SolarPlusIntelbrasEntity, SensorEntit
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["metrics"]["currentPower"]
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["currentPower"]
 
 
 class SolarPlusIntelbrasEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -570,7 +578,9 @@ class SolarPlusIntelbrasEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEn
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["todayEconomy"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2
+        )
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -595,7 +605,9 @@ class SolarPlusIntelbrasEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEn
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["economyOfLast30"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["economyOfLast30"], 2
+        )
 
 
 class SolarPlusIntelbrasYearEconomySensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -622,7 +634,9 @@ class SolarPlusIntelbrasYearEconomySensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["yearEconomy"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"], 2
+        )
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -647,7 +661,9 @@ class SolarPlusIntelbrasYearEconomySensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["yearEconomy"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"], 2
+        )
 
 
 class SolarPlusIntelbrasEnergyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -674,7 +690,7 @@ class SolarPlusIntelbrasEnergyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEnt
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["metrics"]["energyOfLast30"]
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["energyOfLast30"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -699,7 +715,7 @@ class SolarPlusIntelbrasEnergyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEnt
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["metrics"]["energyOfLast30"]
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["energyOfLast30"]
 
 
 class SolarPlusIntelbrasSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -726,7 +742,9 @@ class SolarPlusIntelbrasSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["savedCo2"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"], 2
+        )
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -751,7 +769,9 @@ class SolarPlusIntelbrasSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["savedCo2"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"], 2
+        )
 
 
 class SolarPlusIntelbrasSavedTreesSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -778,7 +798,9 @@ class SolarPlusIntelbrasSavedTreesSensor(SolarPlusIntelbrasEntity, SensorEntity)
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["savedTrees"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"], 2
+        )
 
     @property
     def state_class(self) -> str:
@@ -788,7 +810,9 @@ class SolarPlusIntelbrasSavedTreesSensor(SolarPlusIntelbrasEntity, SensorEntity)
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["savedTrees"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"], 2
+        )
 
 
 class SolarPlusIntelbrasSavedCoalSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -815,7 +839,10 @@ class SolarPlusIntelbrasSavedCoalSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["savedCoal"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCoal"],
+            2,
+        )
 
     @property
     def state_class(self) -> str:
@@ -825,7 +852,10 @@ class SolarPlusIntelbrasSavedCoalSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["metrics"]["savedCoal"], 2)
+        return round(
+            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCoal"],
+            2,
+        )
 
 
 class SolarPlusIntelbrasInvertersSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -852,7 +882,7 @@ class SolarPlusIntelbrasInvertersSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["components"]["inverters"]
+        return self.coordinator.data["rows"][0]["plant"]["components"]["inverters"]
 
     @property
     def state_class(self) -> str:
@@ -862,7 +892,7 @@ class SolarPlusIntelbrasInvertersSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["components"]["inverters"]
+        return self.coordinator.data["rows"][0]["plant"]["components"]["inverters"]
 
 
 class SolarPlusIntelbrasDataloggersSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -889,7 +919,7 @@ class SolarPlusIntelbrasDataloggersSensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["components"]["dataloggers"]
+        return self.coordinator.data["rows"][0]["plant"]["components"]["dataloggers"]
 
     @property
     def state_class(self) -> str:
@@ -899,7 +929,7 @@ class SolarPlusIntelbrasDataloggersSensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["components"]["dataloggers"]
+        return self.coordinator.data["rows"][0]["plant"]["components"]["dataloggers"]
 
 
 class SolarPlusIntelbrasAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -926,7 +956,7 @@ class SolarPlusIntelbrasAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["components"]["alerts"]
+        return self.coordinator.data["rows"][0]["plant"]["components"]["alerts"]
 
     @property
     def state_class(self) -> str:
@@ -936,7 +966,7 @@ class SolarPlusIntelbrasAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["components"]["alerts"]
+        return self.coordinator.data["rows"][0]["plant"]["components"]["alerts"]
 
 
 class SolarPlusIntelbrasTodayAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -963,7 +993,7 @@ class SolarPlusIntelbrasTodayAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["components"]["todayAlerts"]
+        return self.coordinator.data["rows"][0]["plant"]["components"]["todayAlerts"]
 
     @property
     def state_class(self) -> str:
@@ -973,7 +1003,7 @@ class SolarPlusIntelbrasTodayAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["components"]["todayAlerts"]
+        return self.coordinator.data["rows"][0]["plant"]["components"]["todayAlerts"]
 
 
 class SolarPlusIntelbrasPriceSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -1000,7 +1030,7 @@ class SolarPlusIntelbrasPriceSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["price"], 2)
+        return round(self.coordinator.data["rows"][0]["plant"]["price"], 2)
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -1025,7 +1055,7 @@ class SolarPlusIntelbrasPriceSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["price"], 2)
+        return round(self.coordinator.data["rows"][0]["plant"]["price"], 2)
 
 
 class SolarPlusIntelbrasCapacityInstalledSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -1052,7 +1082,7 @@ class SolarPlusIntelbrasCapacityInstalledSensor(SolarPlusIntelbrasEntity, Sensor
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["capacityInstalled"]
+        return self.coordinator.data["rows"][0]["plant"]["capacityInstalled"]
 
     @property
     def state_class(self) -> str:
@@ -1062,7 +1092,7 @@ class SolarPlusIntelbrasCapacityInstalledSensor(SolarPlusIntelbrasEntity, Sensor
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["capacityInstalled"]
+        return self.coordinator.data["rows"][0]["plant"]["capacityInstalled"]
 
 
 class SolarPlusIntelbrasModulesAmountSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -1089,7 +1119,7 @@ class SolarPlusIntelbrasModulesAmountSensor(SolarPlusIntelbrasEntity, SensorEnti
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["modulesAmount"]
+        return self.coordinator.data["rows"][0]["plant"]["modulesAmount"]
 
     @property
     def state_class(self) -> str:
@@ -1099,7 +1129,7 @@ class SolarPlusIntelbrasModulesAmountSensor(SolarPlusIntelbrasEntity, SensorEnti
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["modulesAmount"]
+        return self.coordinator.data["rows"][0]["plant"]["modulesAmount"]
 
 
 class SolarPlusIntelbrasStatusSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -1163,7 +1193,7 @@ class SolarPlusIntelbrasOffgridSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["offgrid"]
+        return self.coordinator.data["rows"][0]["plant"]["offgrid"]
 
     @property
     def state_class(self) -> str:
@@ -1173,7 +1203,7 @@ class SolarPlusIntelbrasOffgridSensor(SolarPlusIntelbrasEntity, SensorEntity):
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["offgrid"]
+        return self.coordinator.data["rows"][0]["plant"]["offgrid"]
 
 
 class SolarPlusIntelbrasLastRecordSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -1211,3 +1241,42 @@ class SolarPlusIntelbrasLastRecordSensor(SolarPlusIntelbrasEntity, SensorEntity)
     def state(self) -> str:
         """Return the state of the sensor."""
         return self.coordinator.data["rows"][0]["last_record"]
+
+
+class SolarPlusIntelbrasDataloggerTemperatureSensor(
+    SolarPlusIntelbrasEntity, SensorEntity
+):
+    """Solar Plus Intelbras Datalogger Temperature Sensor class."""
+
+    def __init__(
+        self,
+        coordinator: SolarPlusIntelbrasDataUpdateCoordinator,
+        entity_description: SensorEntityDescription,
+    ) -> None:
+        """Initialize the sensor class."""
+        super().__init__(coordinator)
+        self.entity_description = entity_description
+        self._attr_unique_id = entity_description.key
+        self._attr_name = entity_description.name
+        self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Datalogger",
+            manufacturer="Intelbras",
+            model="Datalogger",
+        )
+
+    @property
+    def native_value(self) -> str | None:
+        """Return the native value of the sensor."""
+        return self.coordinator.data["rows"][0]["temperature"]
+
+    @property
+    def state_class(self) -> str:
+        """Return the state class of the sensor."""
+        return "total_increasing"
+
+    @property
+    def state(self) -> str:
+        """Return the state of the sensor."""
+        return self.coordinator.data["rows"][0]["temperature"]

@@ -18,3 +18,22 @@ class InverterDevice:
             manufacturer="Intelbras",
             model="Inverter",
         )
+
+
+class DataloggerDevice:
+    """Representation of a Datalogger device."""
+
+    def __init__(self, identifier: str, name: str) -> None:
+        """Initialize the datalogger device."""
+        self._identifier = identifier
+        self._name = name
+
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return device information about this datalogger."""
+        return DeviceInfo(
+            identifiers={(self._identifier,)},
+            name=self._name,
+            manufacturer="Intelbras",
+            model="Datalogger",
+        )
