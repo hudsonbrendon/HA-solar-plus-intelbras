@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
+from homeassistant.helpers.device_registry import DeviceInfo
 
 from .entity import SolarPlusIntelbrasEntity
 
@@ -299,6 +300,12 @@ class SolarPlusIntelbrasEnergyTodaySensor(SolarPlusIntelbrasEntity, SensorEntity
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -345,6 +352,12 @@ class SolarPlusIntelbrasTodayEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -391,6 +404,12 @@ class SolarPlusIntelbrasEnergyTotalSensor(SolarPlusIntelbrasEntity, SensorEntity
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -437,6 +456,12 @@ class SolarPlusIntelbrasTotalEconomySensor(SolarPlusIntelbrasEntity, SensorEntit
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -483,6 +508,12 @@ class SolarPlusIntelbrasCurrentPowerSensor(SolarPlusIntelbrasEntity, SensorEntit
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -529,6 +560,12 @@ class SolarPlusIntelbrasEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEn
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -575,6 +612,12 @@ class SolarPlusIntelbrasYearEconomySensor(SolarPlusIntelbrasEntity, SensorEntity
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -621,6 +664,12 @@ class SolarPlusIntelbrasEnergyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEnt
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -667,6 +716,12 @@ class SolarPlusIntelbrasSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorEntity):
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -713,6 +768,12 @@ class SolarPlusIntelbrasSavedTreesSensor(SolarPlusIntelbrasEntity, SensorEntity)
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -744,6 +805,12 @@ class SolarPlusIntelbrasSavedCoalSensor(SolarPlusIntelbrasEntity, SensorEntity):
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -775,6 +842,12 @@ class SolarPlusIntelbrasInvertersSensor(SolarPlusIntelbrasEntity, SensorEntity):
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -806,6 +879,12 @@ class SolarPlusIntelbrasDataloggersSensor(SolarPlusIntelbrasEntity, SensorEntity
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -837,6 +916,12 @@ class SolarPlusIntelbrasAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity):
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -868,6 +953,12 @@ class SolarPlusIntelbrasTodayAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -899,6 +990,12 @@ class SolarPlusIntelbrasPriceSensor(SolarPlusIntelbrasEntity, SensorEntity):
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -945,6 +1042,12 @@ class SolarPlusIntelbrasCapacityInstalledSensor(SolarPlusIntelbrasEntity, Sensor
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -976,6 +1079,12 @@ class SolarPlusIntelbrasModulesAmountSensor(SolarPlusIntelbrasEntity, SensorEnti
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -1007,6 +1116,12 @@ class SolarPlusIntelbrasStatusSensor(SolarPlusIntelbrasEntity, SensorEntity):
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -1038,6 +1153,12 @@ class SolarPlusIntelbrasOffgridSensor(SolarPlusIntelbrasEntity, SensorEntity):
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
@@ -1069,6 +1190,12 @@ class SolarPlusIntelbrasLastRecordSensor(SolarPlusIntelbrasEntity, SensorEntity)
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def native_value(self) -> str | None:
