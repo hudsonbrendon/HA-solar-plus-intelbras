@@ -1347,7 +1347,7 @@ class SolarPlusIntelbrasDataloggerModelIDSensor(SolarPlusIntelbrasEntity, Sensor
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
         self._datalogger_device = DataloggerDevice(
-            identifier=f"{coordinator.config_entry.entry_id}_datalogger",  # Ensure unique identifier
+            identifier=f"{coordinator.config_entry.entry_id}_datalogger",
             name="Datalogger",
         )
         self._attr_device_info = self._datalogger_device.device_info
@@ -1385,7 +1385,7 @@ class SolarPlusIntelbrasDataloggerFirmwareVersionSensor(
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
         self._datalogger_device = DataloggerDevice(
-            identifier=f"{coordinator.config_entry.entry_id}_datalogger",  # Ensure unique identifier
+            identifier=f"{coordinator.config_entry.entry_id}_datalogger",
             name="Datalogger",
         )
         self._attr_device_info = self._datalogger_device.device_info
@@ -1423,7 +1423,7 @@ class SolarPlusIntelbrasDataloggerLastRecordSensor(
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
         self._datalogger_device = DataloggerDevice(
-            identifier=f"{coordinator.config_entry.entry_id}_datalogger",  # Ensure unique identifier
+            identifier=f"{coordinator.config_entry.entry_id}_datalogger",
             name="Datalogger",
         )
         self._attr_device_info = self._datalogger_device.device_info
@@ -1461,7 +1461,7 @@ class SolarPlusIntelbrasDataloggerMacAddressSensor(
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
         self._datalogger_device = DataloggerDevice(
-            identifier=f"{coordinator.config_entry.entry_id}_datalogger",  # Ensure unique identifier
+            identifier=f"{coordinator.config_entry.entry_id}_datalogger",
             name="Datalogger",
         )
         self._attr_device_info = self._datalogger_device.device_info
@@ -1499,7 +1499,7 @@ class SolarPlusIntelbrasDataloggerMacAddressSensor(
         self._attr_name = entity_description.name
         self.entity_id = f"sensor.{entity_description.key}"
         self._datalogger_device = DataloggerDevice(
-            identifier=f"{coordinator.config_entry.entry_id}_datalogger",  # Ensure unique identifier
+            identifier=f"{coordinator.config_entry.entry_id}_datalogger",
             name="Datalogger",
         )
         self._attr_device_info = self._datalogger_device.device_info
