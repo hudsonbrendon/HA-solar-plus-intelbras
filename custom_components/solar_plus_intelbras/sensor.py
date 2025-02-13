@@ -143,202 +143,52 @@ ENTITY_DESCRIPTIONS = (
         name="MAC Address",
         icon="mdi:network",
     ),
-    SensorEntityDescription(
-        key="solar_plus_intelbras_datalogger_rssi", name="RSSI", icon="mdi:wifi"
-    ),
+    SensorEntityDescription(key="solar_plus_intelbras_datalogger_rssi", name="RSSI", icon="mdi:wifi"),
 )
 
 
-async def async_setup_entry(  # noqa:  PLR0912
-    hass: HomeAssistant,  # noqa: ARG001 Unused function argument: `hass`
+async def async_setup_entry(
+    hass: HomeAssistant,
     entry: SolarPlusIntelbrasConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the sensor platform."""
     sensors = []
 
-    # Create one instance of each sensor type with its corresponding entity description
+    sensor_classes = {
+        "solar_plus_intelbras_energy_today": SolarPlusIntelbrasInverterEnergyTodaySensor,
+        "solar_plus_intelbras_today_economy": SolarPlusIntelbrasInverterTodayEconomySensor,
+        "solar_plus_intelbras_energy_total": SolarPlusIntelbrasInverterEnergyTotalSensor,
+        "solar_plus_intelbras_total_economy": SolarPlusIntelbrasInverterTotalEconomySensor,
+        "solar_plus_intelbras_current_power": SolarPlusIntelbrasInverterCurrentPowerSensor,
+        "solar_plus_intelbras_economy_of_last_30": SolarPlusIntelbrasInverterEconomyOfLast30Sensor,
+        "solar_plus_intelbras_year_economy": SolarPlusIntelbrasInverterYearEconomySensor,
+        "solar_plus_intelbras_energy_of_last_30": SolarPlusIntelbrasInverterEnergyOfLast30Sensor,
+        "solar_plus_intelbras_saved_co2": SolarPlusIntelbrasInverterSavedCo2Sensor,
+        "solar_plus_intelbras_saved_trees": SolarPlusIntelbrasInverterSavedTreesSensor,
+        "solar_plus_intelbras_saved_coal": SolarPlusIntelbrasInverterSavedCoalSensor,
+        "solar_plus_intelbras_inverters": SolarPlusIntelbrasInverterInvertersSensor,
+        "solar_plus_intelbras_dataloggers": SolarPlusIntelbrasInverterDataloggersSensor,
+        "solar_plus_intelbras_alerts": SolarPlusIntelbrasInverterAlertsSensor,
+        "solar_plus_intelbras_today_alerts": SolarPlusIntelbrasInverterTodayAlertsSensor,
+        "solar_plus_intelbras_price": SolarPlusIntelbrasInverterPriceSensor,
+        "solar_plus_intelbras_capacity_installed": SolarPlusIntelbrasInverterCapacityInstalledSensor,
+        "solar_plus_intelbras_modules_amount": SolarPlusIntelbrasInverterModulesAmountSensor,
+        "solar_plus_intelbras_status": SolarPlusIntelbrasInverterStatusSensor,
+        "solar_plus_intelbras_offgrid": SolarPlusIntelbrasInverterOffgridSensor,
+        "solar_plus_intelbras_last_record": SolarPlusIntelbrasInverterLastRecordSensor,
+        "solar_plus_intelbras_datalogger_model_id": SolarPlusIntelbrasDataloggerModelIDSensor,
+        "solar_plus_intelbras_datalogger_firmware_version": SolarPlusIntelbrasDataloggerFirmwareVersionSensor,
+        "solar_plus_intelbras_datalogger_last_record": SolarPlusIntelbrasDataloggerLastRecordSensor,
+        "solar_plus_intelbras_datalogger_mac_address": SolarPlusIntelbrasDataloggerMacAddressSensor,
+        "solar_plus_intelbras_datalogger_rssi": SolarPlusIntelbrasDataloggerRssiSensor,
+    }
+
     for entity_description in ENTITY_DESCRIPTIONS:
-        if entity_description.key == "solar_plus_intelbras_energy_today":
+        sensor_class = sensor_classes.get(entity_description.key)
+        if sensor_class:
             sensors.append(
-                SolarPlusIntelbrasInverterEnergyTodaySensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_today_economy":
-            sensors.append(
-                SolarPlusIntelbrasInverterTodayEconomySensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_energy_total":
-            sensors.append(
-                SolarPlusIntelbrasInverterEnergyTotalSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_total_economy":
-            sensors.append(
-                SolarPlusIntelbrasInverterTotalEconomySensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_current_power":
-            sensors.append(
-                SolarPlusIntelbrasInverterCurrentPowerSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_economy_of_last_30":
-            sensors.append(
-                SolarPlusIntelbrasInverterEconomyOfLast30Sensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_year_economy":
-            sensors.append(
-                SolarPlusIntelbrasInverterYearEconomySensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_energy_of_last_30":
-            sensors.append(
-                SolarPlusIntelbrasInverterEnergyOfLast30Sensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_saved_co2":
-            sensors.append(
-                SolarPlusIntelbrasInverterSavedCo2Sensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_saved_trees":
-            sensors.append(
-                SolarPlusIntelbrasInverterSavedTreesSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_saved_coal":
-            sensors.append(
-                SolarPlusIntelbrasInverterSavedCoalSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_inverters":
-            sensors.append(
-                SolarPlusIntelbrasInverterInvertersSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_dataloggers":
-            sensors.append(
-                SolarPlusIntelbrasInverterDataloggersSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_alerts":
-            sensors.append(
-                SolarPlusIntelbrasInverterAlertsSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_today_alerts":
-            sensors.append(
-                SolarPlusIntelbrasInverterTodayAlertsSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_price":
-            sensors.append(
-                SolarPlusIntelbrasInverterPriceSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_capacity_installed":
-            sensors.append(
-                SolarPlusIntelbrasInverterCapacityInstalledSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_modules_amount":
-            sensors.append(
-                SolarPlusIntelbrasInverterModulesAmountSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_status":
-            sensors.append(
-                SolarPlusIntelbrasInverterStatusSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_offgrid":
-            sensors.append(
-                SolarPlusIntelbrasInverterOffgridSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_last_record":
-            sensors.append(
-                SolarPlusIntelbrasInverterLastRecordSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_datalogger_model_id":
-            sensors.append(
-                SolarPlusIntelbrasDataloggerModelIDSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif (
-            entity_description.key == "solar_plus_intelbras_datalogger_firmware_version"
-        ):
-            sensors.append(
-                SolarPlusIntelbrasDataloggerFirmwareVersionSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_datalogger_last_record":
-            sensors.append(
-                SolarPlusIntelbrasDataloggerLastRecordSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_datalogger_mac_address":
-            sensors.append(
-                SolarPlusIntelbrasDataloggerMacAddressSensor(
-                    coordinator=entry.runtime_data.coordinator,
-                    entity_description=entity_description,
-                )
-            )
-        elif entity_description.key == "solar_plus_intelbras_datalogger_rssi":
-            sensors.append(
-                SolarPlusIntelbrasDataloggerRssiSensor(
+                sensor_class(
                     coordinator=entry.runtime_data.coordinator,
                     entity_description=entity_description,
                 )
@@ -347,9 +197,7 @@ async def async_setup_entry(  # noqa:  PLR0912
     async_add_entities(sensors)
 
 
-class SolarPlusIntelbrasInverterEnergyTodaySensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterEnergyTodaySensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Energy Today Sensor class."""
 
     def __init__(
@@ -401,9 +249,7 @@ class SolarPlusIntelbrasInverterEnergyTodaySensor(
         return self.coordinator.data["rows"][0]["plant"]["metrics"]["energyToday"]
 
 
-class SolarPlusIntelbrasInverterTodayEconomySensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterTodayEconomySensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Today Economy Sensor class."""
 
     def __init__(
@@ -427,9 +273,7 @@ class SolarPlusIntelbrasInverterTodayEconomySensor(
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2)
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -454,14 +298,10 @@ class SolarPlusIntelbrasInverterTodayEconomySensor(
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2)
 
 
-class SolarPlusIntelbrasInverterEnergyTotalSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterEnergyTotalSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Energy Total Sensor class."""
 
     def __init__(
@@ -513,9 +353,7 @@ class SolarPlusIntelbrasInverterEnergyTotalSensor(
         return self.coordinator.data["rows"][0]["plant"]["metrics"]["energyTotal"]
 
 
-class SolarPlusIntelbrasInverterTotalEconomySensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterTotalEconomySensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Total Economy Sensor class."""
 
     def __init__(
@@ -539,9 +377,7 @@ class SolarPlusIntelbrasInverterTotalEconomySensor(
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"], 2)
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -566,14 +402,10 @@ class SolarPlusIntelbrasInverterTotalEconomySensor(
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"], 2)
 
 
-class SolarPlusIntelbrasInverterCurrentPowerSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterCurrentPowerSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Current Power Sensor class."""
 
     def __init__(
@@ -625,9 +457,7 @@ class SolarPlusIntelbrasInverterCurrentPowerSensor(
         return self.coordinator.data["rows"][0]["plant"]["metrics"]["currentPower"]
 
 
-class SolarPlusIntelbrasInverterEconomyOfLast30Sensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Economy Of Last 30 Days Sensor class."""
 
     def __init__(
@@ -651,9 +481,7 @@ class SolarPlusIntelbrasInverterEconomyOfLast30Sensor(
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2)
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -678,14 +506,10 @@ class SolarPlusIntelbrasInverterEconomyOfLast30Sensor(
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["economyOfLast30"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["economyOfLast30"], 2)
 
 
-class SolarPlusIntelbrasInverterYearEconomySensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterYearEconomySensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Year Economy Sensor class."""
 
     def __init__(
@@ -709,9 +533,7 @@ class SolarPlusIntelbrasInverterYearEconomySensor(
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"], 2)
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -736,14 +558,10 @@ class SolarPlusIntelbrasInverterYearEconomySensor(
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"], 2)
 
 
-class SolarPlusIntelbrasInverterEnergyOfLast30Sensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterEnergyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Energy Of Last 30 Days Sensor class."""
 
     def __init__(
@@ -819,9 +637,7 @@ class SolarPlusIntelbrasInverterSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorE
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"], 2)
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -846,14 +662,10 @@ class SolarPlusIntelbrasInverterSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorE
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"], 2)
 
 
-class SolarPlusIntelbrasInverterSavedTreesSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterSavedTreesSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Saved Trees Sensor class."""
 
     def __init__(
@@ -877,9 +689,7 @@ class SolarPlusIntelbrasInverterSavedTreesSensor(
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"], 2)
 
     @property
     def state_class(self) -> str:
@@ -889,9 +699,7 @@ class SolarPlusIntelbrasInverterSavedTreesSensor(
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"], 2
-        )
+        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"], 2)
 
 
 class SolarPlusIntelbrasInverterSavedCoalSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -974,9 +782,7 @@ class SolarPlusIntelbrasInverterInvertersSensor(SolarPlusIntelbrasEntity, Sensor
         return self.coordinator.data["rows"][0]["plant"]["components"]["inverters"]
 
 
-class SolarPlusIntelbrasInverterDataloggersSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterDataloggersSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Dataloggers Sensor class."""
 
     def __init__(
@@ -1050,9 +856,7 @@ class SolarPlusIntelbrasInverterAlertsSensor(SolarPlusIntelbrasEntity, SensorEnt
         return self.coordinator.data["rows"][0]["plant"]["components"]["alerts"]
 
 
-class SolarPlusIntelbrasInverterTodayAlertsSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterTodayAlertsSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Today Alerts Sensor class."""
 
     def __init__(
@@ -1141,9 +945,7 @@ class SolarPlusIntelbrasInverterPriceSensor(SolarPlusIntelbrasEntity, SensorEnti
         return round(self.coordinator.data["rows"][0]["plant"]["price"], 2)
 
 
-class SolarPlusIntelbrasInverterCapacityInstalledSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterCapacityInstalledSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Capacity Installed Sensor class."""
 
     def __init__(
@@ -1180,9 +982,7 @@ class SolarPlusIntelbrasInverterCapacityInstalledSensor(
         return self.coordinator.data["rows"][0]["plant"]["capacityInstalled"]
 
 
-class SolarPlusIntelbrasInverterModulesAmountSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterModulesAmountSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Modules Amount Sensor class."""
 
     def __init__(
@@ -1293,9 +1093,7 @@ class SolarPlusIntelbrasInverterOffgridSensor(SolarPlusIntelbrasEntity, SensorEn
         return self.coordinator.data["rows"][0]["plant"]["offgrid"]
 
 
-class SolarPlusIntelbrasInverterLastRecordSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasInverterLastRecordSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Inverter Last Record Sensor class."""
 
     def __init__(
@@ -1368,9 +1166,7 @@ class SolarPlusIntelbrasDataloggerModelIDSensor(SolarPlusIntelbrasEntity, Sensor
         return self.coordinator.data["rows"][0]["datalogger"]["dataloggerModelID"]
 
 
-class SolarPlusIntelbrasDataloggerFirmwareVersionSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasDataloggerFirmwareVersionSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Datalogger Firmware Version Sensor class."""
 
     def __init__(
@@ -1406,9 +1202,7 @@ class SolarPlusIntelbrasDataloggerFirmwareVersionSensor(
         return self.coordinator.data["rows"][0]["datalogger"]["firmwareVersion"]
 
 
-class SolarPlusIntelbrasDataloggerLastRecordSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasDataloggerLastRecordSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Datalogger Last Record Sensor class."""
 
     def __init__(
@@ -1444,9 +1238,7 @@ class SolarPlusIntelbrasDataloggerLastRecordSensor(
         return self.coordinator.data["rows"][0]["datalogger"]["last_record"]
 
 
-class SolarPlusIntelbrasDataloggerMacAddressSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
+class SolarPlusIntelbrasDataloggerMacAddressSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Datalogger MAC Address Sensor class."""
 
     def __init__(

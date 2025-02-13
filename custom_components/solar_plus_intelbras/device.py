@@ -1,4 +1,4 @@
-from homeassistant.helpers.entity import DeviceInfo
+from homeassistant.helpers.device_registry import DeviceInfo
 
 
 class InverterDevice:

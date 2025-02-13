@@ -9,9 +9,7 @@ from .const import ATTRIBUTION, DOMAIN
 from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
 
 
-class SolarPlusIntelbrasEntity(
-    CoordinatorEntity[SolarPlusIntelbrasDataUpdateCoordinator]
-):
+class SolarPlusIntelbrasEntity(CoordinatorEntity[SolarPlusIntelbrasDataUpdateCoordinator]):
     """SolarPlusIntelbrasEntity class."""
 
     _attr_attribution = ATTRIBUTION
