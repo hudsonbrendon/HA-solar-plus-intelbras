@@ -51,17 +51,26 @@ To authenticate, use the same email used at [https://solarplus.intelbras.com.br/
 
 ![plus](plus.png)
 
+- 1 - your plant_id;
+- 2 - your token "plus".
+
 ## Usage
 
 Add inversors via Integrations (search for `Solar Plus Intelbras`) in Home Assistant UI. You can also simply click the button below if you have MyHomeAssistant redirects set up.
 
 [![Open your Home Assistant instance and start setting up a new integration.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=solar_plus_intelbras)
 
-## Sensors
+## Devices
 
-This custom component creates the following sensors:
+This custom component creates the following devices:
 
-![example](example.png)
+### Inverter
+
+![inverter](inverter.png)
+
+### Datalogger
+
+![datalogger](datalogger.png)
 
 # Debugging
 
