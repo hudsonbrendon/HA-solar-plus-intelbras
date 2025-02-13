@@ -1482,44 +1482,6 @@ class SolarPlusIntelbrasDataloggerMacAddressSensor(
         return self.coordinator.data["rows"][0]["datalogger"]["macAddress"]
 
 
-class SolarPlusIntelbrasDataloggerMacAddressSensor(
-    SolarPlusIntelbrasEntity, SensorEntity
-):
-    """Solar Plus Intelbras Datalogger MAC Address Sensor class."""
-
-    def __init__(
-        self,
-        coordinator: SolarPlusIntelbrasDataUpdateCoordinator,
-        entity_description: SensorEntityDescription,
-    ) -> None:
-        """Initialize the sensor class."""
-        super().__init__(coordinator)
-        self.entity_description = entity_description
-        self._attr_unique_id = entity_description.key
-        self._attr_name = entity_description.name
-        self.entity_id = f"sensor.{entity_description.key}"
-        self._datalogger_device = DataloggerDevice(
-            identifier=f"{coordinator.config_entry.entry_id}_datalogger",
-            name="Datalogger",
-        )
-        self._attr_device_info = self._datalogger_device.device_info
-
-    @property
-    def native_value(self) -> str | None:
-        """Return the native value of the sensor."""
-        return self.coordinator.data["rows"][0]["datalogger"]["macAddress"]
-
-    @property
-    def state_class(self) -> str:
-        """Return the state class of the sensor."""
-        return "total"
-
-    @property
-    def state(self) -> str:
-        """Return the state of the sensor."""
-        return self.coordinator.data["rows"][0]["datalogger"]["macAddress"]
-
-
 class SolarPlusIntelbrasDataloggerRssiSensor(SolarPlusIntelbrasEntity, SensorEntity):
     """Solar Plus Intelbras Datalogger RSSI Sensor class."""
 
