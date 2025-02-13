@@ -44,11 +44,13 @@ class SolarPlusIntelbrasApiClient:
         self,
         email: str,
         plus: str,
+        plant_id: str,
         session: aiohttp.ClientSession,
     ) -> None:
         """Sample API Client."""
         self._email = email
         self._plus = plus
+        self._plant_id = plant_id
         self._session = session
 
     async def async_login(self) -> Any:
@@ -69,7 +71,7 @@ class SolarPlusIntelbrasApiClient:
         """Get data from the API."""
         return await self._api_wrapper(
             method="get",
-            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants",
+            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/inverters?limit=20&page=1",
             headers={
                 "Authorization": f"Bearer {await self.async_get_token()}",
                 "plus": self._plus,

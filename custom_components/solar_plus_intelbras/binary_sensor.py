@@ -9,6 +9,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
+from homeassistant.helpers.device_registry import DeviceInfo
 
 from .entity import SolarPlusIntelbrasEntity
 
@@ -54,10 +55,15 @@ class SolarPlusIntelbrasBinarySensor(SolarPlusIntelbrasEntity, BinarySensorEntit
         """Initialize the binary_sensor class."""
         super().__init__(coordinator)
         self.entity_description = entity_description
-        self.entity_description = entity_description
         self._attr_unique_id = entity_description.key
         self._attr_name = entity_description.name
         self.entity_id = f"binary_sensor.{entity_description.key}"
+        self._attr_device_info = DeviceInfo(
+            identifiers={(coordinator.config_entry.entry_id,)},
+            name="Inverter",
+            manufacturer="Intelbras",
+            model="Inverter",
+        )
 
     @property
     def is_on(self) -> bool:

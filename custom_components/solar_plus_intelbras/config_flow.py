@@ -15,12 +15,13 @@ from .api import (
     SolarPlusIntelbrasApiClientCommunicationError,
     SolarPlusIntelbrasApiClientError,
 )
-from .const import CONF_EMAIL, CONF_PLUS, DOMAIN, LOGGER
+from .const import CONF_EMAIL, CONF_PLANT_ID, CONF_PLUS, DOMAIN, LOGGER
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
         vol.Required(CONF_EMAIL): cv.string,
         vol.Required(CONF_PLUS): cv.string,
+        vol.Required(CONF_PLANT_ID): cv.string,
     }
 )
 
@@ -41,6 +42,7 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 await self._test_credentials(
                     email=user_input[CONF_EMAIL],
                     plus=user_input[CONF_PLUS],
+                    plant_id=user_input[CONF_PLANT_ID],
                 )
             except SolarPlusIntelbrasApiClientAuthenticationError as exception:
                 LOGGER.warning(exception)
@@ -74,16 +76,25 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                             type=selector.TextSelectorType.PASSWORD,
                         ),
                     ),
+                    vol.Required(
+                        CONF_PLANT_ID,
+                        default=(user_input or {}).get(CONF_PLANT_ID, vol.UNDEFINED),
+                    ): selector.TextSelector(
+                        selector.TextSelectorConfig(
+                            type=selector.TextSelectorType.TEXT,
+                        ),
+                    ),
                 },
             ),
             errors=_errors,
         )
 
-    async def _test_credentials(self, email: str, plus: str) -> None:
+    async def _test_credentials(self, email: str, plus: str, plant_id: str) -> None:
         """Validate credentials."""
         client = SolarPlusIntelbrasApiClient(
             email=email,
             plus=plus,
+            plant_id=plant_id,
             session=async_create_clientsession(self.hass),
         )
         await client.async_get_data()
