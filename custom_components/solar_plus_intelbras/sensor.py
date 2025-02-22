@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity import EntityCategory
 
 from .device import DataloggerDevice  # Import DataloggerDevice
 from .entity import SolarPlusIntelbrasEntity
@@ -77,11 +78,13 @@ ENTITY_DESCRIPTIONS = (
         key="solar_plus_intelbras_inverters",
         name="Inverters",
         icon="mdi:server-minus",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_dataloggers",
         name="Dataloggers",
         icon="mdi:server",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_alerts",
@@ -102,26 +105,31 @@ ENTITY_DESCRIPTIONS = (
         key="solar_plus_intelbras_capacity_installed",
         name="Capacity Installed",
         icon="mdi:solar-panel-large",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_modules_amount",
         name="Modules Amount",
         icon="mdi:solar-panel-large",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_status",
         name="Status",
         icon="mdi:check-circle",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_offgrid",
         name="Offgrid",
         icon="mdi:solar-panel",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_last_record",
         name="Last Record",
         icon="mdi:clock-time-three",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_datalogger_model_id",
@@ -132,18 +140,26 @@ ENTITY_DESCRIPTIONS = (
         key="solar_plus_intelbras_datalogger_firmware_version",
         name="Firmware Version",
         icon="mdi:select-inverse",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_datalogger_last_record",
         name="Last Record",
         icon="mdi:clock-time-three",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_datalogger_mac_address",
         name="MAC Address",
         icon="mdi:network",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
-    SensorEntityDescription(key="solar_plus_intelbras_datalogger_rssi", name="RSSI", icon="mdi:wifi"),
+    SensorEntityDescription(
+        key="solar_plus_intelbras_datalogger_rssi",
+        name="RSSI",
+        icon="mdi:wifi",
+        entity_category=EntityCategory.DIAGNOSTIC,
+    ),
 )
 
 
