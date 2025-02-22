@@ -10,6 +10,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntityDescription,
 )
 from homeassistant.helpers.device_registry import DeviceInfo
+from homeassistant.helpers.entity import EntityCategory
 
 from .entity import SolarPlusIntelbrasEntity
 
@@ -25,6 +26,7 @@ ENTITY_DESCRIPTIONS = (
         key="solar_plus_intelbras_online_inverter",
         name="Inverter",
         device_class=BinarySensorDeviceClass.CONNECTIVITY,
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
 )
 
