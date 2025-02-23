@@ -30,7 +30,7 @@ If the button above doesn't work, add `https://github.com/hudsonbrendon/HA-solar
 
 ## Configuration
 
-Adding Drivvo to your Home Assistant instance can be done via the UI using this button:
+Adding Solar Plus Intelbras to your Home Assistant instance can be done via the UI using this button:
 
 [![image](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start?domain=solar_plus_intelbras)
 
@@ -74,7 +74,7 @@ This custom component creates the following devices:
 
 # Debugging
 
-To enable debug for Drivvo integration, add following to your configuration.yaml:
+To enable debug for Solar Plus Intelbras integration, add following to your configuration.yaml:
 
 ```yml
 logger:
