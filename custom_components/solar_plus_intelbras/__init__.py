@@ -89,7 +89,7 @@ async def async_reload_entry(
     await async_setup_entry(hass, entry)
 
 
-async def async_setup(hass, config):
+async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up the Solar Plus Intelbras component."""
     # Initialize the dictionary for the domain if it doesn't exist
     if DOMAIN not in hass.data:
@@ -99,7 +99,7 @@ async def async_setup(hass, config):
     hass.data[DOMAIN]["notifier"] = SolarPlusIntelbrasNotifier(hass)
 
     # Register service to send custom alerts
-    async def handle_send_alert(call):
+    async def handle_send_alert(call: vol.Schema) -> dict:
         """Handle the service call."""
         message = call.data.get(ATTR_MESSAGE, "")
         title = call.data.get(ATTR_TITLE, NOTIFICATION_TITLE_DEFAULT)
