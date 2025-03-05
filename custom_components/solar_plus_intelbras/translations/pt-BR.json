@@ -15,5 +15,33 @@
             "connection": "Não foi possível conectar ao servidor.",
             "unknown": "Ocorreu um erro desconhecido."
         }
+    },
+    "services": {
+        "send_alert": {
+            "name": "Enviar Alerta",
+            "description": "Envia uma notificação de alerta para o Solar Plus Intelbras",
+            "fields": {
+                "message": {
+                    "name": "Mensagem",
+                    "description": "Conteúdo da mensagem"
+                },
+                "title": {
+                    "name": "Título",
+                    "description": "Título da notificação"
+                },
+                "notification_id": {
+                    "name": "ID da Notificação",
+                    "description": "ID único para a notificação (gerado automaticamente se não fornecido)"
+                },
+                "priority": {
+                    "name": "Prioridade",
+                    "description": "Nível de prioridade da notificação"
+                }
+            }
+        },
+        "check_notifications": {
+            "name": "Verificar Notificações",
+            "description": "Verifica manualmente novas notificações da API Intelbras"
+        }
     }
 }

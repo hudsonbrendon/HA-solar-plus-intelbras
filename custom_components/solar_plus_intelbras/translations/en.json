@@ -15,5 +15,33 @@
             "connection": "Unable to connect to the server.",
             "unknown": "Unknown error occurred."
         }
+    },
+    "services": {
+        "send_alert": {
+            "name": "Send Alert",
+            "description": "Send an alert notification for Solar Plus Intelbras",
+            "fields": {
+                "message": {
+                    "name": "Message",
+                    "description": "Content of the message"
+                },
+                "title": {
+                    "name": "Title",
+                    "description": "Title of the notification"
+                },
+                "notification_id": {
+                    "name": "Notification ID",
+                    "description": "Unique ID for the notification (auto-generated if not provided)"
+                },
+                "priority": {
+                    "name": "Priority",
+                    "description": "Priority level of the notification"
+                }
+            }
+        },
+        "check_notifications": {
+            "name": "Check Notifications",
+            "description": "Manually check for new notifications from the Intelbras API"
+        }
     }
 }

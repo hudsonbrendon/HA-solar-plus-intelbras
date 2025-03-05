@@ -16,17 +16,22 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
 from .api import SolarPlusIntelbrasApiClient
-from .const import CONF_EMAIL, CONF_PLANT_ID, CONF_PLUS, DOMAIN
-from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
-from .data import SolarPlusIntelbrasData
-from .notify import (
+from .const import (
     ATTR_MESSAGE,
     ATTR_NOTIFICATION_ID,
     ATTR_PRIORITY,
     ATTR_TITLE,
+    CONF_EMAIL,
+    CONF_PLANT_ID,
+    CONF_PLUS,
+    DOMAIN,
+    PRIORITY_INFO,
+)
+from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
+from .data import SolarPlusIntelbrasData
+from .notify import (
     NOTIFICATION_TITLE_DEFAULT,
     PRIORITY_CRITICAL,
-    PRIORITY_INFO,
     PRIORITY_NORMAL,
     PRIORITY_WARNING,
     SolarPlusIntelbrasNotifier,
@@ -52,16 +57,25 @@ async def async_setup_entry(
     coordinator = SolarPlusIntelbrasDataUpdateCoordinator(
         hass=hass,
     )
+
+    client = SolarPlusIntelbrasApiClient(
+        email=entry.data[CONF_EMAIL],
+        plus=entry.data[CONF_PLUS],
+        plant_id=entry.data[CONF_PLANT_ID],
+        session=async_get_clientsession(hass),
+    )
+
     entry.runtime_data = SolarPlusIntelbrasData(
-        client=SolarPlusIntelbrasApiClient(
-            email=entry.data[CONF_EMAIL],
-            plus=entry.data[CONF_PLUS],
-            plant_id=entry.data[CONF_PLANT_ID],
-            session=async_get_clientsession(hass),
-        ),
+        client=client,
         integration=async_get_loaded_integration(hass, entry.domain),
         coordinator=coordinator,
     )
+
+    # Register the API client with the notifier for notifications
+    if "notifier" in hass.data[DOMAIN]:
+        notifier = hass.data[DOMAIN]["notifier"]
+        notifier.register_api_client(client)
+        await notifier.async_setup()
 
     # https://developers.home-assistant.io/docs/integration_fetching_data#coordinated-single-api-poll-for-data-for-all-entities
     await coordinator.async_config_entry_first_refresh()
@@ -96,7 +110,8 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         hass.data[DOMAIN] = {}
 
     # Initialize the notifier
-    hass.data[DOMAIN]["notifier"] = SolarPlusIntelbrasNotifier(hass)
+    notifier = SolarPlusIntelbrasNotifier(hass)
+    hass.data[DOMAIN]["notifier"] = notifier
 
     # Register service to send custom alerts
     async def handle_send_alert(call: vol.Schema) -> dict:
@@ -106,13 +121,13 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         notification_id = call.data.get(ATTR_NOTIFICATION_ID)
         priority = call.data.get(ATTR_PRIORITY, PRIORITY_NORMAL)
 
-        notifier = hass.data[DOMAIN]["notifier"]
         notification_id = notifier.send_alert(
             message=message, title=title, notification_id=notification_id, priority=priority
         )
 
         return {"notification_id": notification_id}
 
+    # Service for sending alerts
     hass.services.async_register(
         DOMAIN,
         "send_alert",
@@ -127,6 +142,14 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
                 ),
             }
         ),
+    )
+
+    # Service for manually checking notifications
+    hass.services.async_register(
+        DOMAIN,
+        "check_notifications",
+        notifier.async_check_notifications_service,
+        schema=vol.Schema({}),
     )
 
     # Return True to indicate successful setup
