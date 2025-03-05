@@ -95,6 +95,7 @@ ENTITY_DESCRIPTIONS = (
         key="solar_plus_intelbras_today_alerts",
         name="Today Alerts",
         icon="mdi:alert",
+        entity_category=EntityCategory.DIAGNOSTIC,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_price",
