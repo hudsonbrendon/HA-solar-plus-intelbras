@@ -4,10 +4,11 @@ import logging
 import time
 
 from homeassistant.components.persistent_notification import create as create_notification
+from homeassistant.core import HomeAssistant
 
 _LOGGER = logging.getLogger(__name__)
 
-NOTIFICATION_ID_FORMAT = "solar_plus_intelbras_{}"
+NOTIFICATION_ID_FORMAT = "solar_plus_intelbras"
 NOTIFICATION_TITLE_DEFAULT = "Solar Plus Intelbras Alert"
 
 ATTR_MESSAGE = "message"
@@ -24,17 +25,21 @@ PRIORITY_INFO = "info"
 class SolarPlusIntelbrasNotifier:
     """Class to handle notifications for Solar Plus Intelbras."""
 
-    def __init__(self, hass):
+    def __init__(self, hass: HomeAssistant) -> None:
         """Initialize the notifier."""
         self.hass = hass
 
     def send_alert(
-        self, message, title=NOTIFICATION_TITLE_DEFAULT, notification_id=None, priority=PRIORITY_NORMAL, entity_id=None
-    ):
+        self,
+        message: str,
+        title: str = NOTIFICATION_TITLE_DEFAULT,
+        notification_id: str | None = None,
+        priority: str = PRIORITY_NORMAL,
+    ) -> str:
         """Send an alert notification."""
         if notification_id is None:
             # Create a unique ID using timestamp
-            notification_id = NOTIFICATION_ID_FORMAT.format(int(time.time()))
+            notification_id = f"{NOTIFICATION_ID_FORMAT}_{int(time.time())}"
 
         # Create the notification
         _LOGGER.debug("Sending notification: %s - %s", title, message)
@@ -54,7 +59,7 @@ class SolarPlusIntelbrasNotifier:
 
         return notification_id
 
-    def send_system_status_alert(self, status, details=None):
+    def send_system_status_alert(self, status: str, details: str | None = None) -> str:
         """Send a system status notification."""
         message = f"System Status: {status}"
         if details:
@@ -69,11 +74,11 @@ class SolarPlusIntelbrasNotifier:
         return self.send_alert(
             message=message,
             title="Solar Plus Intelbras System Status",
-            notification_id=NOTIFICATION_ID_FORMAT.format("system_status"),
+            notification_id=f"{NOTIFICATION_ID_FORMAT}_system_status",
             priority=priority,
         )
 
-    def clear_notification(self, notification_id):
+    def clear_notification(self, notification_id: str) -> None:
         """Clear a specific notification."""
         service_data = {"notification_id": notification_id}
         self.hass.services.call("persistent_notification", "dismiss", service_data)
