@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import socket
+from datetime import date
 from typing import Any
 
 import aiohttp
@@ -52,6 +53,7 @@ class SolarPlusIntelbrasApiClient:
         self._plus = plus
         self._plant_id = plant_id
         self._session = session
+        self._access_token = None
 
     async def async_login(self) -> Any:
         """Login to the API."""
@@ -62,20 +64,46 @@ class SolarPlusIntelbrasApiClient:
             headers={"plus": self._plus},
         )
 
-    async def async_get_token(self) -> str:
+    async def async_get_token(self) -> None:
         """Get token from the API."""
         response = await self.async_login()
-        return response["accessToken"]["accessJWT"]
+        self._access_token = response["accessToken"]["accessJWT"]
+
+    async def async_ensure_token(self) -> None:
+        """Ensure that we have a valid access token."""
+        if self._access_token is None:
+            await self.async_get_token()
 
     async def async_get_data(self) -> Any:
         """Get data from the API."""
+        await self.async_ensure_token()
         return await self._api_wrapper(
             method="get",
             url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/inverters?limit=20&page=1",
             headers={
-                "Authorization": f"Bearer {await self.async_get_token()}",
+                "Authorization": f"Bearer {self._access_token}",
                 "plus": self._plus,
             },
+        )
+
+    async def async_get_notifications(self, start_date: None | date = None, end_date: None | date = None) -> dict:
+        """Get notifications from the API."""
+        await self.async_ensure_token()
+
+        if start_date is None:
+            start_date = date.today()  # noqa: DTZ011
+        if end_date is None:
+            end_date = start_date
+
+        start_date_str = start_date.strftime("%Y-%m-%d")
+        end_date_str = end_date.strftime("%Y-%m-%d")
+
+        url = f"{SOLAR_PLUS_INTELBRAS_API_URL}/user/notifications?page=1&start_date={start_date_str}&end_date={end_date_str}&pendings=true"  # noqa: E501
+
+        return await self._api_wrapper(
+            method="get",
+            url=url,
+            headers={"Authorization": f"Bearer {self._access_token}", "plus": self._plus},
         )
 
     async def _api_wrapper(
