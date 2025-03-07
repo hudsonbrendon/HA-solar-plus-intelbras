@@ -23,56 +23,67 @@ ENTITY_DESCRIPTIONS = (
         key="solar_plus_intelbras_energy_today",
         name="Energy Today",
         icon="mdi:solar-panel",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_today_economy",
         name="Today Economy",
         icon="mdi:currency-usd",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_energy_total",
         name="Total",
         icon="mdi:solar-panel",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_total_economy",
         name="Total Economy",
         icon="mdi:currency-usd",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_current_power",
         name="Current Power",
         icon="mdi:solar-panel-large",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_economy_of_last_30",
         name="Economy of Last 30 Days",
         icon="mdi:currency-usd",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_year_economy",
         name="Year Economy",
         icon="mdi:currency-usd",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_energy_of_last_30",
         name="Energy of Last 30 Days",
         icon="mdi:solar-panel",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_saved_co2",
         name="Saved Co2",
         icon="mdi:molecule-co2",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_saved_trees",
         name="Saved Trees",
         icon="mdi:tree",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_saved_coal",
         name="Saved Coal",
         icon="mdi:grill",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_inverters",
@@ -101,6 +112,7 @@ ENTITY_DESCRIPTIONS = (
         key="solar_plus_intelbras_price",
         name="Price",
         icon="mdi:currency-usd",
+        suggested_display_precision=2,
     ),
     SensorEntityDescription(
         key="solar_plus_intelbras_capacity_installed",
@@ -290,7 +302,7 @@ class SolarPlusIntelbrasInverterTodayEconomySensor(SolarPlusIntelbrasEntity, Sen
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -315,7 +327,7 @@ class SolarPlusIntelbrasInverterTodayEconomySensor(SolarPlusIntelbrasEntity, Sen
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"]
 
 
 class SolarPlusIntelbrasInverterEnergyTotalSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -394,7 +406,7 @@ class SolarPlusIntelbrasInverterTotalEconomySensor(SolarPlusIntelbrasEntity, Sen
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -419,7 +431,7 @@ class SolarPlusIntelbrasInverterTotalEconomySensor(SolarPlusIntelbrasEntity, Sen
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["totalEconomy"]
 
 
 class SolarPlusIntelbrasInverterCurrentPowerSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -498,7 +510,7 @@ class SolarPlusIntelbrasInverterEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, 
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["todayEconomy"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -523,7 +535,7 @@ class SolarPlusIntelbrasInverterEconomyOfLast30Sensor(SolarPlusIntelbrasEntity, 
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["economyOfLast30"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["economyOfLast30"]
 
 
 class SolarPlusIntelbrasInverterYearEconomySensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -550,7 +562,7 @@ class SolarPlusIntelbrasInverterYearEconomySensor(SolarPlusIntelbrasEntity, Sens
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -575,7 +587,7 @@ class SolarPlusIntelbrasInverterYearEconomySensor(SolarPlusIntelbrasEntity, Sens
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["yearEconomy"]
 
 
 class SolarPlusIntelbrasInverterEnergyOfLast30Sensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -654,7 +666,7 @@ class SolarPlusIntelbrasInverterSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorE
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -679,7 +691,7 @@ class SolarPlusIntelbrasInverterSavedCo2Sensor(SolarPlusIntelbrasEntity, SensorE
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCo2"]
 
 
 class SolarPlusIntelbrasInverterSavedTreesSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -706,7 +718,7 @@ class SolarPlusIntelbrasInverterSavedTreesSensor(SolarPlusIntelbrasEntity, Senso
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"]
 
     @property
     def state_class(self) -> str:
@@ -716,7 +728,7 @@ class SolarPlusIntelbrasInverterSavedTreesSensor(SolarPlusIntelbrasEntity, Senso
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["savedTrees"]
 
 
 class SolarPlusIntelbrasInverterSavedCoalSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -743,10 +755,7 @@ class SolarPlusIntelbrasInverterSavedCoalSensor(SolarPlusIntelbrasEntity, Sensor
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCoal"],
-            2,
-        )
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCoal"]
 
     @property
     def state_class(self) -> str:
@@ -756,10 +765,7 @@ class SolarPlusIntelbrasInverterSavedCoalSensor(SolarPlusIntelbrasEntity, Sensor
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(
-            self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCoal"],
-            2,
-        )
+        return self.coordinator.data["rows"][0]["plant"]["metrics"]["savedCoal"]
 
 
 class SolarPlusIntelbrasInverterInvertersSensor(SolarPlusIntelbrasEntity, SensorEntity):
@@ -934,7 +940,7 @@ class SolarPlusIntelbrasInverterPriceSensor(SolarPlusIntelbrasEntity, SensorEnti
     @property
     def native_value(self) -> str | None:
         """Return the native value of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["price"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["price"]
 
     @property
     def native_unit_of_measurement(self) -> str:
@@ -959,7 +965,7 @@ class SolarPlusIntelbrasInverterPriceSensor(SolarPlusIntelbrasEntity, SensorEnti
     @property
     def state(self) -> str:
         """Return the state of the sensor."""
-        return round(self.coordinator.data["rows"][0]["plant"]["price"], 2)
+        return self.coordinator.data["rows"][0]["plant"]["price"]
 
 
 class SolarPlusIntelbrasInverterCapacityInstalledSensor(SolarPlusIntelbrasEntity, SensorEntity):
