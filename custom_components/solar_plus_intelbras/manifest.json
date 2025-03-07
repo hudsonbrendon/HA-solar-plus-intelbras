@@ -8,5 +8,5 @@
   "documentation": "https://github.com/hudsonbrendon/HA-solar-plus-intelbras",
   "iot_class": "cloud_polling",
   "issue_tracker": "https://github.com/hudsonbrendon/HA-solar-plus-intelbras/issues",
-  "version": "0.4.1"
+  "version": "0.4.2"
 }
