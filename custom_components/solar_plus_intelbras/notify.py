@@ -94,17 +94,12 @@ class SolarPlusIntelbrasNotifier:
         if notification_id is None:
             notification_id = f"{NOTIFICATION_ID_FORMAT}_{int(time.time())}"
 
-        LOGGER.debug("Sending notification: %s - %s", title, message)
-
         if priority != PRIORITY_NORMAL:
             message = f"[{priority.upper()}] {message}"
 
-        # Create a persistent notification
         create_notification(self.hass, message=message, title=title, notification_id=notification_id)
 
-        # You can also send to other notification methods based on priority
         if priority == PRIORITY_CRITICAL:
-            # Could send to multiple services like mobile app, etc.
             service_data = {"message": f"{title}: {message}", "title": "CRITICAL ALERT"}
             self.hass.services.call("notify", "notify", service_data)
 
@@ -133,9 +128,7 @@ class SolarPlusIntelbrasNotifier:
         """Clear a specific notification."""
         service_data = {"notification_id": notification_id}
         self.hass.services.call("persistent_notification", "dismiss", service_data)
-        LOGGER.debug("Cleared notification: %s", notification_id)
 
     async def async_check_notifications_service(self, call: ServiceCall) -> None:  # noqa: ARG002
         """Service handler for manually checking notifications."""
-        LOGGER.debug("Manual check for notifications requested")
         await self._async_check_notifications()
