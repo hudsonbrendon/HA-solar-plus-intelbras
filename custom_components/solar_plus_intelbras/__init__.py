@@ -25,6 +25,7 @@ from .const import (
     CONF_PLANT_ID,
     CONF_PLUS,
     DOMAIN,
+    LOGGER,
     PRIORITY_INFO,
 )
 from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
@@ -105,15 +106,12 @@ async def async_reload_entry(
 
 async def async_setup(hass: HomeAssistant, config: dict) -> bool:
     """Set up the Solar Plus Intelbras component."""
-    # Initialize the dictionary for the domain if it doesn't exist
     if DOMAIN not in hass.data:
         hass.data[DOMAIN] = {}
 
-    # Initialize the notifier
     notifier = SolarPlusIntelbrasNotifier(hass)
     hass.data[DOMAIN]["notifier"] = notifier
 
-    # Register service to send custom alerts
     async def handle_send_alert(call: vol.Schema) -> dict:
         """Handle the service call."""
         message = call.data.get(ATTR_MESSAGE, "")
@@ -124,10 +122,10 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         notification_id = notifier.send_alert(
             message=message, title=title, notification_id=notification_id, priority=priority
         )
+        LOGGER.info("Created notification: %s", title)
 
         return {"notification_id": notification_id}
 
-    # Service for sending alerts
     hass.services.async_register(
         DOMAIN,
         "send_alert",
@@ -144,13 +142,10 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         ),
     )
 
-    # Service for manually checking notifications
     hass.services.async_register(
         DOMAIN,
         "check_notifications",
         notifier.async_check_notifications_service,
         schema=vol.Schema({}),
     )
-
-    # Return True to indicate successful setup
     return True

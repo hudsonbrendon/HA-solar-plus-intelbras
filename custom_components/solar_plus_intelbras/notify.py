@@ -92,13 +92,10 @@ class SolarPlusIntelbrasNotifier:
     ) -> str:
         """Send an alert notification."""
         if notification_id is None:
-            # Create a unique ID using timestamp
             notification_id = f"{NOTIFICATION_ID_FORMAT}_{int(time.time())}"
 
-        # Create the notification
         LOGGER.debug("Sending notification: %s - %s", title, message)
 
-        # Add priority to message if not normal
         if priority != PRIORITY_NORMAL:
             message = f"[{priority.upper()}] {message}"
 

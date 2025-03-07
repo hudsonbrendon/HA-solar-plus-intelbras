@@ -1319,7 +1319,7 @@ class SolarPlusIntelbrasDataloggerRssiSensor(SolarPlusIntelbrasEntity, SensorEnt
     @property
     def state_class(self) -> str:
         """Return the state class of the sensor."""
-        return "total_increasing"
+        return "total"
 
     @property
     def state(self) -> str:
