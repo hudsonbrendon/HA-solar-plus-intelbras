@@ -9,7 +9,7 @@ from typing import Any
 import aiohttp
 import async_timeout
 
-from .const import SOLAR_PLUS_INTELBRAS_API_URL
+from .const import LOGGER, SOLAR_PLUS_INTELBRAS_API_URL
 
 
 class SolarPlusIntelbrasApiClientError(Exception):
@@ -71,8 +71,8 @@ class SolarPlusIntelbrasApiClient:
 
     async def async_ensure_token(self) -> None:
         """Ensure that we have a valid access token."""
-        if self._access_token is None:
-            await self.async_get_token()
+        # if self._access_token is None:
+        await self.async_get_token()
 
     async def async_get_data(self) -> Any:
         """Get data from the API."""
@@ -116,6 +116,9 @@ class SolarPlusIntelbrasApiClient:
         """Get information from the API."""
         try:
             async with async_timeout.timeout(10):
+                LOGGER.debug(
+                    f"Fetching information from url: {url}, method: {method}, data: {data}, headers: {headers}"
+                )
                 response = await self._session.request(
                     method=method,
                     url=url,
