@@ -116,8 +116,6 @@ class SolarPlusIntelbrasApiClient:
         retry_count: int = 2,
     ) -> Any:
         """Get information from the API."""
-        last_exception = None
-
         for attempt in range(retry_count + 1):
             try:
                 # Aumentado o timeout de 10 para 30 segundos para evitar erros de timeout
@@ -132,7 +130,6 @@ class SolarPlusIntelbrasApiClient:
                     return await response.json()
 
             except TimeoutError as exception:
-                last_exception = exception
                 if attempt < retry_count:
                     wait_time = 2 * (attempt + 1)  # Backoff exponencial
                     LOGGER.warning(
@@ -148,7 +145,6 @@ class SolarPlusIntelbrasApiClient:
                     raise SolarPlusIntelbrasApiClientCommunicationError(msg) from exception
 
             except (aiohttp.ClientError, socket.gaierror) as exception:
-                last_exception = exception
                 if attempt < retry_count:
                     wait_time = 2 * (attempt + 1)  # Backoff exponencial
                     LOGGER.warning(
@@ -168,3 +164,6 @@ class SolarPlusIntelbrasApiClient:
                 raise SolarPlusIntelbrasApiClientError(
                     msg,
                 ) from exception
+
+        # Add explicit return statement at the end to satisfy the linter
+        return None
