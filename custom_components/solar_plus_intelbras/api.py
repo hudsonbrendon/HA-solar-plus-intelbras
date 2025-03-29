@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import socket
 from datetime import date
 from typing import Any
@@ -9,7 +10,7 @@ from typing import Any
 import aiohttp
 import async_timeout
 
-from .const import SOLAR_PLUS_INTELBRAS_API_URL
+from .const import LOGGER, SOLAR_PLUS_INTELBRAS_API_URL
 
 
 class SolarPlusIntelbrasApiClientError(Exception):
@@ -112,31 +113,58 @@ class SolarPlusIntelbrasApiClient:
         url: str,
         data: dict | None = None,
         headers: dict | None = None,
+        retry_count: int = 2,
     ) -> Any:
         """Get information from the API."""
-        try:
-            async with async_timeout.timeout(10):
-                response = await self._session.request(
-                    method=method,
-                    url=url,
-                    headers=headers,
-                    json=data,
-                )
-                _verify_response_or_raise(response)
-                return await response.json()
+        last_exception = None
 
-        except TimeoutError as exception:
-            msg = f"Timeout error fetching information - {exception}"
-            raise SolarPlusIntelbrasApiClientCommunicationError(
-                msg,
-            ) from exception
-        except (aiohttp.ClientError, socket.gaierror) as exception:
-            msg = f"Error fetching information - {exception}"
-            raise SolarPlusIntelbrasApiClientCommunicationError(
-                msg,
-            ) from exception
-        except Exception as exception:  # pylint: disable=broad-except
-            msg = f"Something really wrong happened! - {exception}"
-            raise SolarPlusIntelbrasApiClientError(
-                msg,
-            ) from exception
+        for attempt in range(retry_count + 1):
+            try:
+                # Aumentado o timeout de 10 para 30 segundos para evitar erros de timeout
+                async with async_timeout.timeout(30):
+                    response = await self._session.request(
+                        method=method,
+                        url=url,
+                        headers=headers,
+                        json=data,
+                    )
+                    _verify_response_or_raise(response)
+                    return await response.json()
+
+            except TimeoutError as exception:
+                last_exception = exception
+                if attempt < retry_count:
+                    wait_time = 2 * (attempt + 1)  # Backoff exponencial
+                    LOGGER.warning(
+                        "Timeout error on attempt %s of %s, retrying in %s seconds: %s",
+                        attempt + 1,
+                        retry_count + 1,
+                        wait_time,
+                        str(exception),
+                    )
+                    await asyncio.sleep(wait_time)
+                else:
+                    msg = f"Timeout error fetching information after {retry_count + 1} attempts - {exception}"
+                    raise SolarPlusIntelbrasApiClientCommunicationError(msg) from exception
+
+            except (aiohttp.ClientError, socket.gaierror) as exception:
+                last_exception = exception
+                if attempt < retry_count:
+                    wait_time = 2 * (attempt + 1)  # Backoff exponencial
+                    LOGGER.warning(
+                        "Connection error on attempt %s of %s, retrying in %s seconds: %s",
+                        attempt + 1,
+                        retry_count + 1,
+                        wait_time,
+                        str(exception),
+                    )
+                    await asyncio.sleep(wait_time)
+                else:
+                    msg = f"Error fetching information after {retry_count + 1} attempts - {exception}"
+                    raise SolarPlusIntelbrasApiClientCommunicationError(msg) from exception
+
+            except Exception as exception:  # pylint: disable=broad-except
+                msg = f"Something really wrong happened! - {exception}"
+                raise SolarPlusIntelbrasApiClientError(
+                    msg,
+                ) from exception
