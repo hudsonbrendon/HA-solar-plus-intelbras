@@ -78,14 +78,33 @@ class SolarPlusIntelbrasApiClient:
     async def async_get_data(self) -> Any:
         """Get data from the API."""
         await self.async_ensure_token()
-        return await self._api_wrapper(
+        headers = {
+            "Authorization": f"Bearer {self._access_token}",
+            "plus": self._plus,
+        }
+        inverters_task = self._api_wrapper(
             method="get",
             url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/inverters?limit=20&page=1",
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "plus": self._plus,
-            },
+            headers=headers,
         )
+        microinverters_task = self._api_wrapper(
+            method="get",
+            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/microinverters?limit=20&page=1",
+            headers=headers,
+        )
+        inverters_response, microinverters_response = await asyncio.gather(
+            inverters_task, microinverters_task
+        )
+
+        # Merge rows from both responses
+        inverters_rows = inverters_response.get("rows", []) if inverters_response else []
+        microinverters_rows = microinverters_response.get("rows", []) if microinverters_response else []
+
+        merged = inverters_response or {}
+        merged["rows"] = inverters_rows + microinverters_rows
+        merged["count"] = len(merged["rows"])
+
+        return merged
 
     async def async_get_notifications(self, start_date: None | date = None, end_date: None | date = None) -> dict:
         """Get notifications from the API."""
