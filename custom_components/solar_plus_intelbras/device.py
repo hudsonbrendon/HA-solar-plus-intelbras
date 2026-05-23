@@ -21,7 +21,7 @@ def inverter_device_info(entry_id: str, row: dict) -> DeviceInfo:
     """Return DeviceInfo for a single inverter row."""
     model = row.get("inverterModel") or {}
     return DeviceInfo(
-        identifiers={(DOMAIN, f"{entry_id}_inverter_{row['id']}")},
+        identifiers={(DOMAIN, f"{entry_id}_inverter_{row.get('id')}")},
         name=row.get("name") or "Inverter",
         manufacturer=model.get("manufacturer") or "Intelbras",
         model=model.get("pnManufacturer") or model.get("pnIntelbras") or "Inverter",
@@ -34,11 +34,11 @@ def datalogger_device_info(entry_id: str, row: dict) -> DeviceInfo:
     """Return DeviceInfo for the datalogger attached to an inverter row."""
     datalogger = row.get("datalogger") or {}
     return DeviceInfo(
-        identifiers={(DOMAIN, f"{entry_id}_datalogger_{datalogger['id']}")},
+        identifiers={(DOMAIN, f"{entry_id}_datalogger_{datalogger.get('id')}")},
         name="Datalogger",
         manufacturer="Intelbras",
         model="Datalogger",
         serial_number=datalogger.get("serialNumber"),
         sw_version=datalogger.get("firmwareVersion"),
-        via_device=(DOMAIN, f"{entry_id}_inverter_{row['id']}"),
+        via_device=(DOMAIN, f"{entry_id}_inverter_{row.get('id')}"),
     )

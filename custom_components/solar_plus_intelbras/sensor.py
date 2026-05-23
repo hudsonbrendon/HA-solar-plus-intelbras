@@ -68,12 +68,12 @@ class _BaseSensor(SolarPlusIntelbrasEntity, SensorEntity):
 
     entity_description: SolarPlusSensorEntityDescription
 
-    def _apply_currency(self) -> None:
-        """For monetary sensors, set the unit from the account currency."""
+    @property
+    def native_unit_of_measurement(self) -> str | None:
+        """Use the live account currency as the unit for monetary sensors."""
         if self.entity_description.device_class == SensorDeviceClass.MONETARY:
-            self._attr_native_unit_of_measurement = self.coordinator.data.get(
-                "currency", "BRL"
-            )
+            return self.coordinator.data.get("currency", "BRL")
+        return self.entity_description.native_unit_of_measurement
 
 
 class SolarPlusIntelbrasPlantSensor(_BaseSensor):
@@ -91,7 +91,6 @@ class SolarPlusIntelbrasPlantSensor(_BaseSensor):
         entry_id = coordinator.config_entry.entry_id
         self._attr_unique_id = f"{entry_id}_{description.key}"
         self._attr_device_info = plant_device_info(entry_id, plant_name)
-        self._apply_currency()
 
     @property
     def native_value(self) -> StateType:
@@ -112,7 +111,6 @@ class _RowSensor(_BaseSensor):
         super().__init__(coordinator)
         self.entity_description = description
         self._row_index = row_index
-        self._apply_currency()
 
     @property
     def _row(self) -> dict:
