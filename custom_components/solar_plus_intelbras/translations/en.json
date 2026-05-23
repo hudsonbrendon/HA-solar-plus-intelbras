@@ -37,7 +37,7 @@
     "config": {
         "step": {
             "user": {
-                "description": "If you need help with the configuration have a look here: https://github.com/hudsonbrendon/HA-solar-plus-intelbras",
+                "description": "Enter the email used on Solar Plus Intelbras, the \"plus\" token, and your plant ID.",
                 "data": {
                     "email": "Email",
                     "plus": "Plus",

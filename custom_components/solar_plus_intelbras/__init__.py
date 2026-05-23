@@ -46,6 +46,9 @@ PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,
 ]
 
+# This integration is configured via the UI and accepts no YAML config keys.
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
 
 # https://developers.home-assistant.io/docs/config_entries_index/#setting-up-an-entry
 async def async_setup_entry(
