@@ -1,0 +1,14 @@
+{
+  "user": {
+    "id": 6851,
+    "email": "test@email.com",
+    "name": "Test",
+    "preferences": { "currency": "BRL", "timezone": "-3" }
+  },
+  "accessToken": {
+    "exp": 1737175716,
+    "expAt": "2025-01-18 01:48:36",
+    "iat": 1737175416,
+    "accessJWT": "header.payload.signature"
+  }
+}

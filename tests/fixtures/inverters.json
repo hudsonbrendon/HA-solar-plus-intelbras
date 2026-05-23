@@ -1,0 +1,83 @@
+{
+  "limit": 20,
+  "page": 1,
+  "total_rows": 1,
+  "total_rows_in_this_page": 1,
+  "total_pages": 1,
+  "rows": [
+    {
+      "id": 2113,
+      "last_record": "2025-01-30T17:49:09.906454-03:00",
+      "name": "IONS-5K M5",
+      "serialNumber": "B1411309060",
+      "temperature": 40,
+      "online": false,
+      "status": "OFF",
+      "alerts": 5,
+      "todayAlerts": 0,
+      "energyToday": 25.8,
+      "energyTotal": 345.4,
+      "currentPower": 0,
+      "todayEconomy": 23.736,
+      "totalEconomy": 317.768,
+      "economyOfLast30": 317.124,
+      "energyOfLast30": 344.7,
+      "inverterModel": {
+        "manufacturer": "Sungrow",
+        "pnIntelbras": "IONS-5K M5",
+        "pnManufacturer": "SG5.0RS-L",
+        "quantity_of_mppt": 2,
+        "quantity_of_string": 2
+      },
+      "datalogger": {
+        "id": 1139,
+        "macAddress": "A24619D6405",
+        "serialNumber": "A24619D6405",
+        "rssi": -31,
+        "dataloggerModelID": 11,
+        "firmwareVersion": "1.0.0",
+        "status": false,
+        "last_record": "2025-01-30T17:49:10.311402-03:00"
+      },
+      "plant": {
+        "id": 3174,
+        "name": "Test Plant",
+        "street": "Rua Test",
+        "city": "Parnamirim",
+        "state": "RN",
+        "country": "BR",
+        "zip": "59155-810",
+        "latitude": -5.134442,
+        "longitude": -35.11916,
+        "online": false,
+        "offgrid": false,
+        "status": "WAITING",
+        "price": 0.92,
+        "capacityInstalled": 5,
+        "modulesAmount": 10,
+        "last_record": "2025-01-30T17:49:10.230651-03:00",
+        "metrics": {
+          "energyToday": 25.8,
+          "energyTotal": 345.4,
+          "currentPower": 4993,
+          "totalEconomy": 317.768,
+          "todayEconomy": 23.736,
+          "economyOfLast30": 317.124,
+          "yearEconomy": 0,
+          "energyOfLast30": 344.7,
+          "savedCo2": 117.643,
+          "savedTrees": 0.117,
+          "savedCoal": 0.138
+        },
+        "components": {
+          "inverters": 1,
+          "dataloggers": 1,
+          "modules": 0,
+          "alerts": 5,
+          "todayAlerts": 0,
+          "chargeControllers": 0
+        }
+      }
+    }
+  ]
+}
