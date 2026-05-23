@@ -1,0 +1,10 @@
+{
+  "data": {
+    "rows": [
+      { "year": "2025", "month": "1", "total": 292.4 },
+      { "year": "2025", "month": "2", "total": 0 }
+    ],
+    "total": 292.4
+  },
+  "status": 200
+}

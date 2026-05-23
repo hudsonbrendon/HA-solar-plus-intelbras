@@ -51,8 +51,9 @@ To authenticate, use the same email used at [https://solarplus.intelbras.com.br/
 
 ![plus](plus.png)
 
-- 1 - your plant_id;
-- 2 - your token "plus".
+- your token "plus".
+
+You only need the email and the "plus" token. After validating them, the integration lists the plants on your account and you pick which one to add — so you can add several plants (one config entry each). The plant ID no longer has to be entered by hand.
 
 ## Usage
 
@@ -71,6 +72,18 @@ This custom component creates the following devices:
 ### Datalogger
 
 ![datalogger](datalogger.png)
+
+### Sensors
+
+The integration creates three devices — **Plant**, **Inverter**, and **Datalogger** — and supports multiple inverters per plant.
+
+**Plant:** Energy today / total / last 30 days / this year (kWh), Current power (W), Economy today / total / last 30 days / this year, CO2 / trees / coal saved, Energy price, Installed capacity, Modules, Plant status, Alerts, Alerts today.
+
+**Inverter (per device):** Temperature (°C), Power (W), Energy today (kWh), Status, Serial number, Last record, Online (binary).
+
+**Datalogger (per device):** Firmware version, MAC address, Signal strength (RSSI), Last record.
+
+Monetary sensors use the currency reported by your account (e.g. `BRL`). The polling interval is configurable via the integration's **Configure** (options) dialog.
 
 # Debugging
 

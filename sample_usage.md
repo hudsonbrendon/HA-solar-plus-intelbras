@@ -34,13 +34,13 @@ If you need to create notifications from your component's Python code:
 # Get the notifier
 notifier = hass.data["solar_plus_intelbras"]["notifier"]
 
-# Send an alert
-notifier.send_alert(
+# Send an alert (async)
+await notifier.async_send_alert(
     message="Battery level is critical: 10%",
     title="Battery Alert",
-    priority="warning"
+    priority="warning",
 )
 
-# Send a system status update
-notifier.send_system_status_alert("degraded", "Performance is below expected levels")
+# Send a system status update (async)
+await notifier.async_send_system_status_alert("degraded", "Performance below expected")
 ```

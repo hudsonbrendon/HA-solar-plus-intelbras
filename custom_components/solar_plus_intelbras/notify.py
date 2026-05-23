@@ -47,6 +47,12 @@ class SolarPlusIntelbrasNotifier:
             DEFAULT_NOTIFICATION_CHECK_INTERVAL,
         )
 
+    def async_teardown(self) -> None:
+        """Cancel the scheduled notification check."""
+        if self._check_interval is not None:
+            self._check_interval()
+            self._check_interval = None
+
     async def _async_check_notifications(self, *_) -> None:  # noqa: ANN002
         """Check for new notifications from the API."""
         if self._api_client is None:
@@ -79,18 +85,23 @@ class SolarPlusIntelbrasNotifier:
             description = notif.get("description", "")
 
             notification_id = f"{NOTIFICATION_ID_FORMAT}_api_{notif_id}"
-            self.send_alert(message=description, title=title, notification_id=notification_id, priority=PRIORITY_INFO)
+            await self.async_send_alert(
+                message=description,
+                title=title,
+                notification_id=notification_id,
+                priority=PRIORITY_INFO,
+            )
 
             LOGGER.info("Created notification from API: %s", title)
 
-    def send_alert(
+    async def async_send_alert(
         self,
         message: str,
         title: str = NOTIFICATION_TITLE_DEFAULT,
         notification_id: str | None = None,
         priority: str = PRIORITY_NORMAL,
     ) -> str:
-        """Send an alert notification."""
+        """Send an alert notification (event-loop safe)."""
         if notification_id is None:
             notification_id = f"{NOTIFICATION_ID_FORMAT}_{int(time.time())}"
 
@@ -100,12 +111,25 @@ class SolarPlusIntelbrasNotifier:
         create_notification(self.hass, message=message, title=title, notification_id=notification_id)
 
         if priority == PRIORITY_CRITICAL:
-            service_data = {"message": f"{title}: {message}", "title": "CRITICAL ALERT"}
-            self.hass.services.call("notify", "notify", service_data)
+            await self.hass.services.async_call(
+                "notify",
+                "notify",
+                {"message": f"{title}: {message}", "title": "CRITICAL ALERT"},
+                blocking=False,
+            )
 
         return notification_id
 
-    def send_system_status_alert(self, status: str, details: str | None = None) -> str:
+    async def async_clear_notification(self, notification_id: str) -> None:
+        """Clear a specific notification."""
+        await self.hass.services.async_call(
+            "persistent_notification",
+            "dismiss",
+            {"notification_id": notification_id},
+            blocking=False,
+        )
+
+    async def async_send_system_status_alert(self, status: str, details: str | None = None) -> str:
         """Send a system status notification."""
         message = f"System Status: {status}"
         if details:
@@ -117,17 +141,12 @@ class SolarPlusIntelbrasNotifier:
         elif status.lower() in ["warning", "degraded"]:
             priority = PRIORITY_WARNING
 
-        return self.send_alert(
+        return await self.async_send_alert(
             message=message,
             title="Solar Plus Intelbras System Status",
             notification_id=f"{NOTIFICATION_ID_FORMAT}_system_status",
             priority=priority,
         )
-
-    def clear_notification(self, notification_id: str) -> None:
-        """Clear a specific notification."""
-        service_data = {"notification_id": notification_id}
-        self.hass.services.call("persistent_notification", "dismiss", service_data)
 
     async def async_check_notifications_service(self, call: ServiceCall) -> None:  # noqa: ARG002
         """Service handler for manually checking notifications."""

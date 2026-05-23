@@ -26,17 +26,15 @@ from .const import (
     CONF_PLUS,
     DOMAIN,
     LOGGER,
+    NOTIFICATION_TITLE_DEFAULT,
+    PRIORITY_CRITICAL,
     PRIORITY_INFO,
+    PRIORITY_NORMAL,
+    PRIORITY_WARNING,
 )
 from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
 from .data import SolarPlusIntelbrasData
-from .notify import (
-    NOTIFICATION_TITLE_DEFAULT,
-    PRIORITY_CRITICAL,
-    PRIORITY_NORMAL,
-    PRIORITY_WARNING,
-    SolarPlusIntelbrasNotifier,
-)
+from .notify import SolarPlusIntelbrasNotifier
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -48,6 +46,9 @@ PLATFORMS: list[Platform] = [
     Platform.BINARY_SENSOR,
 ]
 
+# This integration is configured via the UI and accepts no YAML config keys.
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
 
 # https://developers.home-assistant.io/docs/config_entries_index/#setting-up-an-entry
 async def async_setup_entry(
@@ -57,6 +58,7 @@ async def async_setup_entry(
     """Set up this integration using UI."""
     coordinator = SolarPlusIntelbrasDataUpdateCoordinator(
         hass=hass,
+        config_entry=entry,
     )
 
     client = SolarPlusIntelbrasApiClient(
@@ -73,7 +75,7 @@ async def async_setup_entry(
     )
 
     # Register the API client with the notifier for notifications
-    if "notifier" in hass.data[DOMAIN]:
+    if DOMAIN in hass.data and "notifier" in hass.data[DOMAIN]:
         notifier = hass.data[DOMAIN]["notifier"]
         notifier.register_api_client(client)
         await notifier.async_setup()
@@ -92,7 +94,10 @@ async def async_unload_entry(
     entry: SolarPlusIntelbrasConfigEntry,
 ) -> bool:
     """Handle removal of an entry."""
-    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    unloaded = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    if unloaded and DOMAIN in hass.data and "notifier" in hass.data[DOMAIN]:
+        hass.data[DOMAIN]["notifier"].async_teardown()
+    return unloaded
 
 
 async def async_reload_entry(
@@ -119,7 +124,7 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         notification_id = call.data.get(ATTR_NOTIFICATION_ID)
         priority = call.data.get(ATTR_PRIORITY, PRIORITY_NORMAL)
 
-        notification_id = notifier.send_alert(
+        notification_id = await notifier.async_send_alert(
             message=message, title=title, notification_id=notification_id, priority=priority
         )
         LOGGER.info("Created notification: %s", title)

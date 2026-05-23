@@ -4,13 +4,14 @@ from __future__ import annotations
 
 import asyncio
 import socket
+import time
 from datetime import date
 from typing import Any
 
 import aiohttp
 import async_timeout
 
-from .const import LOGGER, SOLAR_PLUS_INTELBRAS_API_URL
+from .const import DEFAULT_CURRENCY, LOGGER, SOLAR_PLUS_INTELBRAS_API_URL
 
 
 class SolarPlusIntelbrasApiClientError(Exception):
@@ -54,7 +55,14 @@ class SolarPlusIntelbrasApiClient:
         self._plus = plus
         self._plant_id = plant_id
         self._session = session
-        self._access_token = None
+        self._access_token: str | None = None
+        self._token_expires_at: float = 0.0
+        self._currency: str = DEFAULT_CURRENCY
+
+    @property
+    def currency(self) -> str:
+        """Return the account currency reported at login."""
+        return self._currency
 
     async def async_login(self) -> Any:
         """Login to the API."""
@@ -66,25 +74,105 @@ class SolarPlusIntelbrasApiClient:
         )
 
     async def async_get_token(self) -> None:
-        """Get token from the API."""
+        """Get token from the API and cache it with its expiry."""
         response = await self.async_login()
-        self._access_token = response["accessToken"]["accessJWT"]
+        access = response["accessToken"]
+        self._access_token = access["accessJWT"]
+        # Refresh 60s before the server-reported expiry; fall back to 5 min.
+        exp = access.get("exp")
+        self._token_expires_at = (exp - 60) if exp else (time.time() + 300)
+        try:
+            self._currency = response["user"]["preferences"]["currency"] or DEFAULT_CURRENCY
+        except (KeyError, TypeError):
+            self._currency = DEFAULT_CURRENCY
 
     async def async_ensure_token(self) -> None:
-        """Ensure that we have a valid access token."""
-        # if self._access_token is None:
-        await self.async_get_token()
+        """Ensure that we have a valid, unexpired access token."""
+        if self._access_token is None or time.time() >= self._token_expires_at:
+            await self.async_get_token()
+
+    @staticmethod
+    def _extract_rows(response: Any, label: str) -> list:
+        """Return the rows of an endpoint response, or [] if it failed."""
+        if isinstance(response, BaseException):
+            LOGGER.debug("Skipping %s endpoint: %s", label, response)
+            return []
+        return (response or {}).get("rows", []) or []
 
     async def async_get_data(self) -> Any:
-        """Get data from the API."""
+        """
+        Return inverter and microinverter rows merged into one response.
+
+        Plants with microinverters return no rows from ``/inverters``, so both
+        endpoints are queried in parallel and their rows merged. A failure of
+        one endpoint (e.g. a plant that has no microinverters) is tolerated as
+        long as the other succeeds; if both fail, the inverters error is raised
+        so the update is reported as failed.
+        """
+        await self.async_ensure_token()
+        headers = {
+            "Authorization": f"Bearer {self._access_token}",
+            "plus": self._plus,
+        }
+        inverters, microinverters = await asyncio.gather(
+            self._api_wrapper(
+                method="get",
+                url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/inverters?limit=20&page=1",
+                headers=headers,
+            ),
+            self._api_wrapper(
+                method="get",
+                url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/microinverters?limit=20&page=1",
+                headers=headers,
+            ),
+            return_exceptions=True,
+        )
+
+        if isinstance(inverters, BaseException) and isinstance(microinverters, BaseException):
+            raise inverters
+
+        base = inverters if isinstance(inverters, dict) else microinverters
+        merged = dict(base) if isinstance(base, dict) else {}
+        merged["rows"] = self._extract_rows(inverters, "inverters") + self._extract_rows(
+            microinverters, "microinverters"
+        )
+        return merged
+
+    async def async_get_plants(self) -> Any:
+        """Return the list of plants for the account (does not need a plant id)."""
         await self.async_ensure_token()
         return await self._api_wrapper(
             method="get",
-            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/inverters?limit=20&page=1",
+            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants",
             headers={
                 "Authorization": f"Bearer {self._access_token}",
                 "plus": self._plus,
             },
+        )
+
+    async def async_get_year_energy(self, year: int) -> float | None:
+        """Return total energy (kWh) generated in the given year."""
+        await self.async_ensure_token()
+        url = (
+            f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/records/year"
+            f"?period=year&year={year}&key=energy_today"
+        )
+        response = await self._api_wrapper(
+            method="get",
+            url=url,
+            headers={"Authorization": f"Bearer {self._access_token}", "plus": self._plus},
+        )
+        if not response:
+            return None
+        return response.get("data", {}).get("total")
+
+    async def async_get_plant_detail(self) -> Any:
+        """Return the plant detail document."""
+        await self.async_ensure_token()
+        return await self._api_wrapper(
+            method="get",
+            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}",
+            headers={"Authorization": f"Bearer {self._access_token}", "plus": self._plus},
         )
 
     async def async_get_notifications(self, start_date: None | date = None, end_date: None | date = None) -> dict:
