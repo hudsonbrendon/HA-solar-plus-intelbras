@@ -118,6 +118,8 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 )
             except SolarPlusIntelbrasApiClientAuthenticationError:
                 _errors["base"] = "auth"
+            except SolarPlusIntelbrasApiClientCommunicationError:
+                _errors["base"] = "connection"
             except SolarPlusIntelbrasApiClientError:
                 _errors["base"] = "unknown"
             else:
