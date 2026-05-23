@@ -1,4 +1,39 @@
 {
+    "entity": {
+        "sensor": {
+            "energy_today": { "name": "Energy today" },
+            "energy_total": { "name": "Energy total" },
+            "energy_of_last_30": { "name": "Energy last 30 days" },
+            "year_energy": { "name": "Energy this year" },
+            "current_power": { "name": "Current power" },
+            "today_economy": { "name": "Economy today" },
+            "total_economy": { "name": "Economy total" },
+            "economy_of_last_30": { "name": "Economy last 30 days" },
+            "year_economy": { "name": "Economy this year" },
+            "saved_co2": { "name": "CO2 saved" },
+            "saved_trees": { "name": "Trees saved" },
+            "saved_coal": { "name": "Coal saved" },
+            "price": { "name": "Energy price" },
+            "capacity_installed": { "name": "Installed capacity" },
+            "modules_amount": { "name": "Modules" },
+            "plant_status": { "name": "Plant status" },
+            "alerts": { "name": "Alerts" },
+            "today_alerts": { "name": "Alerts today" },
+            "inverter_temperature": { "name": "Temperature" },
+            "inverter_current_power": { "name": "Power" },
+            "inverter_energy_today": { "name": "Energy today" },
+            "inverter_status": { "name": "Status" },
+            "inverter_serial_number": { "name": "Serial number" },
+            "inverter_last_record": { "name": "Last record" },
+            "datalogger_firmware_version": { "name": "Firmware version" },
+            "datalogger_mac_address": { "name": "MAC address" },
+            "datalogger_rssi": { "name": "Signal strength" },
+            "datalogger_last_record": { "name": "Last record" }
+        },
+        "binary_sensor": {
+            "online": { "name": "Online" }
+        }
+    },
     "config": {
         "step": {
             "user": {

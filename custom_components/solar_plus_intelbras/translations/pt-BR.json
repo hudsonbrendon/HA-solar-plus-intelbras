@@ -1,4 +1,39 @@
 {
+    "entity": {
+        "sensor": {
+            "energy_today": { "name": "Energia hoje" },
+            "energy_total": { "name": "Energia total" },
+            "energy_of_last_30": { "name": "Energia últimos 30 dias" },
+            "year_energy": { "name": "Energia no ano" },
+            "current_power": { "name": "Potência atual" },
+            "today_economy": { "name": "Economia hoje" },
+            "total_economy": { "name": "Economia total" },
+            "economy_of_last_30": { "name": "Economia últimos 30 dias" },
+            "year_economy": { "name": "Economia no ano" },
+            "saved_co2": { "name": "CO2 evitado" },
+            "saved_trees": { "name": "Árvores poupadas" },
+            "saved_coal": { "name": "Carvão poupado" },
+            "price": { "name": "Preço da energia" },
+            "capacity_installed": { "name": "Capacidade instalada" },
+            "modules_amount": { "name": "Módulos" },
+            "plant_status": { "name": "Status da usina" },
+            "alerts": { "name": "Alertas" },
+            "today_alerts": { "name": "Alertas hoje" },
+            "inverter_temperature": { "name": "Temperatura" },
+            "inverter_current_power": { "name": "Potência" },
+            "inverter_energy_today": { "name": "Energia hoje" },
+            "inverter_status": { "name": "Status" },
+            "inverter_serial_number": { "name": "Número de série" },
+            "inverter_last_record": { "name": "Último registro" },
+            "datalogger_firmware_version": { "name": "Versão de firmware" },
+            "datalogger_mac_address": { "name": "Endereço MAC" },
+            "datalogger_rssi": { "name": "Intensidade do sinal" },
+            "datalogger_last_record": { "name": "Último registro" }
+        },
+        "binary_sensor": {
+            "online": { "name": "Online" }
+        }
+    },
     "config": {
         "step": {
             "user": {
