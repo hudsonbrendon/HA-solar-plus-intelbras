@@ -55,6 +55,7 @@ async def async_setup_entry(
     """Set up this integration using UI."""
     coordinator = SolarPlusIntelbrasDataUpdateCoordinator(
         hass=hass,
+        config_entry=entry,
     )
 
     client = SolarPlusIntelbrasApiClient(
