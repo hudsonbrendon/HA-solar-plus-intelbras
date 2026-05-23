@@ -47,6 +47,12 @@ class SolarPlusIntelbrasNotifier:
             DEFAULT_NOTIFICATION_CHECK_INTERVAL,
         )
 
+    def async_teardown(self) -> None:
+        """Cancel the scheduled notification check."""
+        if self._check_interval is not None:
+            self._check_interval()
+            self._check_interval = None
+
     async def _async_check_notifications(self, *_) -> None:  # noqa: ANN002
         """Check for new notifications from the API."""
         if self._api_client is None:

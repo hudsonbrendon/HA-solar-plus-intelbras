@@ -91,7 +91,10 @@ async def async_unload_entry(
     entry: SolarPlusIntelbrasConfigEntry,
 ) -> bool:
     """Handle removal of an entry."""
-    return await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    unloaded = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    if unloaded and DOMAIN in hass.data and "notifier" in hass.data[DOMAIN]:
+        hass.data[DOMAIN]["notifier"].async_teardown()
+    return unloaded
 
 
 async def async_reload_entry(
