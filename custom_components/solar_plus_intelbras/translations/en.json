@@ -37,11 +37,17 @@
     "config": {
         "step": {
             "user": {
-                "description": "Enter the email used on Solar Plus Intelbras, the \"plus\" token, and your plant ID.",
+                "description": "Enter the email and \"plus\" token used on Solar Plus Intelbras.",
                 "data": {
                     "email": "Email",
-                    "plus": "Plus",
-                    "plant_id": "Plant ID"
+                    "plus": "Plus"
+                }
+            },
+            "plant": {
+                "title": "Select a plant",
+                "description": "Choose which plant to add.",
+                "data": {
+                    "plant_id": "Plant"
                 }
             },
             "reauth_confirm": {
@@ -52,7 +58,8 @@
         },
         "abort": {
             "already_configured": "This plant is already configured.",
-            "reauth_successful": "Re-authentication successful."
+            "reauth_successful": "Re-authentication successful.",
+            "no_plants": "All your plants are already configured."
         },
         "error": {
             "auth": "Email/Plus is wrong.",

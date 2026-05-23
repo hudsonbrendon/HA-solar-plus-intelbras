@@ -33,30 +33,34 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
     VERSION = 1
 
-    async def _validate(self, email: str, plus: str, plant_id: str) -> None:
-        """Validate credentials by performing a data fetch."""
+    def __init__(self) -> None:
+        """Initialize the flow state."""
+        self._email: str = ""
+        self._plus: str = ""
+        self._plants: list[dict] = []
+
+    async def _async_fetch_plants(self, email: str, plus: str) -> list[dict]:
+        """Validate credentials and return the account's plants."""
         client = SolarPlusIntelbrasApiClient(
             email=email,
             plus=plus,
-            plant_id=plant_id,
+            plant_id="",
             session=async_create_clientsession(self.hass),
         )
-        await client.async_get_data()
+        response = await client.async_get_plants()
+        return (response or {}).get("rows", []) or []
 
     async def async_step_user(
         self,
         user_input: dict | None = None,
     ) -> data_entry_flow.FlowResult:
-        """Handle a flow initialized by the user."""
+        """First step: collect the email and plus token."""
         _errors: dict[str, str] = {}
         if user_input is not None:
-            await self.async_set_unique_id(user_input[CONF_PLANT_ID])
-            self._abort_if_unique_id_configured()
             try:
-                await self._validate(
+                plants = await self._async_fetch_plants(
                     email=user_input[CONF_EMAIL],
                     plus=user_input[CONF_PLUS],
-                    plant_id=user_input[CONF_PLANT_ID],
                 )
             except SolarPlusIntelbrasApiClientAuthenticationError as exception:
                 LOGGER.warning(exception)
@@ -68,10 +72,10 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 LOGGER.exception(exception)
                 _errors["base"] = "unknown"
             else:
-                return self.async_create_entry(
-                    title=user_input[CONF_EMAIL],
-                    data=user_input,
-                )
+                self._email = user_input[CONF_EMAIL]
+                self._plus = user_input[CONF_PLUS]
+                self._plants = plants
+                return await self.async_step_plant()
 
         return self.async_show_form(
             step_id="user",
@@ -86,15 +90,57 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Required(CONF_PLUS): selector.TextSelector(
                         selector.TextSelectorConfig(type=selector.TextSelectorType.PASSWORD),
                     ),
-                    vol.Required(
-                        CONF_PLANT_ID,
-                        default=(user_input or {}).get(CONF_PLANT_ID, vol.UNDEFINED),
-                    ): selector.TextSelector(
-                        selector.TextSelectorConfig(type=selector.TextSelectorType.TEXT),
-                    ),
                 },
             ),
             errors=_errors,
+        )
+
+    async def async_step_plant(
+        self,
+        user_input: dict | None = None,
+    ) -> data_entry_flow.FlowResult:
+        """Second step: pick which plant to add (excludes already-configured ones)."""
+        configured = {entry.unique_id for entry in self._async_current_entries()}
+        options = [
+            selector.SelectOptionDict(
+                value=str(plant["id"]),
+                label=plant.get("name") or str(plant["id"]),
+            )
+            for plant in self._plants
+            if "id" in plant and str(plant["id"]) not in configured
+        ]
+        if not options:
+            return self.async_abort(reason="no_plants")
+
+        if user_input is not None:
+            plant_id = user_input[CONF_PLANT_ID]
+            await self.async_set_unique_id(plant_id)
+            self._abort_if_unique_id_configured()
+            title = next(
+                (p.get("name") for p in self._plants if str(p.get("id")) == plant_id),
+                None,
+            )
+            return self.async_create_entry(
+                title=title or self._email,
+                data={
+                    CONF_EMAIL: self._email,
+                    CONF_PLUS: self._plus,
+                    CONF_PLANT_ID: plant_id,
+                },
+            )
+
+        return self.async_show_form(
+            step_id="plant",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_PLANT_ID): selector.SelectSelector(
+                        selector.SelectSelectorConfig(
+                            options=options,
+                            mode=selector.SelectSelectorMode.DROPDOWN,
+                        ),
+                    ),
+                },
+            ),
         )
 
     async def async_step_reauth(self, _entry_data: dict[str, Any]) -> data_entry_flow.FlowResult:
@@ -107,10 +153,10 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         entry = self._get_reauth_entry()
         if user_input is not None:
             try:
-                await self._validate(
+                # Validating credentials only; the plant list is not needed here.
+                await self._async_fetch_plants(
                     email=entry.data[CONF_EMAIL],
                     plus=user_input[CONF_PLUS],
-                    plant_id=entry.data[CONF_PLANT_ID],
                 )
             except SolarPlusIntelbrasApiClientAuthenticationError:
                 _errors["base"] = "auth"

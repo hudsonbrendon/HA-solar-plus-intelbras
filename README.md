@@ -51,8 +51,9 @@ To authenticate, use the same email used at [https://solarplus.intelbras.com.br/
 
 ![plus](plus.png)
 
-- 1 - your plant_id;
-- 2 - your token "plus".
+- your token "plus".
+
+You only need the email and the "plus" token. After validating them, the integration lists the plants on your account and you pick which one to add — so you can add several plants (one config entry each). The plant ID no longer has to be entered by hand.
 
 ## Usage
 

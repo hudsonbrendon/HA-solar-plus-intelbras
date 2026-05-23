@@ -92,3 +92,19 @@ async def test_year_energy_returns_total(login_response: dict, records_year_resp
             )
             total = await client.async_get_year_energy(2025)
             assert total == records_year_response["data"]["total"]
+
+
+@pytest.mark.asyncio
+async def test_get_plants_returns_rows(login_response: dict) -> None:
+    """async_get_plants returns the account's plant list."""
+    login_response["accessToken"]["exp"] = int(time.time()) + 3600
+    async with aiohttp.ClientSession() as session:
+        client = SolarPlusIntelbrasApiClient("e@mail.com", "plus", "", session)
+        with aioresponses() as mocked:
+            mocked.post(LOGIN_URL, payload=login_response)
+            mocked.get(
+                f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants",
+                payload={"rows": [{"id": 42, "name": "Casa"}]},
+            )
+            response = await client.async_get_plants()
+            assert response["rows"][0]["id"] == 42  # noqa: PLR2004
