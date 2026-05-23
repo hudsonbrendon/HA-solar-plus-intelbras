@@ -72,6 +72,18 @@ This custom component creates the following devices:
 
 ![datalogger](datalogger.png)
 
+### Sensors
+
+The integration creates three devices — **Plant**, **Inverter**, and **Datalogger** — and supports multiple inverters per plant.
+
+**Plant:** Energy today / total / last 30 days / this year (kWh), Current power (W), Economy today / total / last 30 days / this year, CO2 / trees / coal saved, Energy price, Installed capacity, Modules, Plant status, Alerts, Alerts today.
+
+**Inverter (per device):** Temperature (°C), Power (W), Energy today (kWh), Status, Serial number, Last record, Online (binary).
+
+**Datalogger (per device):** Firmware version, MAC address, Signal strength (RSSI), Last record.
+
+Monetary sensors use the currency reported by your account (e.g. `BRL`). The polling interval is configurable via the integration's **Configure** (options) dialog.
+
 # Debugging
 
 To enable debug for Solar Plus Intelbras integration, add following to your configuration.yaml:
