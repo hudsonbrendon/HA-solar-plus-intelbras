@@ -11,6 +11,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.const import (
+    PERCENTAGE,
     SIGNAL_STRENGTH_DECIBELS_MILLIWATT,
     UnitOfEnergy,
     UnitOfPower,
@@ -66,6 +67,10 @@ def _component(data: dict, key: str) -> StateType:
 
 def _plant_field(data: dict, key: str) -> StateType:
     return _plant(data).get(key)
+
+
+def _weather(data: dict) -> dict:
+    return (_plant(data).get("weather") or {}).get("current") or {}
 
 
 # --- inverter / datalogger accessors (value_fn receives one row) -----------
@@ -230,6 +235,32 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
         entity_category=EntityCategory.DIAGNOSTIC,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda d: _component(d, "todayAlerts"),
+    ),
+    SolarPlusSensorEntityDescription(
+        key="weather_temperature",
+        translation_key="weather_temperature",
+        device_class=SensorDeviceClass.TEMPERATURE,
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        state_class=SensorStateClass.MEASUREMENT,
+        suggested_display_precision=1,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda d: _weather(d).get("temp_c"),
+    ),
+    SolarPlusSensorEntityDescription(
+        key="weather_humidity",
+        translation_key="weather_humidity",
+        device_class=SensorDeviceClass.HUMIDITY,
+        native_unit_of_measurement=PERCENTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda d: _weather(d).get("humidity"),
+    ),
+    SolarPlusSensorEntityDescription(
+        key="weather_condition",
+        translation_key="weather_condition",
+        icon="mdi:weather-partly-cloudy",
+        entity_category=EntityCategory.DIAGNOSTIC,
+        value_fn=lambda d: (_weather(d).get("condition") or {}).get("text"),
     ),
 )
 

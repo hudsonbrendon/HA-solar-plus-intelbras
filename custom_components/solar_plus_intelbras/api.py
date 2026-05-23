@@ -6,6 +6,7 @@ import asyncio
 import socket
 import time
 from datetime import date
+from http import HTTPStatus
 from typing import Any
 
 import aiohttp
@@ -166,15 +167,6 @@ class SolarPlusIntelbrasApiClient:
             return None
         return response.get("data", {}).get("total")
 
-    async def async_get_plant_detail(self) -> Any:
-        """Return the plant detail document."""
-        await self.async_ensure_token()
-        return await self._api_wrapper(
-            method="get",
-            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}",
-            headers={"Authorization": f"Bearer {self._access_token}", "plus": self._plus},
-        )
-
     async def async_get_notifications(self, start_date: None | date = None, end_date: None | date = None) -> dict:
         """Get notifications from the API."""
         await self.async_ensure_token()
@@ -217,6 +209,11 @@ class SolarPlusIntelbrasApiClient:
                     _verify_response_or_raise(response)
                     return await response.json()
 
+            except SolarPlusIntelbrasApiClientError:
+                # Our own typed errors (e.g. authentication) must keep their type
+                # so callers can map them (auth -> reauth). Do not retry/wrap them.
+                raise
+
             except TimeoutError as exception:
                 if attempt < retry_count:
                     wait_time = 2 * (attempt + 1)  # Backoff exponencial
@@ -233,6 +230,14 @@ class SolarPlusIntelbrasApiClient:
                     raise SolarPlusIntelbrasApiClientCommunicationError(msg) from exception
 
             except (aiohttp.ClientError, socket.gaierror) as exception:
+                # 4xx responses are not transient (e.g. 404 for a missing endpoint);
+                # fail fast instead of burning the retry budget.
+                if (
+                    isinstance(exception, aiohttp.ClientResponseError)
+                    and HTTPStatus.BAD_REQUEST <= exception.status < HTTPStatus.INTERNAL_SERVER_ERROR
+                ):
+                    msg = f"Error fetching information - {exception}"
+                    raise SolarPlusIntelbrasApiClientCommunicationError(msg) from exception
                 if attempt < retry_count:
                     wait_time = 2 * (attempt + 1)  # Backoff exponencial
                     LOGGER.warning(

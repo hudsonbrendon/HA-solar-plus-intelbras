@@ -9,7 +9,11 @@ import aiohttp
 import pytest
 from aioresponses import aioresponses
 
-from custom_components.solar_plus_intelbras.api import SolarPlusIntelbrasApiClient
+from custom_components.solar_plus_intelbras.api import (
+    SolarPlusIntelbrasApiClient,
+    SolarPlusIntelbrasApiClientAuthenticationError,
+    SolarPlusIntelbrasApiClientCommunicationError,
+)
 from custom_components.solar_plus_intelbras.const import SOLAR_PLUS_INTELBRAS_API_URL
 
 INVERTERS_URL = f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/1/inverters?limit=20&page=1"
@@ -108,3 +112,31 @@ async def test_get_plants_returns_rows(login_response: dict) -> None:
             )
             response = await client.async_get_plants()
             assert response["rows"][0]["id"] == 42  # noqa: PLR2004
+
+
+@pytest.mark.asyncio
+async def test_auth_error_keeps_its_type(login_response: dict) -> None:
+    """A 401 surfaces as an authentication error (not a generic one) so reauth works."""
+    login_response["accessToken"]["exp"] = int(time.time()) + 3600
+    async with aiohttp.ClientSession() as session:
+        client = SolarPlusIntelbrasApiClient("e@mail.com", "plus", "1", session)
+        with aioresponses() as mocked:
+            mocked.post(LOGIN_URL, payload=login_response)
+            mocked.get(f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants", status=401)
+            with pytest.raises(SolarPlusIntelbrasApiClientAuthenticationError):
+                await client.async_get_plants()
+
+
+@pytest.mark.asyncio
+async def test_client_error_is_not_retried(login_response: dict) -> None:
+    """A 404 fails fast without burning the retry budget (single request)."""
+    login_response["accessToken"]["exp"] = int(time.time()) + 3600
+    async with aiohttp.ClientSession() as session:
+        client = SolarPlusIntelbrasApiClient("e@mail.com", "plus", "1", session)
+        with aioresponses() as mocked:
+            mocked.post(LOGIN_URL, payload=login_response)
+            mocked.get(f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants", status=404)
+            with pytest.raises(SolarPlusIntelbrasApiClientCommunicationError):
+                await client.async_get_plants()
+            plant_calls = [k for k in mocked.requests if k[0] == "get"]
+            assert len(plant_calls) == 1

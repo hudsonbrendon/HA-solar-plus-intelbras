@@ -28,7 +28,10 @@
             "datalogger_firmware_version": { "name": "Firmware version" },
             "datalogger_mac_address": { "name": "MAC address" },
             "datalogger_rssi": { "name": "Signal strength" },
-            "datalogger_last_record": { "name": "Last record" }
+            "datalogger_last_record": { "name": "Last record" },
+            "weather_temperature": { "name": "Weather temperature" },
+            "weather_humidity": { "name": "Humidity" },
+            "weather_condition": { "name": "Weather condition" }
         },
         "binary_sensor": {
             "online": { "name": "Online" }
