@@ -97,15 +97,11 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             errors=_errors,
         )
 
-    async def async_step_reauth(
-        self, _entry_data: dict[str, Any]
-    ) -> data_entry_flow.FlowResult:
+    async def async_step_reauth(self, _entry_data: dict[str, Any]) -> data_entry_flow.FlowResult:
         """Handle re-authentication when the plus token rotates."""
         return await self.async_step_reauth_confirm()
 
-    async def async_step_reauth_confirm(
-        self, user_input: dict | None = None
-    ) -> data_entry_flow.FlowResult:
+    async def async_step_reauth_confirm(self, user_input: dict | None = None) -> data_entry_flow.FlowResult:
         """Confirm reauth by accepting a new plus token."""
         _errors: dict[str, str] = {}
         entry = self._get_reauth_entry()
@@ -153,23 +149,17 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 class SolarPlusIntelbrasOptionsFlow(config_entries.OptionsFlow):
     """Options flow to change the polling interval."""
 
-    async def async_step_init(
-        self, user_input: dict | None = None
-    ) -> data_entry_flow.FlowResult:
+    async def async_step_init(self, user_input: dict | None = None) -> data_entry_flow.FlowResult:
         """Manage the options."""
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        current = self.config_entry.options.get(
-            CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL_MINUTES
-        )
+        current = self.config_entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL_MINUTES)
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema(
                 {
-                    vol.Required(
-                        CONF_SCAN_INTERVAL, default=current
-                    ): selector.NumberSelector(
+                    vol.Required(CONF_SCAN_INTERVAL, default=current): selector.NumberSelector(
                         selector.NumberSelectorConfig(
                             min=MIN_SCAN_INTERVAL_MINUTES,
                             max=MAX_SCAN_INTERVAL_MINUTES,

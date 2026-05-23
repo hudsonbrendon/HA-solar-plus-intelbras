@@ -36,7 +36,5 @@ def test_unique_ids_are_distinct(coordinator_data: dict) -> None:
 def test_monetary_unit_follows_currency(coordinator_data: dict) -> None:
     """Monetary sensors use the account currency as their unit."""
     coordinator = _FakeCoordinator(coordinator_data)
-    price = next(
-        e for e in build_entities(coordinator) if e.unique_id == "entry1_price"
-    )
+    price = next(e for e in build_entities(coordinator) if e.unique_id == "entry1_price")
     assert price.native_unit_of_measurement == "BRL"

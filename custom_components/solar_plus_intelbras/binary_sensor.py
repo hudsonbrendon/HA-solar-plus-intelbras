@@ -34,10 +34,7 @@ def build_binary_entities(
 ) -> list[BinarySensorEntity]:
     """One connectivity binary sensor per inverter row."""
     rows = coordinator.data.get("inverters", {}).get("rows") or []
-    return [
-        SolarPlusIntelbrasOnlineBinarySensor(coordinator, index)
-        for index in range(len(rows))
-    ]
+    return [SolarPlusIntelbrasOnlineBinarySensor(coordinator, index) for index in range(len(rows))]
 
 
 async def async_setup_entry(

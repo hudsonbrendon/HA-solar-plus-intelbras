@@ -30,9 +30,7 @@ async def test_token_is_reused_until_expiry(login_response: dict) -> None:
             )
             await client.async_get_data()
             await client.async_get_data()
-            login_calls = [
-                key for key in mocked.requests if key[0] == "post"
-            ]
+            login_calls = [key for key in mocked.requests if key[0] == "post"]
             assert len(login_calls) == 1
 
 

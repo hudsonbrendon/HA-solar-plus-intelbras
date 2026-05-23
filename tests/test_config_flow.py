@@ -26,9 +26,7 @@ def _enable_custom_integrations(enable_custom_integrations):  # noqa: ANN001, AN
 
 async def test_user_flow_creates_entry(hass: HomeAssistant) -> None:
     """A valid user submission creates an entry with unique_id = plant_id."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
+    result = await hass.config_entries.flow.async_init(DOMAIN, context={"source": config_entries.SOURCE_USER})
     assert result["type"] == data_entry_flow.FlowResultType.FORM
 
     with patch(
@@ -45,9 +43,7 @@ async def test_user_flow_creates_entry(hass: HomeAssistant) -> None:
 
 async def test_duplicate_plant_id_aborts(hass: HomeAssistant) -> None:
     """Adding the same plant_id twice aborts the second flow."""
-    first = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
+    first = await hass.config_entries.flow.async_init(DOMAIN, context={"source": config_entries.SOURCE_USER})
     with patch(
         "custom_components.solar_plus_intelbras.config_flow.SolarPlusIntelbrasApiClient.async_get_data",
         new=AsyncMock(return_value={"rows": []}),
@@ -56,9 +52,7 @@ async def test_duplicate_plant_id_aborts(hass: HomeAssistant) -> None:
             first["flow_id"],
             {CONF_EMAIL: "e@mail.com", CONF_PLUS: "tok", CONF_PLANT_ID: "42"},
         )
-        second = await hass.config_entries.flow.async_init(
-            DOMAIN, context={"source": config_entries.SOURCE_USER}
-        )
+        second = await hass.config_entries.flow.async_init(DOMAIN, context={"source": config_entries.SOURCE_USER})
         result = await hass.config_entries.flow.async_configure(
             second["flow_id"],
             {CONF_EMAIL: "e@mail.com", CONF_PLUS: "tok", CONF_PLANT_ID: "42"},

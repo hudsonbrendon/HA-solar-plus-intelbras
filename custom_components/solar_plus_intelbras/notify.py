@@ -108,9 +108,7 @@ class SolarPlusIntelbrasNotifier:
         if priority != PRIORITY_NORMAL:
             message = f"[{priority.upper()}] {message}"
 
-        create_notification(
-            self.hass, message=message, title=title, notification_id=notification_id
-        )
+        create_notification(self.hass, message=message, title=title, notification_id=notification_id)
 
         if priority == PRIORITY_CRITICAL:
             await self.hass.services.async_call(
@@ -131,9 +129,7 @@ class SolarPlusIntelbrasNotifier:
             blocking=False,
         )
 
-    async def async_send_system_status_alert(
-        self, status: str, details: str | None = None
-    ) -> str:
+    async def async_send_system_status_alert(self, status: str, details: str | None = None) -> str:
         """Send a system status notification."""
         message = f"System Status: {status}"
         if details:

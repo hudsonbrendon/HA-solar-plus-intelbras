@@ -32,24 +32,18 @@ def build_entities(
     coordinator: SolarPlusIntelbrasDataUpdateCoordinator,
 ) -> list[SensorEntity]:
     """Create one set of plant sensors plus per-inverter/datalogger sensors."""
-    plant = (
-        (coordinator.data.get("inverters", {}).get("rows") or [{}])[0].get("plant")
-        or {}
-    )
+    plant = (coordinator.data.get("inverters", {}).get("rows") or [{}])[0].get("plant") or {}
     entities: list[SensorEntity] = [
-        SolarPlusIntelbrasPlantSensor(coordinator, description, plant.get("name", ""))
-        for description in PLANT_SENSORS
+        SolarPlusIntelbrasPlantSensor(coordinator, description, plant.get("name", "")) for description in PLANT_SENSORS
     ]
 
     rows = coordinator.data.get("inverters", {}).get("rows") or []
     for index, _row in enumerate(rows):
         entities.extend(
-            SolarPlusIntelbrasInverterSensor(coordinator, description, index)
-            for description in INVERTER_SENSORS
+            SolarPlusIntelbrasInverterSensor(coordinator, description, index) for description in INVERTER_SENSORS
         )
         entities.extend(
-            SolarPlusIntelbrasDataloggerSensor(coordinator, description, index)
-            for description in DATALOGGER_SENSORS
+            SolarPlusIntelbrasDataloggerSensor(coordinator, description, index) for description in DATALOGGER_SENSORS
         )
     return entities
 
@@ -160,7 +154,5 @@ class SolarPlusIntelbrasDataloggerSensor(_RowSensor):
         entry_id = coordinator.config_entry.entry_id
         row = self._row
         datalogger_id = (row.get("datalogger") or {}).get("id")
-        self._attr_unique_id = (
-            f"{entry_id}_datalogger_{datalogger_id}_{description.key}"
-        )
+        self._attr_unique_id = f"{entry_id}_datalogger_{datalogger_id}_{description.key}"
         self._attr_device_info = datalogger_device_info(entry_id, row)

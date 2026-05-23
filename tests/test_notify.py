@@ -16,9 +16,7 @@ async def test_critical_alert_awaits_notify_service() -> None:
     hass = MagicMock()
     hass.services.async_call = AsyncMock()
     notifier = SolarPlusIntelbrasNotifier(hass)
-    with patch(
-        "custom_components.solar_plus_intelbras.notify.create_notification"
-    ) as create:
+    with patch("custom_components.solar_plus_intelbras.notify.create_notification") as create:
         await notifier.async_send_alert(
             message="Inverter down",
             title="Alert",

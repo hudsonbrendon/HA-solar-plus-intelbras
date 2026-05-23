@@ -51,9 +51,7 @@ class SolarPlusIntelbrasDataUpdateCoordinator(DataUpdateCoordinator):
         config_entry: SolarPlusIntelbrasConfigEntry,
     ) -> None:
         """Initialize."""
-        minutes = config_entry.options.get(
-            CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL_MINUTES
-        )
+        minutes = config_entry.options.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL_MINUTES)
         super().__init__(
             hass=hass,
             logger=LOGGER,
