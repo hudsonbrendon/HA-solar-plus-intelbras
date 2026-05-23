@@ -9,9 +9,9 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
-from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity import EntityCategory
 
+from .device import inverter_device_info
 from .entity import SolarPlusIntelbrasEntity
 
 if TYPE_CHECKING:
@@ -21,14 +21,23 @@ if TYPE_CHECKING:
     from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
     from .data import SolarPlusIntelbrasConfigEntry
 
-ENTITY_DESCRIPTIONS = (
-    BinarySensorEntityDescription(
-        key="solar_plus_intelbras_online_inverter",
-        name="Inverter",
-        device_class=BinarySensorDeviceClass.CONNECTIVITY,
-        entity_category=EntityCategory.DIAGNOSTIC,
-    ),
+ONLINE_DESCRIPTION = BinarySensorEntityDescription(
+    key="online",
+    translation_key="online",
+    device_class=BinarySensorDeviceClass.CONNECTIVITY,
+    entity_category=EntityCategory.DIAGNOSTIC,
 )
+
+
+def build_binary_entities(
+    coordinator: SolarPlusIntelbrasDataUpdateCoordinator,
+) -> list[BinarySensorEntity]:
+    """One connectivity binary sensor per inverter row."""
+    rows = coordinator.data.get("inverters", {}).get("rows") or []
+    return [
+        SolarPlusIntelbrasOnlineBinarySensor(coordinator, index)
+        for index in range(len(rows))
+    ]
 
 
 async def async_setup_entry(
@@ -37,37 +46,33 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the binary_sensor platform."""
-    async_add_entities(
-        SolarPlusIntelbrasBinarySensor(
-            coordinator=entry.runtime_data.coordinator,
-            entity_description=entity_description,
-        )
-        for entity_description in ENTITY_DESCRIPTIONS
-    )
+    async_add_entities(build_binary_entities(entry.runtime_data.coordinator))
 
 
-class SolarPlusIntelbrasBinarySensor(SolarPlusIntelbrasEntity, BinarySensorEntity):
-    """solar_plus_intelbras binary_sensor class."""
+class SolarPlusIntelbrasOnlineBinarySensor(SolarPlusIntelbrasEntity, BinarySensorEntity):
+    """Inverter connectivity binary sensor."""
+
+    entity_description = ONLINE_DESCRIPTION
 
     def __init__(
         self,
         coordinator: SolarPlusIntelbrasDataUpdateCoordinator,
-        entity_description: BinarySensorEntityDescription,
+        row_index: int,
     ) -> None:
-        """Initialize the binary_sensor class."""
+        """Initialize."""
         super().__init__(coordinator)
-        self.entity_description = entity_description
-        self._attr_unique_id = entity_description.key
-        self._attr_name = entity_description.name
-        self.entity_id = f"binary_sensor.{entity_description.key}"
-        self._attr_device_info = DeviceInfo(
-            identifiers={(coordinator.config_entry.entry_id,)},
-            name="Inverter",
-            manufacturer="Intelbras",
-            model="Inverter",
-        )
+        self._row_index = row_index
+        entry_id = coordinator.config_entry.entry_id
+        row = self._row
+        self._attr_unique_id = f"{entry_id}_inverter_{row.get('id')}_online"
+        self._attr_device_info = inverter_device_info(entry_id, row)
 
     @property
-    def is_on(self) -> bool:
-        """Return true if the binary_sensor is on."""
-        return self.coordinator.data["rows"][0]["online"]
+    def _row(self) -> dict:
+        rows = self.coordinator.data.get("inverters", {}).get("rows") or []
+        return rows[self._row_index] if self._row_index < len(rows) else {}
+
+    @property
+    def is_on(self) -> bool | None:
+        """Return true if the inverter reports online."""
+        return self._row.get("online")
