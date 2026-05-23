@@ -72,7 +72,7 @@ async def async_setup_entry(
     )
 
     # Register the API client with the notifier for notifications
-    if "notifier" in hass.data[DOMAIN]:
+    if DOMAIN in hass.data and "notifier" in hass.data[DOMAIN]:
         notifier = hass.data[DOMAIN]["notifier"]
         notifier.register_api_client(client)
         await notifier.async_setup()
