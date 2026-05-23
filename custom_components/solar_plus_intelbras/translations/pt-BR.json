@@ -43,12 +43,28 @@
                     "plus": "Plus",
                     "plant_id": "ID da planta"
                 }
+            },
+            "reauth_confirm": {
+                "title": "Reautenticar Solar Plus Intelbras",
+                "description": "Seu token plus expirou. Cole um novo.",
+                "data": { "plus": "Plus" }
             }
+        },
+        "abort": {
+            "already_configured": "Esta usina já está configurada.",
+            "reauth_successful": "Reautenticação bem-sucedida."
         },
         "error": {
             "auth": "Usuário/Senha incorretos.",
             "connection": "Não foi possível conectar ao servidor.",
             "unknown": "Ocorreu um erro desconhecido."
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": { "scan_interval": "Intervalo de atualização (minutos)" }
+            }
         }
     },
     "services": {
