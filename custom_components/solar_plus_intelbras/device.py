@@ -6,6 +6,8 @@ from homeassistant.helpers.device_registry import DeviceInfo
 
 from .const import DOMAIN
 
+CONFIGURATION_URL = "https://solarplus.intelbras.com.br/"
+
 
 def plant_device_info(entry_id: str, plant_name: str) -> DeviceInfo:
     """Return DeviceInfo for the plant (top-level device)."""
@@ -14,6 +16,7 @@ def plant_device_info(entry_id: str, plant_name: str) -> DeviceInfo:
         name=plant_name or "Solar Plant",
         manufacturer="Intelbras",
         model="Solar Plus",
+        configuration_url=CONFIGURATION_URL,
     )
 
 
@@ -27,6 +30,7 @@ def inverter_device_info(entry_id: str, row: dict) -> DeviceInfo:
         model=model.get("pnManufacturer") or model.get("pnIntelbras") or "Inverter",
         serial_number=row.get("serialNumber"),
         via_device=(DOMAIN, f"{entry_id}_plant"),
+        configuration_url=CONFIGURATION_URL,
     )
 
 
@@ -41,4 +45,5 @@ def datalogger_device_info(entry_id: str, row: dict) -> DeviceInfo:
         serial_number=datalogger.get("serialNumber"),
         sw_version=datalogger.get("firmwareVersion"),
         via_device=(DOMAIN, f"{entry_id}_inverter_{row.get('id')}"),
+        configuration_url=CONFIGURATION_URL,
     )

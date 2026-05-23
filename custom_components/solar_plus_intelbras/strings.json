@@ -1,0 +1,105 @@
+{
+    "entity": {
+        "sensor": {
+            "energy_today": { "name": "Energy today" },
+            "energy_total": { "name": "Energy total" },
+            "energy_of_last_30": { "name": "Energy last 30 days" },
+            "year_energy": { "name": "Energy this year" },
+            "current_power": { "name": "Current power" },
+            "today_economy": { "name": "Economy today" },
+            "total_economy": { "name": "Economy total" },
+            "economy_of_last_30": { "name": "Economy last 30 days" },
+            "year_economy": { "name": "Economy this year" },
+            "saved_co2": { "name": "CO2 saved" },
+            "saved_trees": { "name": "Trees saved" },
+            "saved_coal": { "name": "Coal saved" },
+            "price": { "name": "Energy price" },
+            "capacity_installed": { "name": "Installed capacity" },
+            "modules_amount": { "name": "Modules" },
+            "plant_status": { "name": "Plant status" },
+            "alerts": { "name": "Alerts" },
+            "today_alerts": { "name": "Alerts today" },
+            "inverter_temperature": { "name": "Temperature" },
+            "inverter_current_power": { "name": "Power" },
+            "inverter_energy_today": { "name": "Energy today" },
+            "inverter_status": { "name": "Status" },
+            "inverter_serial_number": { "name": "Serial number" },
+            "inverter_last_record": { "name": "Last record" },
+            "datalogger_firmware_version": { "name": "Firmware version" },
+            "datalogger_mac_address": { "name": "MAC address" },
+            "datalogger_rssi": { "name": "Signal strength" },
+            "datalogger_last_record": { "name": "Last record" }
+        },
+        "binary_sensor": {
+            "online": { "name": "Online" }
+        }
+    },
+    "config": {
+        "step": {
+            "user": {
+                "description": "Enter the email and \"plus\" token used on Solar Plus Intelbras.",
+                "data": {
+                    "email": "Email",
+                    "plus": "Plus"
+                }
+            },
+            "plant": {
+                "title": "Select a plant",
+                "description": "Choose which plant to add.",
+                "data": {
+                    "plant_id": "Plant"
+                }
+            },
+            "reauth_confirm": {
+                "title": "Re-authenticate Solar Plus Intelbras",
+                "description": "Your plus token expired. Paste a new one.",
+                "data": { "plus": "Plus" }
+            }
+        },
+        "abort": {
+            "already_configured": "This plant is already configured.",
+            "reauth_successful": "Re-authentication successful.",
+            "no_plants": "All your plants are already configured."
+        },
+        "error": {
+            "auth": "Email/Plus is wrong.",
+            "connection": "Unable to connect to the server.",
+            "unknown": "Unknown error occurred."
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": { "scan_interval": "Update interval (minutes)" }
+            }
+        }
+    },
+    "services": {
+        "send_alert": {
+            "name": "Send Alert",
+            "description": "Send an alert notification for Solar Plus Intelbras",
+            "fields": {
+                "message": {
+                    "name": "Message",
+                    "description": "Content of the message"
+                },
+                "title": {
+                    "name": "Title",
+                    "description": "Title of the notification"
+                },
+                "notification_id": {
+                    "name": "Notification ID",
+                    "description": "Unique ID for the notification (auto-generated if not provided)"
+                },
+                "priority": {
+                    "name": "Priority",
+                    "description": "Priority level of the notification"
+                }
+            }
+        },
+        "check_notifications": {
+            "name": "Check Notifications",
+            "description": "Manually check for new notifications from the Intelbras API"
+        }
+    }
+}
