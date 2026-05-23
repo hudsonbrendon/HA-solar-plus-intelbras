@@ -118,7 +118,7 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         notification_id = call.data.get(ATTR_NOTIFICATION_ID)
         priority = call.data.get(ATTR_PRIORITY, PRIORITY_NORMAL)
 
-        notification_id = notifier.send_alert(
+        notification_id = await notifier.async_send_alert(
             message=message, title=title, notification_id=notification_id, priority=priority
         )
         LOGGER.info("Created notification: %s", title)
