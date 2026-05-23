@@ -77,13 +77,15 @@ This custom component creates the following devices:
 
 The integration creates three devices — **Plant**, **Inverter**, and **Datalogger** — and supports multiple inverters per plant.
 
-**Plant:** Energy today / total / last 30 days / this year (kWh), Current power (W), Economy today / total / last 30 days / this year, CO2 / trees / coal saved, Energy price, Installed capacity, Modules, Plant status, Alerts, Alerts today.
+**Plant:** Energy today / total / last 30 days / this year (kWh), Current power (W), Economy today / total / last 30 days / this year, CO2 / trees / coal saved, Energy price, Installed capacity, Modules, Plant status, Alerts, Alerts today, Weather temperature / humidity / condition.
 
 **Inverter (per device):** Temperature (°C), Power (W), Energy today (kWh), Status, Serial number, Last record, Online (binary).
 
 **Datalogger (per device):** Firmware version, MAC address, Signal strength (RSSI), Last record.
 
-Monetary sensors use the currency reported by your account (e.g. `BRL`). The polling interval is configurable via the integration's **Configure** (options) dialog.
+Monetary sensors use the currency reported by your account (e.g. `BRL`). The polling interval is configurable via the integration's **Configure** (options) dialog. The integration is available in English, Portuguese and Spanish.
+
+If your "plus" token rotates you'll be prompted to re-authenticate; you can also **Reconfigure** the entry to change the email/plus without removing it.
 
 # Debugging
 
