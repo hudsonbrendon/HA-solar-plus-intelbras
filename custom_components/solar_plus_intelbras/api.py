@@ -4,13 +4,14 @@ from __future__ import annotations
 
 import asyncio
 import socket
+import time
 from datetime import date
 from typing import Any
 
 import aiohttp
 import async_timeout
 
-from .const import LOGGER, SOLAR_PLUS_INTELBRAS_API_URL
+from .const import DEFAULT_CURRENCY, LOGGER, SOLAR_PLUS_INTELBRAS_API_URL
 
 
 class SolarPlusIntelbrasApiClientError(Exception):
@@ -54,7 +55,14 @@ class SolarPlusIntelbrasApiClient:
         self._plus = plus
         self._plant_id = plant_id
         self._session = session
-        self._access_token = None
+        self._access_token: str | None = None
+        self._token_expires_at: float = 0.0
+        self._currency: str = DEFAULT_CURRENCY
+
+    @property
+    def currency(self) -> str:
+        """Return the account currency reported at login."""
+        return self._currency
 
     async def async_login(self) -> Any:
         """Login to the API."""
@@ -66,14 +74,22 @@ class SolarPlusIntelbrasApiClient:
         )
 
     async def async_get_token(self) -> None:
-        """Get token from the API."""
+        """Get token from the API and cache it with its expiry."""
         response = await self.async_login()
-        self._access_token = response["accessToken"]["accessJWT"]
+        access = response["accessToken"]
+        self._access_token = access["accessJWT"]
+        # Refresh 60s before the server-reported expiry; fall back to 5 min.
+        exp = access.get("exp")
+        self._token_expires_at = (exp - 60) if exp else (time.time() + 300)
+        try:
+            self._currency = response["user"]["preferences"]["currency"] or DEFAULT_CURRENCY
+        except (KeyError, TypeError):
+            self._currency = DEFAULT_CURRENCY
 
     async def async_ensure_token(self) -> None:
-        """Ensure that we have a valid access token."""
-        # if self._access_token is None:
-        await self.async_get_token()
+        """Ensure that we have a valid, unexpired access token."""
+        if self._access_token is None or time.time() >= self._token_expires_at:
+            await self.async_get_token()
 
     async def async_get_data(self) -> Any:
         """Get data from the API."""
