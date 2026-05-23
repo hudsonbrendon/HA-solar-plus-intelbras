@@ -49,3 +49,10 @@ def test_inverter_temperature(coordinator_data: dict) -> None:
     desc = _by_key(INVERTER_SENSORS, "inverter_temperature")
     assert desc.device_class == SensorDeviceClass.TEMPERATURE
     assert desc.value_fn(row) == 40  # noqa: PLR2004
+
+
+def test_weather_sensors_read_plant_weather(coordinator_data: dict) -> None:
+    """Weather sensors read plant.weather.current."""
+    assert _by_key(PLANT_SENSORS, "weather_temperature").value_fn(coordinator_data) == 31.4  # noqa: PLR2004
+    assert _by_key(PLANT_SENSORS, "weather_humidity").value_fn(coordinator_data) == 63  # noqa: PLR2004
+    assert _by_key(PLANT_SENSORS, "weather_condition").value_fn(coordinator_data) == "Partly cloudy"

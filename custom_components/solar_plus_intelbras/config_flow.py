@@ -183,6 +183,48 @@ class SolarPlusIntelbrasFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             errors=_errors,
         )
 
+    async def async_step_reconfigure(self, user_input: dict | None = None) -> data_entry_flow.FlowResult:
+        """Let the user update the email/plus of an existing entry (same plant)."""
+        _errors: dict[str, str] = {}
+        entry = self._get_reconfigure_entry()
+        if user_input is not None:
+            try:
+                # Validate the new credentials; the plant stays the same.
+                await self._async_fetch_plants(
+                    email=user_input[CONF_EMAIL],
+                    plus=user_input[CONF_PLUS],
+                )
+            except SolarPlusIntelbrasApiClientAuthenticationError:
+                _errors["base"] = "auth"
+            except SolarPlusIntelbrasApiClientCommunicationError:
+                _errors["base"] = "connection"
+            except SolarPlusIntelbrasApiClientError:
+                _errors["base"] = "unknown"
+            else:
+                return self.async_update_reload_and_abort(
+                    entry,
+                    data={
+                        **entry.data,
+                        CONF_EMAIL: user_input[CONF_EMAIL],
+                        CONF_PLUS: user_input[CONF_PLUS],
+                    },
+                )
+
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_EMAIL, default=entry.data[CONF_EMAIL]): selector.TextSelector(
+                        selector.TextSelectorConfig(type=selector.TextSelectorType.TEXT),
+                    ),
+                    vol.Required(CONF_PLUS): selector.TextSelector(
+                        selector.TextSelectorConfig(type=selector.TextSelectorType.PASSWORD),
+                    ),
+                },
+            ),
+            errors=_errors,
+        )
+
     @staticmethod
     @config_entries.callback
     def async_get_options_flow(

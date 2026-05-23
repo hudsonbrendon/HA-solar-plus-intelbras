@@ -1,0 +1,114 @@
+{
+    "entity": {
+        "sensor": {
+            "energy_today": { "name": "Energía hoy" },
+            "energy_total": { "name": "Energía total" },
+            "energy_of_last_30": { "name": "Energía últimos 30 días" },
+            "year_energy": { "name": "Energía del año" },
+            "current_power": { "name": "Potencia actual" },
+            "today_economy": { "name": "Ahorro hoy" },
+            "total_economy": { "name": "Ahorro total" },
+            "economy_of_last_30": { "name": "Ahorro últimos 30 días" },
+            "year_economy": { "name": "Ahorro del año" },
+            "saved_co2": { "name": "CO2 evitado" },
+            "saved_trees": { "name": "Árboles ahorrados" },
+            "saved_coal": { "name": "Carbón ahorrado" },
+            "price": { "name": "Precio de la energía" },
+            "capacity_installed": { "name": "Capacidad instalada" },
+            "modules_amount": { "name": "Módulos" },
+            "plant_status": { "name": "Estado de la planta" },
+            "alerts": { "name": "Alertas" },
+            "today_alerts": { "name": "Alertas hoy" },
+            "inverter_temperature": { "name": "Temperatura" },
+            "inverter_current_power": { "name": "Potencia" },
+            "inverter_energy_today": { "name": "Energía hoy" },
+            "inverter_status": { "name": "Estado" },
+            "inverter_serial_number": { "name": "Número de serie" },
+            "inverter_last_record": { "name": "Último registro" },
+            "datalogger_firmware_version": { "name": "Versión de firmware" },
+            "datalogger_mac_address": { "name": "Dirección MAC" },
+            "datalogger_rssi": { "name": "Intensidad de señal" },
+            "datalogger_last_record": { "name": "Último registro" },
+            "weather_temperature": { "name": "Temperatura (clima)" },
+            "weather_humidity": { "name": "Humedad" },
+            "weather_condition": { "name": "Condición del clima" }
+        },
+        "binary_sensor": {
+            "online": { "name": "En línea" }
+        }
+    },
+    "config": {
+        "step": {
+            "user": {
+                "description": "Introduce el correo y el token \"plus\" usados en Solar Plus Intelbras.",
+                "data": {
+                    "email": "Correo",
+                    "plus": "Plus"
+                }
+            },
+            "plant": {
+                "title": "Selecciona una planta",
+                "description": "Elige qué planta añadir.",
+                "data": {
+                    "plant_id": "Planta"
+                }
+            },
+            "reauth_confirm": {
+                "title": "Volver a autenticar Solar Plus Intelbras",
+                "description": "Tu token plus expiró. Pega uno nuevo.",
+                "data": { "plus": "Plus" }
+            },
+            "reconfigure": {
+                "title": "Reconfigurar Solar Plus Intelbras",
+                "description": "Actualiza el correo y el token \"plus\". La planta seleccionada no cambia.",
+                "data": { "email": "Correo", "plus": "Plus" }
+            }
+        },
+        "abort": {
+            "already_configured": "Esta planta ya está configurada.",
+            "reauth_successful": "Reautenticación correcta.",
+            "reconfigure_successful": "Reconfiguración correcta.",
+            "no_plants": "Todas tus plantas ya están configuradas."
+        },
+        "error": {
+            "auth": "Correo/Plus incorrecto.",
+            "connection": "No se pudo conectar al servidor.",
+            "unknown": "Ocurrió un error desconocido."
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": { "scan_interval": "Intervalo de actualización (minutos)" }
+            }
+        }
+    },
+    "services": {
+        "send_alert": {
+            "name": "Enviar alerta",
+            "description": "Envía una notificación de alerta para Solar Plus Intelbras",
+            "fields": {
+                "message": {
+                    "name": "Mensaje",
+                    "description": "Contenido del mensaje"
+                },
+                "title": {
+                    "name": "Título",
+                    "description": "Título de la notificación"
+                },
+                "notification_id": {
+                    "name": "ID de notificación",
+                    "description": "ID único de la notificación (autogenerado si no se indica)"
+                },
+                "priority": {
+                    "name": "Prioridad",
+                    "description": "Nivel de prioridad de la notificación"
+                }
+            }
+        },
+        "check_notifications": {
+            "name": "Comprobar notificaciones",
+            "description": "Comprueba manualmente nuevas notificaciones de la API de Intelbras"
+        }
+    }
+}

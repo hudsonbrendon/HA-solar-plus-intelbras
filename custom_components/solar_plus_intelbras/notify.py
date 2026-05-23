@@ -45,6 +45,7 @@ class SolarPlusIntelbrasNotifier:
             self.hass,
             self._async_check_notifications,
             DEFAULT_NOTIFICATION_CHECK_INTERVAL,
+            cancel_on_shutdown=True,
         )
 
     def async_teardown(self) -> None:

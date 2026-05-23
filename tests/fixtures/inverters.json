@@ -76,6 +76,15 @@
           "alerts": 5,
           "todayAlerts": 0,
           "chargeControllers": 0
+        },
+        "weather": {
+          "current": {
+            "temp_c": 31.4,
+            "humidity": 63,
+            "cloud": 50,
+            "wind_kph": 15.8,
+            "condition": { "text": "Partly cloudy" }
+          }
         }
       }
     }
