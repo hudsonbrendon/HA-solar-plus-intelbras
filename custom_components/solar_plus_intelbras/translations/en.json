@@ -57,11 +57,17 @@
                 "title": "Re-authenticate Solar Plus Intelbras",
                 "description": "Your plus token expired. Paste a new one.",
                 "data": { "plus": "Plus" }
+            },
+            "reconfigure": {
+                "title": "Reconfigure Solar Plus Intelbras",
+                "description": "Update the email and \"plus\" token. The selected plant stays the same.",
+                "data": { "email": "Email", "plus": "Plus" }
             }
         },
         "abort": {
             "already_configured": "This plant is already configured.",
             "reauth_successful": "Re-authentication successful.",
+            "reconfigure_successful": "Re-configuration successful.",
             "no_plants": "All your plants are already configured."
         },
         "error": {

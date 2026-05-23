@@ -57,11 +57,17 @@
                 "title": "Reautenticar Solar Plus Intelbras",
                 "description": "Seu token plus expirou. Cole um novo.",
                 "data": { "plus": "Plus" }
+            },
+            "reconfigure": {
+                "title": "Reconfigurar Solar Plus Intelbras",
+                "description": "Atualize o email e o token \"plus\". A usina selecionada permanece a mesma.",
+                "data": { "email": "Email", "plus": "Plus" }
             }
         },
         "abort": {
             "already_configured": "Esta usina já está configurada.",
             "reauth_successful": "Reautenticação bem-sucedida.",
+            "reconfigure_successful": "Reconfiguração concluída.",
             "no_plants": "Todas as suas usinas já estão configuradas."
         },
         "error": {

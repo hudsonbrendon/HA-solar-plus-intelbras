@@ -7,6 +7,7 @@ from unittest.mock import AsyncMock, patch
 
 import pytest
 from homeassistant import config_entries, data_entry_flow
+from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.solar_plus_intelbras.api import (
     SolarPlusIntelbrasApiClientAuthenticationError,
@@ -88,6 +89,28 @@ async def test_configured_plant_is_filtered(hass: HomeAssistant) -> None:
         result = await hass.config_entries.flow.async_configure(second["flow_id"], {CONF_PLANT_ID: "43"})
     assert result["type"] == data_entry_flow.FlowResultType.CREATE_ENTRY
     assert result["result"].unique_id == "43"
+
+
+async def test_reconfigure_updates_credentials(hass: HomeAssistant) -> None:
+    """Reconfigure updates the email/plus while keeping the same plant (unique_id)."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id="42",
+        data={CONF_EMAIL: "old@mail.com", CONF_PLUS: "old", CONF_PLANT_ID: "42"},
+    )
+    entry.add_to_hass(hass)
+    with _patch_plants(PLANTS), _patch_setup_fetch():
+        result = await entry.start_reconfigure_flow(hass)
+        assert result["step_id"] == "reconfigure"
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {CONF_EMAIL: "new@mail.com", CONF_PLUS: "newtok"}
+        )
+        await hass.async_block_till_done()
+    assert result2["type"] == data_entry_flow.FlowResultType.ABORT
+    assert result2["reason"] == "reconfigure_successful"
+    assert entry.data[CONF_EMAIL] == "new@mail.com"
+    assert entry.data[CONF_PLUS] == "newtok"
+    assert entry.data[CONF_PLANT_ID] == "42"
 
 
 async def test_no_plants_left_aborts(hass: HomeAssistant) -> None:
