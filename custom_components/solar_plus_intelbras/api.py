@@ -91,17 +91,52 @@ class SolarPlusIntelbrasApiClient:
         if self._access_token is None or time.time() >= self._token_expires_at:
             await self.async_get_token()
 
+    @staticmethod
+    def _extract_rows(response: Any, label: str) -> list:
+        """Return the rows of an endpoint response, or [] if it failed."""
+        if isinstance(response, BaseException):
+            LOGGER.debug("Skipping %s endpoint: %s", label, response)
+            return []
+        return (response or {}).get("rows", []) or []
+
     async def async_get_data(self) -> Any:
-        """Get data from the API."""
+        """
+        Return inverter and microinverter rows merged into one response.
+
+        Plants with microinverters return no rows from ``/inverters``, so both
+        endpoints are queried in parallel and their rows merged. A failure of
+        one endpoint (e.g. a plant that has no microinverters) is tolerated as
+        long as the other succeeds; if both fail, the inverters error is raised
+        so the update is reported as failed.
+        """
         await self.async_ensure_token()
-        return await self._api_wrapper(
-            method="get",
-            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/inverters?limit=20&page=1",
-            headers={
-                "Authorization": f"Bearer {self._access_token}",
-                "plus": self._plus,
-            },
+        headers = {
+            "Authorization": f"Bearer {self._access_token}",
+            "plus": self._plus,
+        }
+        inverters, microinverters = await asyncio.gather(
+            self._api_wrapper(
+                method="get",
+                url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/inverters?limit=20&page=1",
+                headers=headers,
+            ),
+            self._api_wrapper(
+                method="get",
+                url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/microinverters?limit=20&page=1",
+                headers=headers,
+            ),
+            return_exceptions=True,
         )
+
+        if isinstance(inverters, BaseException) and isinstance(microinverters, BaseException):
+            raise inverters
+
+        base = inverters if isinstance(inverters, dict) else microinverters
+        merged = dict(base) if isinstance(base, dict) else {}
+        merged["rows"] = self._extract_rows(inverters, "inverters") + self._extract_rows(
+            microinverters, "microinverters"
+        )
+        return merged
 
     async def async_get_year_energy(self, year: int) -> float | None:
         """Return total energy (kWh) generated in the given year."""
