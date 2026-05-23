@@ -50,3 +50,19 @@ async def test_currency_captured_from_login(login_response: dict) -> None:
             )
             await client.async_get_data()
             assert client.currency == "BRL"
+
+
+@pytest.mark.asyncio
+async def test_year_energy_returns_total(login_response: dict, records_year_response: dict) -> None:
+    """async_get_year_energy returns data.total from records/year."""
+    login_response["accessToken"]["exp"] = int(time.time()) + 3600
+    async with aiohttp.ClientSession() as session:
+        client = SolarPlusIntelbrasApiClient("e@mail.com", "plus", "1", session)
+        with aioresponses() as mocked:
+            mocked.post(f"{SOLAR_PLUS_INTELBRAS_API_URL}/login", payload=login_response)
+            mocked.get(
+                f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/1/records/year?period=year&year=2025&key=energy_today",
+                payload=records_year_response,
+            )
+            total = await client.async_get_year_energy(2025)
+            assert total == records_year_response["data"]["total"]

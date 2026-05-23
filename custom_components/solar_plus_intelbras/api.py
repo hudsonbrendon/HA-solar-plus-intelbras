@@ -103,6 +103,31 @@ class SolarPlusIntelbrasApiClient:
             },
         )
 
+    async def async_get_year_energy(self, year: int) -> float | None:
+        """Return total energy (kWh) generated in the given year."""
+        await self.async_ensure_token()
+        url = (
+            f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}/records/year"
+            f"?period=year&year={year}&key=energy_today"
+        )
+        response = await self._api_wrapper(
+            method="get",
+            url=url,
+            headers={"Authorization": f"Bearer {self._access_token}", "plus": self._plus},
+        )
+        if not response:
+            return None
+        return response.get("data", {}).get("total")
+
+    async def async_get_plant_detail(self) -> Any:
+        """Return the plant detail document."""
+        await self.async_ensure_token()
+        return await self._api_wrapper(
+            method="get",
+            url=f"{SOLAR_PLUS_INTELBRAS_API_URL}/plants/{self._plant_id}",
+            headers={"Authorization": f"Bearer {self._access_token}", "plus": self._plus},
+        )
+
     async def async_get_notifications(self, start_date: None | date = None, end_date: None | date = None) -> dict:
         """Get notifications from the API."""
         await self.async_ensure_token()
