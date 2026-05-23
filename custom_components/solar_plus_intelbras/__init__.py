@@ -26,17 +26,15 @@ from .const import (
     CONF_PLUS,
     DOMAIN,
     LOGGER,
+    NOTIFICATION_TITLE_DEFAULT,
+    PRIORITY_CRITICAL,
     PRIORITY_INFO,
+    PRIORITY_NORMAL,
+    PRIORITY_WARNING,
 )
 from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
 from .data import SolarPlusIntelbrasData
-from .notify import (
-    NOTIFICATION_TITLE_DEFAULT,
-    PRIORITY_CRITICAL,
-    PRIORITY_NORMAL,
-    PRIORITY_WARNING,
-    SolarPlusIntelbrasNotifier,
-)
+from .notify import SolarPlusIntelbrasNotifier
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
