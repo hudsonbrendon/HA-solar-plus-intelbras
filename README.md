@@ -85,6 +85,10 @@ The integration creates three devices — **Plant**, **Inverter**, and **Datalog
 
 Monetary sensors use the currency reported by your account (e.g. `BRL`). The polling interval is configurable via the integration's **Configure** (options) dialog. The integration is available in English, Portuguese and Spanish.
 
+### Energy Dashboard history
+
+The energy sensors feed the Energy Dashboard automatically going forward. To **backfill past months**, call the `solar_plus_intelbras.import_history` service (optionally with `years`, default 2). It imports monthly generation as a long-term statistic per plant that you can add to the Energy Dashboard. Requires the `recorder` integration.
+
 If your "plus" token rotates you'll be prompted to re-authenticate; you can also **Reconfigure** the entry to change the email/plus without removing it.
 
 # Debugging
