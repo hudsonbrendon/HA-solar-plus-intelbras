@@ -48,4 +48,4 @@ jobs:
           run: python3 -m pip install -r requirements.test.txt
 
         - name: "Run tests"
-          run: python3 -m pytest
+          run: python3 -m pytest --cov=custom_components/solar_plus_intelbras --cov-report=term-missing --cov-fail-under=95

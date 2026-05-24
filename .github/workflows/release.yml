@@ -13,6 +13,10 @@ jobs:
     runs-on: "ubuntu-latest"
     permissions:
       contents: write
+    env:
+      # softprops/action-gh-release still ships on Node 20; opt into Node 24
+      # to clear the runner deprecation warning until the action updates.
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
     steps:
       - name: "Checkout the repository"
         uses: "actions/checkout@v6.0.2"

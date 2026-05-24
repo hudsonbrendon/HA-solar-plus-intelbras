@@ -76,6 +76,14 @@
             "unknown": "Unknown error occurred."
         }
     },
+    "exceptions": {
+        "auth_failed": {
+            "message": "Authentication with Solar Plus Intelbras failed; please re-authenticate."
+        },
+        "update_failed": {
+            "message": "Failed to fetch data from Solar Plus Intelbras: {error}"
+        }
+    },
     "options": {
         "step": {
             "init": {
@@ -109,6 +117,16 @@
         "check_notifications": {
             "name": "Check Notifications",
             "description": "Manually check for new notifications from the Intelbras API"
+        },
+        "import_history": {
+            "name": "Import History",
+            "description": "Backfill long-term statistics (Energy Dashboard) with monthly generation history.",
+            "fields": {
+                "years": {
+                    "name": "Years",
+                    "description": "How many years back to import (including the current year)."
+                }
+            }
         }
     }
 }

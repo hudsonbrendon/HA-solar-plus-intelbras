@@ -36,3 +36,22 @@ send_alert:
             - "warning"
             - "critical"
             - "info"
+
+check_notifications:
+  name: Check Notifications
+  description: Manually check for new notifications from the Intelbras API.
+
+import_history:
+  name: Import History
+  description: Backfill long-term statistics (Energy Dashboard) with monthly generation history.
+  fields:
+    years:
+      name: Years
+      description: How many years back to import (including the current year).
+      required: false
+      default: 2
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box

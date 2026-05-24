@@ -7,10 +7,12 @@ https://github.com/hudsonbrendon/HA-solar-plus-intelbras
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
 from typing import TYPE_CHECKING
 
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
+from homeassistant.config_entries import ConfigEntryState
 from homeassistant.const import Platform
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
@@ -24,8 +26,11 @@ from .const import (
     CONF_EMAIL,
     CONF_PLANT_ID,
     CONF_PLUS,
+    CONF_YEARS,
+    DEFAULT_IMPORT_YEARS,
     DOMAIN,
     LOGGER,
+    MAX_IMPORT_YEARS,
     NOTIFICATION_TITLE_DEFAULT,
     PRIORITY_CRITICAL,
     PRIORITY_INFO,
@@ -35,6 +40,7 @@ from .const import (
 from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
 from .data import SolarPlusIntelbrasData
 from .notify import SolarPlusIntelbrasNotifier
+from .statistics import async_import_history
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -152,5 +158,35 @@ async def async_setup(hass: HomeAssistant, config: dict) -> bool:
         "check_notifications",
         notifier.async_check_notifications_service,
         schema=vol.Schema({}),
+    )
+
+    async def handle_import_history(call: vol.Schema) -> None:
+        """Backfill long-term statistics with monthly generation history."""
+        years = call.data.get(CONF_YEARS, DEFAULT_IMPORT_YEARS)
+        end_year = datetime.now(UTC).year
+        start_year = end_year - years + 1
+        for entry in hass.config_entries.async_entries(DOMAIN):
+            if entry.state is not ConfigEntryState.LOADED:
+                continue
+            count = await async_import_history(
+                hass,
+                entry.runtime_data.client,
+                plant_id=entry.data[CONF_PLANT_ID],
+                name=entry.title,
+                year_range=(start_year, end_year),
+            )
+            LOGGER.info("Imported %s history points for plant %s", count, entry.data[CONF_PLANT_ID])
+
+    hass.services.async_register(
+        DOMAIN,
+        "import_history",
+        handle_import_history,
+        schema=vol.Schema(
+            {
+                vol.Optional(CONF_YEARS, default=DEFAULT_IMPORT_YEARS): vol.All(
+                    int, vol.Range(min=1, max=MAX_IMPORT_YEARS)
+                )
+            }
+        ),
     )
     return True

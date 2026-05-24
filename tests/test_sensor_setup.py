@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
-from custom_components.solar_plus_intelbras.sensor import build_entities
+from custom_components.solar_plus_intelbras.sensor import (
+    SolarPlusIntelbrasInverterSensor,
+    build_entities,
+)
 from custom_components.solar_plus_intelbras.sensor_descriptions import (
     DATALOGGER_SENSORS,
     INVERTER_SENSORS,
@@ -23,6 +26,15 @@ def test_build_entities_counts(coordinator_data: dict) -> None:
     entities = build_entities(coordinator)
     expected = len(PLANT_SENSORS) + len(INVERTER_SENSORS) + len(DATALOGGER_SENSORS)
     assert len(entities) == expected
+
+
+def test_row_sensor_unavailable_when_row_disappears(coordinator_data: dict) -> None:
+    """A per-row sensor becomes unavailable (value None) if its row is gone."""
+    coordinator = _FakeCoordinator(coordinator_data)
+    sensor = SolarPlusIntelbrasInverterSensor(coordinator, INVERTER_SENSORS[0], 0)
+    coordinator.data = {"inverters": {"rows": []}, "year_energy": None, "currency": "BRL"}
+    assert sensor.available is False
+    assert sensor.native_value is None
 
 
 def test_unique_ids_are_distinct(coordinator_data: dict) -> None:

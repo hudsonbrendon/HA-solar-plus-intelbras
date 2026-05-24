@@ -76,6 +76,14 @@
             "unknown": "Ocurrió un error desconocido."
         }
     },
+    "exceptions": {
+        "auth_failed": {
+            "message": "Error de autenticación con Solar Plus Intelbras; vuelve a autenticarte."
+        },
+        "update_failed": {
+            "message": "Error al obtener datos de Solar Plus Intelbras: {error}"
+        }
+    },
     "options": {
         "step": {
             "init": {
@@ -109,6 +117,16 @@
         "check_notifications": {
             "name": "Comprobar notificaciones",
             "description": "Comprueba manualmente nuevas notificaciones de la API de Intelbras"
+        },
+        "import_history": {
+            "name": "Importar historial",
+            "description": "Rellena las estadísticas a largo plazo (panel de energía) con el historial mensual de generación.",
+            "fields": {
+                "years": {
+                    "name": "Años",
+                    "description": "Cuántos años hacia atrás importar (incluido el año actual)."
+                }
+            }
         }
     }
 }

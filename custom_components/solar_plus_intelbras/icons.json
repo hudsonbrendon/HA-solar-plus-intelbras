@@ -1,0 +1,34 @@
+{
+    "entity": {
+        "sensor": {
+            "energy_today": { "default": "mdi:solar-panel" },
+            "energy_total": { "default": "mdi:solar-panel" },
+            "energy_of_last_30": { "default": "mdi:solar-panel" },
+            "year_energy": { "default": "mdi:solar-panel" },
+            "current_power": { "default": "mdi:solar-power" },
+            "today_economy": { "default": "mdi:cash" },
+            "total_economy": { "default": "mdi:cash-multiple" },
+            "economy_of_last_30": { "default": "mdi:cash-multiple" },
+            "year_economy": { "default": "mdi:cash-multiple" },
+            "saved_co2": { "default": "mdi:molecule-co2" },
+            "saved_trees": { "default": "mdi:tree" },
+            "saved_coal": { "default": "mdi:grill" },
+            "price": { "default": "mdi:cash" },
+            "capacity_installed": { "default": "mdi:solar-power-variant" },
+            "modules_amount": { "default": "mdi:solar-panel-large" },
+            "plant_status": { "default": "mdi:check-circle" },
+            "alerts": { "default": "mdi:alert" },
+            "today_alerts": { "default": "mdi:alert" },
+            "weather_condition": { "default": "mdi:weather-partly-cloudy" },
+            "inverter_status": { "default": "mdi:state-machine" },
+            "inverter_serial_number": { "default": "mdi:identifier" },
+            "datalogger_firmware_version": { "default": "mdi:chip" },
+            "datalogger_mac_address": { "default": "mdi:network" }
+        }
+    },
+    "services": {
+        "send_alert": { "service": "mdi:message-alert" },
+        "check_notifications": { "service": "mdi:bell-check" },
+        "import_history": { "service": "mdi:database-import" }
+    }
+}

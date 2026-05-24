@@ -82,7 +82,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="energy_today",
         translation_key="energy_today",
-        icon="mdi:solar-panel",
         device_class=SensorDeviceClass.ENERGY,
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -92,7 +91,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="energy_total",
         translation_key="energy_total",
-        icon="mdi:solar-panel",
         device_class=SensorDeviceClass.ENERGY,
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -102,7 +100,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="energy_of_last_30",
         translation_key="energy_of_last_30",
-        icon="mdi:solar-panel",
         device_class=SensorDeviceClass.ENERGY,
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -112,7 +109,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="year_energy",
         translation_key="year_energy",
-        icon="mdi:solar-panel",
         device_class=SensorDeviceClass.ENERGY,
         native_unit_of_measurement=UnitOfEnergy.KILO_WATT_HOUR,
         state_class=SensorStateClass.TOTAL_INCREASING,
@@ -122,7 +118,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="current_power",
         translation_key="current_power",
-        icon="mdi:solar-power",
         device_class=SensorDeviceClass.POWER,
         native_unit_of_measurement=UnitOfPower.WATT,
         state_class=SensorStateClass.MEASUREMENT,
@@ -132,7 +127,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="today_economy",
         translation_key="today_economy",
-        icon="mdi:cash",
         device_class=SensorDeviceClass.MONETARY,
         state_class=SensorStateClass.TOTAL,
         suggested_display_precision=2,
@@ -141,7 +135,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="total_economy",
         translation_key="total_economy",
-        icon="mdi:cash-multiple",
         device_class=SensorDeviceClass.MONETARY,
         state_class=SensorStateClass.TOTAL,
         suggested_display_precision=2,
@@ -150,7 +143,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="economy_of_last_30",
         translation_key="economy_of_last_30",
-        icon="mdi:cash-multiple",
         device_class=SensorDeviceClass.MONETARY,
         state_class=SensorStateClass.TOTAL,
         suggested_display_precision=2,
@@ -159,7 +151,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="year_economy",
         translation_key="year_economy",
-        icon="mdi:cash-multiple",
         device_class=SensorDeviceClass.MONETARY,
         state_class=SensorStateClass.TOTAL,
         suggested_display_precision=2,
@@ -168,7 +159,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="saved_co2",
         translation_key="saved_co2",
-        icon="mdi:molecule-co2",
         native_unit_of_measurement="kg",
         state_class=SensorStateClass.TOTAL_INCREASING,
         suggested_display_precision=2,
@@ -177,7 +167,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="saved_trees",
         translation_key="saved_trees",
-        icon="mdi:tree",
         state_class=SensorStateClass.TOTAL_INCREASING,
         suggested_display_precision=2,
         value_fn=lambda d: _metric(d, "savedTrees"),
@@ -185,7 +174,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="saved_coal",
         translation_key="saved_coal",
-        icon="mdi:grill",
         native_unit_of_measurement="kg",
         state_class=SensorStateClass.TOTAL_INCREASING,
         suggested_display_precision=2,
@@ -194,7 +182,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="price",
         translation_key="price",
-        icon="mdi:cash",
         device_class=SensorDeviceClass.MONETARY,
         suggested_display_precision=2,
         value_fn=lambda d: _plant_field(d, "price"),
@@ -202,7 +189,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="capacity_installed",
         translation_key="capacity_installed",
-        icon="mdi:solar-power-variant",
         native_unit_of_measurement="kWp",
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda d: _plant_field(d, "capacityInstalled"),
@@ -210,28 +196,24 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="modules_amount",
         translation_key="modules_amount",
-        icon="mdi:solar-panel-large",
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda d: _plant_field(d, "modulesAmount"),
     ),
     SolarPlusSensorEntityDescription(
         key="plant_status",
         translation_key="plant_status",
-        icon="mdi:check-circle",
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda d: _plant_field(d, "status"),
     ),
     SolarPlusSensorEntityDescription(
         key="alerts",
         translation_key="alerts",
-        icon="mdi:alert",
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda d: _component(d, "alerts"),
     ),
     SolarPlusSensorEntityDescription(
         key="today_alerts",
         translation_key="today_alerts",
-        icon="mdi:alert",
         entity_category=EntityCategory.DIAGNOSTIC,
         state_class=SensorStateClass.MEASUREMENT,
         value_fn=lambda d: _component(d, "todayAlerts"),
@@ -258,7 +240,6 @@ PLANT_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="weather_condition",
         translation_key="weather_condition",
-        icon="mdi:weather-partly-cloudy",
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda d: (_weather(d).get("condition") or {}).get("text"),
     ),
@@ -294,15 +275,14 @@ INVERTER_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="inverter_status",
         translation_key="inverter_status",
-        icon="mdi:state-machine",
         entity_category=EntityCategory.DIAGNOSTIC,
         value_fn=lambda row: row.get("status"),
     ),
     SolarPlusSensorEntityDescription(
         key="inverter_serial_number",
         translation_key="inverter_serial_number",
-        icon="mdi:identifier",
         entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
         value_fn=lambda row: row.get("serialNumber"),
     ),
     SolarPlusSensorEntityDescription(
@@ -310,6 +290,7 @@ INVERTER_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
         translation_key="inverter_last_record",
         device_class=SensorDeviceClass.TIMESTAMP,
         entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
         value_fn=lambda row: _parse_dt(row.get("last_record")),
     ),
 )
@@ -319,15 +300,15 @@ DATALOGGER_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
     SolarPlusSensorEntityDescription(
         key="datalogger_firmware_version",
         translation_key="datalogger_firmware_version",
-        icon="mdi:chip",
         entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
         value_fn=lambda row: _datalogger(row).get("firmwareVersion"),
     ),
     SolarPlusSensorEntityDescription(
         key="datalogger_mac_address",
         translation_key="datalogger_mac_address",
-        icon="mdi:network",
         entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
         value_fn=lambda row: _datalogger(row).get("macAddress"),
     ),
     SolarPlusSensorEntityDescription(
@@ -344,6 +325,7 @@ DATALOGGER_SENSORS: tuple[SolarPlusSensorEntityDescription, ...] = (
         translation_key="datalogger_last_record",
         device_class=SensorDeviceClass.TIMESTAMP,
         entity_category=EntityCategory.DIAGNOSTIC,
+        entity_registry_enabled_default=False,
         value_fn=lambda row: _parse_dt(_datalogger(row).get("last_record")),
     ),
 )

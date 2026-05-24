@@ -1,6 +1,9 @@
 {
   "domain": "solar_plus_intelbras",
   "name": "Solar Plus Intelbras",
+  "after_dependencies": [
+    "recorder"
+  ],
   "codeowners": [
     "@hudsonbrendon"
   ],
@@ -12,6 +15,7 @@
   "loggers": [
     "custom_components.solar_plus_intelbras"
   ],
+  "quality_scale": "silver",
   "requirements": [],
-  "version": "0.6.0"
+  "version": "0.7.0"
 }

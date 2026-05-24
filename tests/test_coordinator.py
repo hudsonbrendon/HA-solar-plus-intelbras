@@ -7,9 +7,14 @@ from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock
 
 import pytest
+from homeassistant.exceptions import ConfigEntryAuthFailed
+from homeassistant.helpers.update_coordinator import UpdateFailed
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
-from custom_components.solar_plus_intelbras.api import SolarPlusIntelbrasApiClientError
+from custom_components.solar_plus_intelbras.api import (
+    SolarPlusIntelbrasApiClientAuthenticationError,
+    SolarPlusIntelbrasApiClientError,
+)
 from custom_components.solar_plus_intelbras.const import DOMAIN
 from custom_components.solar_plus_intelbras.coordinator import (
     SolarPlusIntelbrasDataUpdateCoordinator,
@@ -68,3 +73,23 @@ async def test_update_data_tolerates_year_energy_error(hass: HomeAssistant) -> N
     data = await coordinator._async_update_data()  # noqa: SLF001
     assert data["year_energy"] is None
     assert data["currency"] == "BRL"
+
+
+async def test_update_data_auth_error_raises_reauth(hass: HomeAssistant) -> None:
+    """An authentication error surfaces as ConfigEntryAuthFailed (drives reauth)."""
+    client = SimpleNamespace(
+        async_get_data=AsyncMock(side_effect=SolarPlusIntelbrasApiClientAuthenticationError),
+    )
+    coordinator = _make_coordinator(hass, client)
+    with pytest.raises(ConfigEntryAuthFailed):
+        await coordinator._async_update_data()  # noqa: SLF001
+
+
+async def test_update_data_api_error_raises_update_failed(hass: HomeAssistant) -> None:
+    """A generic API error surfaces as UpdateFailed."""
+    client = SimpleNamespace(
+        async_get_data=AsyncMock(side_effect=SolarPlusIntelbrasApiClientError("boom")),
+    )
+    coordinator = _make_coordinator(hass, client)
+    with pytest.raises(UpdateFailed):
+        await coordinator._async_update_data()  # noqa: SLF001
