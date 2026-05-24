@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+import copy
+
 from custom_components.solar_plus_intelbras.sensor import (
     SolarPlusIntelbrasInverterSensor,
     build_entities,
+    new_row_entities,
 )
 from custom_components.solar_plus_intelbras.sensor_descriptions import (
     DATALOGGER_SENSORS,
@@ -29,12 +32,32 @@ def test_build_entities_counts(coordinator_data: dict) -> None:
 
 
 def test_row_sensor_unavailable_when_row_disappears(coordinator_data: dict) -> None:
-    """A per-row sensor becomes unavailable (value None) if its row is gone."""
+    """A per-row sensor becomes unavailable (value None) if its inverter is gone."""
     coordinator = _FakeCoordinator(coordinator_data)
-    sensor = SolarPlusIntelbrasInverterSensor(coordinator, INVERTER_SENSORS[0], 0)
+    sensor = SolarPlusIntelbrasInverterSensor(coordinator, INVERTER_SENSORS[0], 2113)
     coordinator.data = {"inverters": {"rows": []}, "year_energy": None, "currency": "BRL"}
     assert sensor.available is False
     assert sensor.native_value is None
+
+
+def test_new_row_entities_only_returns_unseen_inverters(coordinator_data: dict) -> None:
+    """Dynamic discovery adds entities only for inverter ids not yet seen."""
+    coordinator = _FakeCoordinator(coordinator_data)
+    known: set = set()
+    first = new_row_entities(coordinator, known)
+    assert len(first) == len(INVERTER_SENSORS) + len(DATALOGGER_SENSORS)
+    # Same data again -> nothing new.
+    assert new_row_entities(coordinator, known) == []
+    # A second inverter appears -> only its entities are created.
+    data = copy.deepcopy(coordinator_data)
+    second_row = copy.deepcopy(data["inverters"]["rows"][0])
+    second_row["id"] = 9999
+    second_row["datalogger"]["id"] = 8888
+    data["inverters"]["rows"].append(second_row)
+    coordinator.data = data
+    added = new_row_entities(coordinator, known)
+    assert len(added) == len(INVERTER_SENSORS) + len(DATALOGGER_SENSORS)
+    assert all("_9999_" in e.unique_id or "_8888_" in e.unique_id for e in added)
 
 
 def test_unique_ids_are_distinct(coordinator_data: dict) -> None:

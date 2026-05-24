@@ -14,6 +14,8 @@ import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.const import Platform
+from homeassistant.core import callback
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.loader import async_get_loaded_integration
 
@@ -39,6 +41,7 @@ from .const import (
 )
 from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
 from .data import SolarPlusIntelbrasData
+from .device import current_device_identifiers
 from .notify import SolarPlusIntelbrasNotifier
 from .statistics import async_import_history
 
@@ -91,6 +94,18 @@ async def async_setup_entry(
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     entry.async_on_unload(entry.add_update_listener(async_reload_entry))
+
+    @callback
+    def _prune_stale_devices() -> None:
+        """Remove devices for inverters/dataloggers no longer reported by the API."""
+        current = current_device_identifiers(entry.entry_id, coordinator.data)
+        registry = dr.async_get(hass)
+        for device in dr.async_entries_for_config_entry(registry, entry.entry_id):
+            if device.identifiers.isdisjoint(current):
+                registry.async_update_device(device.id, remove_config_entry_id=entry.entry_id)
+
+    _prune_stale_devices()
+    entry.async_on_unload(coordinator.async_add_listener(_prune_stale_devices))
 
     return True
 

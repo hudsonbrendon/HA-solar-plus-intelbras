@@ -9,10 +9,12 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
     BinarySensorEntityDescription,
 )
+from homeassistant.core import callback
 from homeassistant.helpers.entity import EntityCategory
 
 from .device import inverter_device_info
 from .entity import SolarPlusIntelbrasEntity
+from .sensor import row_ids
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -36,8 +38,7 @@ def build_binary_entities(
     coordinator: SolarPlusIntelbrasDataUpdateCoordinator,
 ) -> list[BinarySensorEntity]:
     """One connectivity binary sensor per inverter row."""
-    rows = coordinator.data.get("inverters", {}).get("rows") or []
-    return [SolarPlusIntelbrasOnlineBinarySensor(coordinator, index) for index in range(len(rows))]
+    return [SolarPlusIntelbrasOnlineBinarySensor(coordinator, row_id) for row_id in row_ids(coordinator.data)]
 
 
 async def async_setup_entry(
@@ -45,8 +46,23 @@ async def async_setup_entry(
     entry: SolarPlusIntelbrasConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up the binary_sensor platform."""
-    async_add_entities(build_binary_entities(entry.runtime_data.coordinator))
+    """Set up the binary_sensor platform with dynamic per-inverter discovery."""
+    coordinator = entry.runtime_data.coordinator
+    known: set = set()
+
+    @callback
+    def _add_new_inverters() -> None:
+        new = []
+        for row_id in row_ids(coordinator.data):
+            if row_id in known:
+                continue
+            known.add(row_id)
+            new.append(SolarPlusIntelbrasOnlineBinarySensor(coordinator, row_id))
+        if new:
+            async_add_entities(new)
+
+    _add_new_inverters()
+    entry.async_on_unload(coordinator.async_add_listener(_add_new_inverters))
 
 
 class SolarPlusIntelbrasOnlineBinarySensor(SolarPlusIntelbrasEntity, BinarySensorEntity):
@@ -57,20 +73,28 @@ class SolarPlusIntelbrasOnlineBinarySensor(SolarPlusIntelbrasEntity, BinarySenso
     def __init__(
         self,
         coordinator: SolarPlusIntelbrasDataUpdateCoordinator,
-        row_index: int,
+        row_id: object,
     ) -> None:
         """Initialize."""
         super().__init__(coordinator)
-        self._row_index = row_index
+        self._row_id = row_id
         entry_id = coordinator.config_entry.entry_id
-        row = self._row
-        self._attr_unique_id = f"{entry_id}_inverter_{row.get('id')}_online"
-        self._attr_device_info = inverter_device_info(entry_id, row)
+        self._attr_unique_id = f"{entry_id}_inverter_{row_id}_online"
+        self._attr_device_info = inverter_device_info(entry_id, self._row)
 
     @property
     def _row(self) -> dict:
         rows = self.coordinator.data.get("inverters", {}).get("rows") or []
-        return rows[self._row_index] if self._row_index < len(rows) else {}
+        for row in rows:
+            if row.get("id") == self._row_id:
+                return row
+        return {}
+
+    @property
+    def available(self) -> bool:
+        """Available only while the inverter row still exists."""
+        rows = self.coordinator.data.get("inverters", {}).get("rows") or []
+        return super().available and any(row.get("id") == self._row_id for row in rows)
 
     @property
     def is_on(self) -> bool | None:

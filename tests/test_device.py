@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from custom_components.solar_plus_intelbras.const import DOMAIN
 from custom_components.solar_plus_intelbras.device import (
+    current_device_identifiers,
     datalogger_device_info,
     inverter_device_info,
     plant_device_info,
@@ -33,3 +34,13 @@ def test_datalogger_device_is_child_of_inverter(inverters_response: dict) -> Non
     info = datalogger_device_info("entry1", row)
     assert (DOMAIN, "entry1_datalogger_1139") in info["identifiers"]
     assert info["via_device"] == (DOMAIN, "entry1_inverter_2113")
+
+
+def test_current_device_identifiers(inverters_response: dict) -> None:
+    """The current identifiers cover plant + each inverter and datalogger."""
+    ids = current_device_identifiers("entry1", {"inverters": inverters_response})
+    assert ids == {
+        (DOMAIN, "entry1_plant"),
+        (DOMAIN, "entry1_inverter_2113"),
+        (DOMAIN, "entry1_datalogger_1139"),
+    }
