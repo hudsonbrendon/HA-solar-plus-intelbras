@@ -12,6 +12,7 @@
   "loggers": [
     "custom_components.solar_plus_intelbras"
   ],
+  "quality_scale": "bronze",
   "requirements": [],
   "version": "0.6.0"
 }
