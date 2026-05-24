@@ -9,6 +9,20 @@ from .const import DOMAIN
 CONFIGURATION_URL = "https://solarplus.intelbras.com.br/"
 
 
+def current_device_identifiers(entry_id: str, data: dict) -> set[tuple[str, str]]:
+    """
+    Return the device identifiers that should currently exist for an entry.
+
+    Used to prune devices (inverters/dataloggers) that disappeared from the API.
+    """
+    identifiers: set[tuple[str, str]] = {(DOMAIN, f"{entry_id}_plant")}
+    for row in data.get("inverters", {}).get("rows") or []:
+        identifiers.add((DOMAIN, f"{entry_id}_inverter_{row.get('id')}"))
+        datalogger_id = (row.get("datalogger") or {}).get("id")
+        identifiers.add((DOMAIN, f"{entry_id}_datalogger_{datalogger_id}"))
+    return identifiers
+
+
 def plant_device_info(entry_id: str, plant_name: str) -> DeviceInfo:
     """Return DeviceInfo for the plant (top-level device)."""
     return DeviceInfo(

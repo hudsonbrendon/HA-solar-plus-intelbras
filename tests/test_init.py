@@ -2,10 +2,12 @@
 
 from __future__ import annotations
 
+import copy
 from typing import TYPE_CHECKING
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from homeassistant.helpers import device_registry as dr
 from homeassistant.setup import async_setup_component
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
@@ -15,6 +17,7 @@ from custom_components.solar_plus_intelbras.const import (
     CONF_PLUS,
     DOMAIN,
 )
+from custom_components.solar_plus_intelbras.coordinator import build_coordinator_data
 
 if TYPE_CHECKING:
     from homeassistant.core import HomeAssistant
@@ -71,3 +74,48 @@ async def test_import_history_service_for_loaded_entry(hass: HomeAssistant) -> N
         await hass.async_block_till_done()
         await hass.services.async_call(DOMAIN, "import_history", {"years": 1}, blocking=True)
     imp.assert_awaited_once()
+
+
+def _entry_ids(hass: HomeAssistant, entry_id: str) -> set[tuple[str, str]]:
+    registry = dr.async_get(hass)
+    ids: set[tuple[str, str]] = set()
+    for device in dr.async_entries_for_config_entry(registry, entry_id):
+        ids |= device.identifiers
+    return ids
+
+
+async def test_dynamic_and_stale_devices(hass: HomeAssistant, inverters_response: dict) -> None:
+    """New inverters are added at runtime and removed ones are pruned."""
+    row1 = inverters_response["rows"][0]
+    row2 = copy.deepcopy(row1)
+    row2["id"] = 9999
+    row2["datalogger"] = copy.deepcopy(row1["datalogger"])
+    row2["datalogger"]["id"] = 8888
+
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id="42",
+        data={CONF_EMAIL: "e@mail.com", CONF_PLUS: "p", CONF_PLANT_ID: "42"},
+    )
+    entry.add_to_hass(hass)
+
+    with patch(_GET_DATA, new=AsyncMock(return_value={"rows": [row1]})):
+        assert await hass.config_entries.async_setup(entry.entry_id)
+        await hass.async_block_till_done()
+
+    eid = entry.entry_id
+    assert (DOMAIN, f"{eid}_inverter_2113") in _entry_ids(hass, eid)
+
+    coordinator = entry.runtime_data.coordinator
+
+    # A second inverter appears -> its device is added dynamically.
+    coordinator.async_set_updated_data(build_coordinator_data({"rows": [row1, row2]}, None, "BRL"))
+    await hass.async_block_till_done()
+    assert (DOMAIN, f"{eid}_inverter_9999") in _entry_ids(hass, eid)
+
+    # The first inverter disappears -> its device is pruned.
+    coordinator.async_set_updated_data(build_coordinator_data({"rows": [row2]}, None, "BRL"))
+    await hass.async_block_till_done()
+    ids = _entry_ids(hass, eid)
+    assert (DOMAIN, f"{eid}_inverter_2113") not in ids
+    assert (DOMAIN, f"{eid}_inverter_9999") in ids

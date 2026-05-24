@@ -91,6 +91,14 @@ The energy sensors feed the Energy Dashboard automatically going forward. To **b
 
 If your "plus" token rotates you'll be prompted to re-authenticate; you can also **Reconfigure** the entry to change the email/plus without removing it.
 
+# How it works
+
+The integration is **cloud polling**: it fetches data from the Solar Plus Intelbras API on a fixed interval (default 5 minutes, configurable via the integration's **Configure** dialog). Inverters and dataloggers are discovered automatically — new devices appear without a restart, and devices removed from your account are pruned.
+
+**Use cases:** monitor live production and current power, track savings and environmental impact, follow per-inverter health/status, drive automations (e.g. notify when an inverter goes offline via the `solar_plus_intelbras.send_alert` service), and visualise generation in the Energy Dashboard.
+
+**Known limitations:** Intelbras does not provide an official API, so availability and blocking are possible (see the Disclaimer). Historical statistics are imported at monthly granularity via `import_history`.
+
 # Debugging
 
 To enable debug for Solar Plus Intelbras integration, add following to your configuration.yaml:
