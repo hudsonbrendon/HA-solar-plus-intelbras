@@ -41,13 +41,11 @@ rules:
   log-when-unavailable:
     status: done
     comment: Handled by the DataUpdateCoordinator.
-  parallel-updates:
-    status: todo
-    comment: PARALLEL_UPDATES is not yet set on the platforms.
+  parallel-updates: done
   reauthentication-flow: done
   test-coverage:
-    status: todo
-    comment: A suite exists but coverage is not yet measured against the 95% target.
+    status: done
+    comment: Coverage is enforced at >=95% in CI.
 
   # Gold
   devices: done
@@ -70,14 +68,10 @@ rules:
     comment: Inverters/dataloggers are read at setup; new ones need a reload.
   entity-category: done
   entity-device-class: done
-  entity-disabled-by-default:
-    status: todo
-    comment: Diagnostic entities are not disabled by default.
+  entity-disabled-by-default: done
   entity-translations: done
-  exception-translations:
-    status: todo
-  icon-translations:
-    status: todo
+  exception-translations: done
+  icon-translations: done
   reconfiguration-flow: done
   repair-issues:
     status: exempt

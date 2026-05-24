@@ -27,6 +27,9 @@ if TYPE_CHECKING:
     from .coordinator import SolarPlusIntelbrasDataUpdateCoordinator
     from .data import SolarPlusIntelbrasConfigEntry
 
+# Entities are read-only and served from a single coordinator poll.
+PARALLEL_UPDATES = 0
+
 
 def build_entities(
     coordinator: SolarPlusIntelbrasDataUpdateCoordinator,

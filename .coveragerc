@@ -1,0 +1,8 @@
+[run]
+source = custom_components/solar_plus_intelbras
+
+[report]
+exclude_also =
+    if TYPE_CHECKING:
+    raise NotImplementedError
+    @(abc\.)?abstractmethod

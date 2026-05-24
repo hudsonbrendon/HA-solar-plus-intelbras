@@ -76,6 +76,14 @@
             "unknown": "Ocurrió un error desconocido."
         }
     },
+    "exceptions": {
+        "auth_failed": {
+            "message": "Error de autenticación con Solar Plus Intelbras; vuelve a autenticarte."
+        },
+        "update_failed": {
+            "message": "Error al obtener datos de Solar Plus Intelbras: {error}"
+        }
+    },
     "options": {
         "step": {
             "init": {

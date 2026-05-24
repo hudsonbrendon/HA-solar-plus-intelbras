@@ -11,6 +11,8 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 
 from custom_components.solar_plus_intelbras.api import (
     SolarPlusIntelbrasApiClientAuthenticationError,
+    SolarPlusIntelbrasApiClientCommunicationError,
+    SolarPlusIntelbrasApiClientError,
 )
 from custom_components.solar_plus_intelbras.const import (
     CONF_EMAIL,
@@ -81,6 +83,20 @@ async def test_invalid_credentials_show_error(hass: HomeAssistant) -> None:
     assert result["errors"] == {"base": "auth"}
 
 
+@pytest.mark.parametrize(
+    ("exc", "expected"),
+    [
+        (SolarPlusIntelbrasApiClientCommunicationError, "connection"),
+        (SolarPlusIntelbrasApiClientError, "unknown"),
+    ],
+)
+async def test_user_step_error_mapping(hass: HomeAssistant, exc: type, expected: str) -> None:
+    """Communication/unknown errors map to the right form error."""
+    with patch(f"{_CLIENT}.async_get_plants", new=AsyncMock(side_effect=exc)):
+        result = await _submit_user(hass)
+    assert result["errors"] == {"base": expected}
+
+
 async def test_configured_plant_is_filtered(hass: HomeAssistant) -> None:
     """An already-configured plant is not offered again; a different one can be added."""
     with _patch_plants(PLANTS), _patch_setup_fetch():
@@ -128,6 +144,36 @@ async def test_reauth_flow_updates_plus(hass: HomeAssistant) -> None:
     assert result2["type"] == data_entry_flow.FlowResultType.ABORT
     assert result2["reason"] == "reauth_successful"
     assert entry.data[CONF_PLUS] == "newtok"
+
+
+async def test_reauth_invalid_shows_error(hass: HomeAssistant) -> None:
+    """A bad token during reauth re-shows the form with an error."""
+    entry = MockConfigEntry(domain=DOMAIN, unique_id="42", data=_ENTRY_DATA)
+    entry.add_to_hass(hass)
+    result = await entry.start_reauth_flow(hass)
+    with patch(
+        f"{_CLIENT}.async_get_plants",
+        new=AsyncMock(side_effect=SolarPlusIntelbrasApiClientAuthenticationError),
+    ):
+        result2 = await hass.config_entries.flow.async_configure(result["flow_id"], {CONF_PLUS: "bad"})
+    assert result2["step_id"] == "reauth_confirm"
+    assert result2["errors"] == {"base": "auth"}
+
+
+async def test_reconfigure_invalid_shows_error(hass: HomeAssistant) -> None:
+    """A connection error during reconfigure re-shows the form with an error."""
+    entry = MockConfigEntry(domain=DOMAIN, unique_id="42", data=_ENTRY_DATA)
+    entry.add_to_hass(hass)
+    result = await entry.start_reconfigure_flow(hass)
+    with patch(
+        f"{_CLIENT}.async_get_plants",
+        new=AsyncMock(side_effect=SolarPlusIntelbrasApiClientCommunicationError),
+    ):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {CONF_EMAIL: "e@mail.com", CONF_PLUS: "bad"}
+        )
+    assert result2["step_id"] == "reconfigure"
+    assert result2["errors"] == {"base": "connection"}
 
 
 async def test_options_flow_sets_scan_interval(hass: HomeAssistant) -> None:

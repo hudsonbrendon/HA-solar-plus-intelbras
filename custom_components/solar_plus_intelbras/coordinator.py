@@ -74,6 +74,13 @@ class SolarPlusIntelbrasDataUpdateCoordinator(DataUpdateCoordinator):
             currency = client.currency or DEFAULT_CURRENCY
             return build_coordinator_data(inverters, year_energy, currency)
         except SolarPlusIntelbrasApiClientAuthenticationError as exception:
-            raise ConfigEntryAuthFailed(exception) from exception
+            raise ConfigEntryAuthFailed(
+                translation_domain=DOMAIN,
+                translation_key="auth_failed",
+            ) from exception
         except SolarPlusIntelbrasApiClientError as exception:
-            raise UpdateFailed(exception) from exception
+            raise UpdateFailed(
+                translation_domain=DOMAIN,
+                translation_key="update_failed",
+                translation_placeholders={"error": str(exception)},
+            ) from exception
