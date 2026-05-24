@@ -109,6 +109,16 @@
         "check_notifications": {
             "name": "Check Notifications",
             "description": "Manually check for new notifications from the Intelbras API"
+        },
+        "import_history": {
+            "name": "Import History",
+            "description": "Backfill long-term statistics (Energy Dashboard) with monthly generation history.",
+            "fields": {
+                "years": {
+                    "name": "Years",
+                    "description": "How many years back to import (including the current year)."
+                }
+            }
         }
     }
 }

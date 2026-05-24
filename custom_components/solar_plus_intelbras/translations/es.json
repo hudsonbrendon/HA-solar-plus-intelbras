@@ -109,6 +109,16 @@
         "check_notifications": {
             "name": "Comprobar notificaciones",
             "description": "Comprueba manualmente nuevas notificaciones de la API de Intelbras"
+        },
+        "import_history": {
+            "name": "Importar historial",
+            "description": "Rellena las estadísticas a largo plazo (panel de energía) con el historial mensual de generación.",
+            "fields": {
+                "years": {
+                    "name": "Años",
+                    "description": "Cuántos años hacia atrás importar (incluido el año actual)."
+                }
+            }
         }
     }
 }

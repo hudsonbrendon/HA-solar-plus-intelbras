@@ -1,6 +1,9 @@
 {
   "domain": "solar_plus_intelbras",
   "name": "Solar Plus Intelbras",
+  "after_dependencies": [
+    "recorder"
+  ],
   "codeowners": [
     "@hudsonbrendon"
   ],
