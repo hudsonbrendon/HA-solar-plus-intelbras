@@ -1,12 +1,17 @@
-![hacs_badge](https://img.shields.io/badge/hacs-custom-orange.svg)
-[![hacs_badge](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://github.com/hacs/integration)
-[![Lint](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/lint.yml/badge.svg)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/lint.yml)
-[![Validate](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/validate.yml/badge.svg)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/validate.yml)
-
+<p align="center">
+  <img src="custom_components/solar_plus_intelbras/brand/logo.png" alt="Solar Plus Intelbras" height="128">
+</p>
 
 # Home Assistant Solar plus Intelbras
 
-![logo](logo.png)
+[![Tests](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/tests.yml/badge.svg)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/tests.yml)
+[![Hassfest](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/hassfest.yml/badge.svg)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/hassfest.yml)
+[![HACS](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/validate.yml/badge.svg)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/actions/workflows/validate.yml)
+[![Release](https://img.shields.io/github/v/release/hudsonbrendon/HA-solar-plus-intelbras?sort=semver)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/releases)
+[![Downloads](https://img.shields.io/github/downloads/hudsonbrendon/HA-solar-plus-intelbras/total)](https://github.com/hudsonbrendon/HA-solar-plus-intelbras/releases)
+[![HACS Default](https://img.shields.io/badge/HACS-Default-41BDF5.svg)](https://hacs.xyz/)
+[![Home Assistant](https://img.shields.io/badge/Home%20Assistant-2024.6.0%2B-18BCF2?logo=homeassistant&logoColor=white)](https://www.home-assistant.io/)
+[![License](https://img.shields.io/github/license/hudsonbrendon/HA-solar-plus-intelbras)](LICENSE)
 
 # Install
 

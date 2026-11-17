@@ -1,6 +1,6 @@
-"""Constants for solar_plus_intelbras."""
+"""Constants for solar_plus_intelbras."""  # noqa: CPY001
 
-import datetime
+import datetime  # noqa: ICN001
 from logging import Logger, getLogger
 
 LOGGER: Logger = getLogger(__package__)

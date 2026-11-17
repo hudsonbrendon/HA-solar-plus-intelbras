@@ -1,4 +1,4 @@
-"""Sample API Client."""
+"""Sample API Client."""  # noqa: CPY001
 
 from __future__ import annotations
 
@@ -183,7 +183,7 @@ class SolarPlusIntelbrasApiClient:
             return []
         return response.get("data", {}).get("rows", []) or []
 
-    async def async_get_notifications(self, start_date: None | date = None, end_date: None | date = None) -> dict:
+    async def async_get_notifications(self, start_date: date | None = None, end_date: date | None = None) -> dict:
         """Get notifications from the API."""
         await self.async_ensure_token()
 

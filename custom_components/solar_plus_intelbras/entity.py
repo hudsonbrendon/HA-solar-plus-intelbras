@@ -1,4 +1,4 @@
-"""SolarPlusIntelbrasEntity base class."""
+"""SolarPlusIntelbrasEntity base class."""  # noqa: CPY001
 
 from __future__ import annotations
 

@@ -1,33 +1,32 @@
-name: "Release"
+name: Release
 
 on:
-  release:
-    types:
-      - "published"
+  push:
+    branches: [main, master]
+    paths:
+      - custom_components/solar_plus_intelbras/manifest.json
+  workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: write
 
 jobs:
   release:
-    name: "Release"
-    runs-on: "ubuntu-latest"
-    permissions:
-      contents: write
-    env:
-      # softprops/action-gh-release still ships on Node 20; opt into Node 24
-      # to clear the runner deprecation warning until the action updates.
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+    runs-on: ubuntu-latest
     steps:
-      - name: "Checkout the repository"
-        uses: "actions/checkout@v6.0.3"
-
-      - name: "ZIP the integration directory"
-        shell: "bash"
+      - uses: actions/checkout@v4
+      - name: Read manifest version
+        id: version
+        run: echo "version=$(jq -r .version custom_components/solar_plus_intelbras/manifest.json)" >> "$GITHUB_OUTPUT"
+      - name: Zip integration
+        run: cd custom_components/solar_plus_intelbras && zip -r "$GITHUB_WORKSPACE/solar_plus_intelbras.zip" . -x '__pycache__/*'
+      - name: Create release when the version is new
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          cd "${{ github.workspace }}/custom_components/solar_plus_intelbras"
-          zip solar_plus_intelbras.zip -r ./
-
-      - name: "Upload the ZIP file to the release"
-        uses: "softprops/action-gh-release@v2.5.0"
-        with:
-          files: ${{ github.workspace }}/custom_components/solar_plus_intelbras/solar_plus_intelbras.zip
+          TAG="v${{ steps.version.outputs.version }}"
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "$TAG already released"
+          else
+            gh release create "$TAG" "solar_plus_intelbras.zip" --title "$TAG" --generate-notes
+          fi

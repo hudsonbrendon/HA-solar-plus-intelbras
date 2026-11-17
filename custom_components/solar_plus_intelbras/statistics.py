@@ -4,7 +4,7 @@ Historical energy statistics import for solar_plus_intelbras.
 Backfills the Home Assistant long-term statistics (and therefore the Energy
 Dashboard) with monthly generation history from the ``records/years`` endpoint,
 exposed as an external statistic per plant.
-"""
+"""  # noqa: CPY001
 
 from __future__ import annotations
 

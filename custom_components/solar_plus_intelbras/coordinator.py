@@ -1,4 +1,4 @@
-"""DataUpdateCoordinator for solar_plus_intelbras."""
+"""DataUpdateCoordinator for solar_plus_intelbras."""  # noqa: CPY001
 
 from __future__ import annotations
 

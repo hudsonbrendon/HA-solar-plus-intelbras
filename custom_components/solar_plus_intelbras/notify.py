@@ -1,4 +1,4 @@
-"""Notification handling for Solar Plus Intelbras integration."""
+"""Notification handling for Solar Plus Intelbras integration."""  # noqa: CPY001
 
 import time
 from datetime import date

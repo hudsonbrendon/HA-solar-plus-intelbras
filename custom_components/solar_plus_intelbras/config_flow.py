@@ -1,4 +1,4 @@
-"""Adds config flow for Solar Plus Intelbras."""
+"""Adds config flow for Solar Plus Intelbras."""  # noqa: CPY001
 
 from __future__ import annotations
 

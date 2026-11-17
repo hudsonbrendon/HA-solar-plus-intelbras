@@ -1,4 +1,4 @@
-"""Sensor platform for solar_plus_intelbras."""
+"""Sensor platform for solar_plus_intelbras."""  # noqa: CPY001
 
 from __future__ import annotations
 

@@ -3,7 +3,7 @@ Custom integration to integrate solar_plus_intelbras with Home Assistant.
 
 For more details about this integration, please refer to
 https://github.com/hudsonbrendon/HA-solar-plus-intelbras
-"""
+"""  # noqa: CPY001
 
 from __future__ import annotations
 

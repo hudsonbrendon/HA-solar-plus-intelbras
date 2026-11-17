@@ -1,4 +1,4 @@
-"""Typed sensor descriptions and value accessors for solar_plus_intelbras."""
+"""Typed sensor descriptions and value accessors for solar_plus_intelbras."""  # noqa: CPY001
 
 from __future__ import annotations
 

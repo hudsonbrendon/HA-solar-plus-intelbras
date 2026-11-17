@@ -1,4 +1,4 @@
-"""Device info builders for solar_plus_intelbras."""
+"""Device info builders for solar_plus_intelbras."""  # noqa: CPY001
 
 from __future__ import annotations
 

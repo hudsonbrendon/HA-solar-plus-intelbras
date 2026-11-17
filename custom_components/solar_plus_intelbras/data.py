@@ -1,4 +1,4 @@
-"""Custom types for solar_plus_intelbras."""
+"""Custom types for solar_plus_intelbras."""  # noqa: CPY001
 
 from __future__ import annotations
 
