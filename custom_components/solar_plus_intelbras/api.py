@@ -10,7 +10,6 @@ from http import HTTPStatus
 from typing import Any
 
 import aiohttp
-import async_timeout
 
 from .const import DEFAULT_CURRENCY, LOGGER, SOLAR_PLUS_INTELBRAS_API_URL
 
@@ -215,7 +214,7 @@ class SolarPlusIntelbrasApiClient:
         for attempt in range(retry_count + 1):
             try:
                 # Aumentado o timeout de 10 para 30 segundos para evitar erros de timeout
-                async with async_timeout.timeout(30):
+                async with asyncio.timeout(30):
                     response = await self._session.request(
                         method=method,
                         url=url,

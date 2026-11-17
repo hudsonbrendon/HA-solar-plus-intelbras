@@ -5,6 +5,6 @@ set -e
 cd "$(dirname "$0")/.."
 
 python3 -m pip install --requirement requirements.txt
-python3 -m pip install --requirement requirements.test.txt
+python3 -m pip install --requirement requirements_test.txt
 sudo apt-get update -y
 sudo apt-get install -y libturbojpeg-dev ffmpeg
