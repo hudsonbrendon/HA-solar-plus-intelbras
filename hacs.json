@@ -1,6 +1,6 @@
 {
     "name": "Solar Plus Intelbras",
     "hide_default_branch": true,
-    "homeassistant": "2024.6.0",
+    "homeassistant": "2025.11.0",
     "render_readme": true
 }
